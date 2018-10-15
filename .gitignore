@@ -1,0 +1,43 @@
+**/.idea
+*.iml
+**/*.iml
+**/target
+**/node_modules
+**/*.log
+**/classes
+**/classes/*
+dependency-reduced-pom.xml
+**/log
+**/log/*
+
+# compiled output
+**/dist
+**/dist/*
+**/tmp
+**/out-tsc
+
+# dependencies
+**/node_modules
+
+# IDEs and editors
+**/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# misc
+**/.sass-cache
+**/connect.lock
+**/coverage
+**/libpeerconnection.log
+**/npm-debug.log
+**/yarn-error.log
+**/testem.log
+**/typings
+
+# System Files
+**/.DS_Store
+**/Thumbs.db

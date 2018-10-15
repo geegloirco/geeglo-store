@@ -1,0 +1,16 @@
+.modal-body{
+  height: 350px;
+  overflow-y: auto;
+}
+
+.selected-third-party {
+  background-color: #ebcccc;
+}
+
+.btn-third-party {
+  margin: 4px;
+}
+
+.selected-profile-badge {
+  margin: 4px;
+}

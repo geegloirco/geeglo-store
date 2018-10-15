@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <ng-template ngFor let-item [ngForOf]="items">
+      <div class="col-md-4" >
+        <item-view [item]="item"></item-view>
+      </div>
+    </ng-template>
+  </div>
+</div>
+

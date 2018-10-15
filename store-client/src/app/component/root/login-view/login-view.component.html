@@ -1,0 +1,131 @@
+<a class="nav-link" *ngIf="!isLoggedIn"
+   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer"
+   data-target="#thirdPartiesModal"
+   (click)="open(content)">ورود</a>
+<a class="nav-link" *ngIf="isLoggedIn"
+   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer"
+   data-target="#thirdPartiesModal"
+   (click)="open(content)">
+  <img [src]="user.image" style="width: 32px; height: 32px;">
+</a>
+
+<ng-template #content let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"
+        *ngIf="!isLoggedIn"
+        id="modal-basic-title">ورود و ثبت نام</h4>
+    <h4 class="modal-title"
+        *ngIf="isLoggedIn"
+        id="modal-basic-title2">مشخصات کاربر</h4>
+    <!--<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">-->
+      <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+  </div>
+  <div class="modal-body" *ngIf="!isLoggedIn">
+    <div *ngIf="showVerify" class="container">
+      <div class="row" style="margin-top: 10px;">
+        <div class="col">
+          <label for="inp-verify">یکبار رمز</label>
+          <input type="text" class="form-control" id="inp-verify" [(ngModel)]="verifyCode">
+        </div>
+      </div>
+      <div class="row" style="margin-top: 10px;">
+        <div class="col">
+          <!--<button class="btn btn-outline-success" type="button" (click)="newTerminal()">ورود</button>-->
+        </div>
+      </div>
+    </div>
+    <ngb-tabset (tabChange)="beforeChange($event)" *ngIf="!showVerify">
+      <ngb-tab id="tab-login" title="ورود">
+        <ng-template ngbTabContent>
+          <div class="container">
+            <div class="row" style="margin-top: 10px;">
+              <div class="col">
+                <label for="inp-mobile">شماره موبایل</label>
+                <input type="text" class="form-control" id="inp-mobile" [(ngModel)]="mobileNo">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label for="inp-pass">رمز عبور</label>
+                <input type="password" class="form-control" id="inp-pass" [(ngModel)]="password">
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col">
+                <!--<button class="btn btn-outline-success" type="button" (click)="newTerminal()">ورود</button>-->
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="tab-register" title="ثبت نام/تغییر رمز">
+        <ng-template ngbTabContent>
+          <div class="container">
+            <div class="row" style="margin-top: 10px;">
+              <div class="col">
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col">
+                    <label for="inp-register-mobile">شماره موبایل</label>
+                    <input type="text" class="form-control" id="inp-register-mobile" [(ngModel)]="registerMobileNo">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label for="inp-register-pass">رمز عبور</label>
+                    <input type="password" class="form-control" id="inp-register-pass" [(ngModel)]="registerPass">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <label for="inp-register-pass-2">تکرار رمز عبور</label>
+                    <input type="password" class="form-control" id="inp-register-pass-2" [(ngModel)]="registerPass2">
+                  </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                  <div class="col">
+                    <!--<button class="btn btn-outline-success" type="button" (click)="showVerify = true">ثبت و ورود</button>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset >
+  </div>
+  <div class="modal-body" *ngIf="isLoggedIn">
+    <div class="container">
+      <div class="row" style="margin-top: 10px;">
+        <div class="col">
+          <label for="inp-verify">{{user['username']}}</label>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 10px;">
+        <div class="col">
+          <img [src]="user['image']" style="width: 128px; height: 128px;">
+          <!--<button class="btn btn-outline-success" type="button" (click)="newTerminal()">ورود</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" *ngIf="!isLoggedIn">
+    <button class="btn btn-outline-success"
+            *ngIf="tab == 'tab-login' && !showVerify"
+            type="button" (click)="login()">ورود</button>
+    <button class="btn btn-outline-success"
+            *ngIf="tab == 'tab-register' && !showVerify"
+            type="button" (click)="register()">ثبت</button>
+    <button class="btn btn-outline-success"
+            *ngIf="showVerify"
+            type="button" (click)="sendVerify()">تایید</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >انصراف</button>
+  </div>
+  <div class="modal-footer" *ngIf="isLoggedIn">
+    <button class="btn btn-outline-danger"
+            type="button" (click)="logout()">خروج</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >بستن</button>
+  </div>
+</ng-template>
+
+<load-wait *ngIf="loadWaited"></load-wait>

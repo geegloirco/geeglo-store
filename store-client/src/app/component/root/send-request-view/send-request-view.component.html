@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <ngb-tabset>
+        <ngb-tab title="ثبت ترمینال جدید">
+          <ng-template ngbTabContent>
+            <div class="container">
+              <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                  <button class="btn btn-success" type="button" (click)="newTerminal()">انجام</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab>
+          <ng-template ngbTabTitle>تغییر شبا</ng-template>
+          <ng-template ngbTabContent>
+            <div class="container">
+              <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                  <button class="btn btn-success" type="button" (click)="newTerminal()">انجام</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="تعریف مشتری و فروشگاه" [disabled]="false">
+          <ng-template ngbTabContent>
+            <div class="container">
+              <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                  <button class="btn btn-success" type="button" (click)="newTerminal()">انجام</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="تغییر آدرس" [disabled]="false">
+          <ng-template ngbTabContent>
+            <div class="container">
+              <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                  <button class="btn btn-success" type="button" (click)="newTerminal()">انجام</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="فعال سازی ترمینال" [disabled]="false">
+          <ng-template ngbTabContent>
+            <div class="container">
+              <div class="row" style="margin-top: 10px;">
+                <div class="col">
+                  <button class="btn btn-success" type="button" (click)="newTerminal()">انجام</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+
+<load-wait *ngIf="loadWaited"></load-wait>

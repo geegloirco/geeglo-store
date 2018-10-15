@@ -1,0 +1,14 @@
+<div *ngIf="messageService.messages.length">
+  <div class="notify-alert">
+    <button type="button" class="btn-notify btn btn-link" (click)="messageService.clear()">
+      <span >&times;</span>
+    </button>
+    <div *ngFor='let message of messageService.messages' >
+      <div  class="alert alert-warning alert-dismissible fade show" role="alert"
+            style="background-color: #d4edda;" >
+        {{message}}
+      </div>
+    </div>
+  </div>
+
+</div>

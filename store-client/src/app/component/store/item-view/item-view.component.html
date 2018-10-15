@@ -1,0 +1,7 @@
+<div class="card" style="cursor: pointer" (click)="itemClick(item)">
+  <img class="card-img-top" [src]="image + item['image']" >
+  <div class="card-body">
+    <h4 class="card-title" style="text-align: center">{{item['title']}}</h4>
+    <p class="card-text" style="text-align: center">{{item['price']}} تومان</p>
+  </div>
+</div>
