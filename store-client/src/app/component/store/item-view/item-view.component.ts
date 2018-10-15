@@ -10,6 +10,7 @@ import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 export class ItemViewComponent implements OnInit {
   loadWaited = false;
   model = 1;
+  count = 0;
 
   @Input()
   item: object = {}

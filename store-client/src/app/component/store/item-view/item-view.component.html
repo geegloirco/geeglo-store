@@ -1,5 +1,23 @@
 <div class="card" style="cursor: pointer" (click)="itemClick(item)">
   <img class="card-img-top" [src]="image + item['image']" >
+  <div class="card-img-overlay">
+    <div class="row">
+      <div class="col-md-2">&nbsp;</div>
+      <div class="col-md-8">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" (click)="count = count + 1;">+</span>
+          </div>
+          <input class="form-control" type="number" [(ngModel)]="count" min="0">
+          <div class="input-group-append">
+            <span class="input-group-text" (click)="count = count - 1;">-</span>
+          </div>
+        </div>
+        <!--<input class="form-control" type="number" [(ngModel)]="count" min="0">-->
+      </div>
+      <div class="col-md-2">&nbsp;</div>
+    </div>
+  </div>
   <div class="card-body">
     <h4 class="card-title" style="text-align: center">{{item['title']}}</h4>
     <p class="card-text" style="text-align: center">{{item['price']}} تومان</p>
