@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {LoginInitStatus, LoginService} from "../../../service/login/login.service";
+import {ServiceInitStatus, LoginService} from "../../../service/login/login.service";
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {NgbModal, NgbModalConfig, NgbTabChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 
@@ -35,7 +35,7 @@ export class LoginViewComponent implements OnInit {
 
   ngOnInit() {
     this.loginService.afterInitialized().subscribe(res => {
-      if(res === LoginInitStatus.successed) {
+      if(res === ServiceInitStatus.successed) {
         if(this.loginService.isLoggedIn()) {
           this.user = this.loginService.getUser();
           this.isLoggedIn = true;

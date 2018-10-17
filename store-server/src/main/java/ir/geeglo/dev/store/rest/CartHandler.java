@@ -23,6 +23,13 @@ import java.util.List;
 @Handler(baseUrl = "store/cart", handlerType = HandlerType.METHOD_HANDLER)
 public class CartHandler {
     @MethodHandler(requiredRole = RoleType.GUEST)
+    public static PianaResponse getCartItems(@SessionParam Session session) {
+        CartEntity cartEntity = (CartEntity) session.getObject("cart");
+        return new PianaResponse(Response.Status.OK,
+                new ResponseModel(0, cartEntity.getItems()));
+    }
+
+    @MethodHandler(requiredRole = RoleType.GUEST)
     @Path("change-cart")
     public static PianaResponse changeCart(@SessionParam Session session,
                                           @QueryParam("id") int id,

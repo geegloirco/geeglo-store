@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {CartInfoService} from "../../../service/cart-info/cart-info.service";
+import {ServiceInitStatus} from "../../../service/login/login.service";
 
 @Component({
   selector: 'item-view',
@@ -31,6 +31,13 @@ export class ItemViewComponent implements OnInit {
   ngOnInit() {
     this.count = this.item['count'];
     this.cartService.init('store/cart');
+    this.cartService.afterInitialized().subscribe(res => {
+      if(res === ServiceInitStatus.successed) {
+        this.cartService.fillCount(this.item);
+        this.count = this.item['count'];
+      }
+    });
+
   }
 
   incCount() {

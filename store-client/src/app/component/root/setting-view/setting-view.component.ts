@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
-import {LoginInitStatus, LoginService, LoginStatus} from "../../../service/login/login.service";
+import {ServiceInitStatus, LoginService, LoginStatus} from "../../../service/login/login.service";
 
 @Component({
   selector: 'setting-view',
@@ -22,7 +22,7 @@ export class SettingViewComponent implements OnInit {
 
   ngOnInit() {
     this.loginService.afterInitialized().subscribe(res => {
-      if(res === LoginInitStatus.successed) {
+      if(res === ServiceInitStatus.successed) {
         this.itemInfoService.getItems().subscribe(res => {
           this.items = res;
         }, err => {

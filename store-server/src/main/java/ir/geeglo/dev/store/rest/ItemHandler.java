@@ -31,14 +31,14 @@ public class ItemHandler {
     @MethodHandler(requiredRole = RoleType.GUEST)
     public static PianaResponse getItems(@SessionParam Session session) {
         List<ItemEntity> models = GeegloSpringServiceProvider.getItemService().findAll();
-        CartEntity cart = (CartEntity) session.getObject("cart");
-        cart.getItems().keySet().forEach(key -> {
-            int k = Integer.parseInt(((String)key));
-            for (ItemEntity itemEntity : models) {
-                if(itemEntity.getId() == k)
-                    itemEntity.setCount((int)cart.getItems().get(key));
-            }
-        });
+//        CartEntity cart = (CartEntity) session.getObject("cart");
+//        cart.getItems().keySet().forEach(key -> {
+//            int k = Integer.parseInt(((String)key));
+//            for (ItemEntity itemEntity : models) {
+//                if(itemEntity.getId() == k)
+//                    itemEntity.setCount((int)cart.getItems().get(key));
+//            }
+//        });
 
 //        models.add(new ItemModel(1, "کالای 1", 2, 1000, "goods.png"));
 //        models.add(new ItemModel(2, "کالای 2", 3, 1000,"goods.png"));

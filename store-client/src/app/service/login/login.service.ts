@@ -10,7 +10,7 @@ export class LoginService {
   user = {};
   loggedIn = false;
   loginResult: BehaviorSubject<LoginStatus> = new BehaviorSubject(LoginStatus.nothing);
-  initStatus: BehaviorSubject<LoginInitStatus> = new BehaviorSubject(LoginInitStatus.initial);
+  initStatus: BehaviorSubject<ServiceInitStatus> = new BehaviorSubject(ServiceInitStatus.initial);
 
   constructor(
     private serverInfo: ServerInfoService,
@@ -33,14 +33,14 @@ export class LoginService {
     return this.loginResult;
   }
 
-  afterInitialized(): BehaviorSubject<LoginInitStatus> {
+  afterInitialized(): BehaviorSubject<ServiceInitStatus> {
     return this.initStatus;
   }
 
   init(restUrl: string): BehaviorSubject<LoginStatus> {
     this.initStatus.subscribe(res => {
-      if(res.valueOf() == LoginInitStatus.initial) {
-        this.initStatus.next(LoginInitStatus.requested);
+      if(res.valueOf() == ServiceInitStatus.initial) {
+        this.initStatus.next(ServiceInitStatus.requested);
         this.restUrl = this.serverInfo.getServerBaseUrl() + restUrl;
         this.http.get(this.restUrl).subscribe(res => {
           console.log(res)
@@ -51,19 +51,19 @@ export class LoginService {
               this.user['username'] = res['username'];
               this.loggedIn = true;
             }
-            this.initStatus.next(LoginInitStatus.successed);
+            this.initStatus.next(ServiceInitStatus.successed);
             this.loginResult.next(LoginStatus.login);
           } else if(res['status'] === 1) {
             this.sessionKey = res['entity'];
-            this.initStatus.next(LoginInitStatus.successed);
+            this.initStatus.next(ServiceInitStatus.successed);
             this.loginResult.next(LoginStatus.session);
           } else {
-            this.initStatus.next(LoginInitStatus.initial);
+            this.initStatus.next(ServiceInitStatus.initial);
             this.loginResult.error(true);
           }
         }, err => {
           this.loginResult.error(true);
-          this.initStatus.next(LoginInitStatus.initial);
+          this.initStatus.next(ServiceInitStatus.initial);
         });
       }
     });
@@ -189,7 +189,7 @@ export class LoginService {
   }
 }
 
-export enum LoginInitStatus {
+export enum ServiceInitStatus {
   initial = 0,
   requested = 1,
   successed = 2,
