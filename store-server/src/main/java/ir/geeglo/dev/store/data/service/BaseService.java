@@ -16,17 +16,17 @@ public abstract class BaseService<T>
     protected abstract Class getEntityType();
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<T> getModels(List<QueryConditionStruct> filterStructs) {
+    public List<T> findEntities(List<QueryConditionStruct> filterStructs) {
         return getBaseDao().selectAll(getEntityType(), filterStructs);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<T> getEntities() {
-        return getModels(null);
+    public List<T> findEntities() {
+        return findEntities(null);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Long getEntityCount(
+    public Long findEntitiesCount(
             List<QueryConditionStruct> filterStructs) {
         Long count = getBaseDao().selectCount(
                 getEntityType(), filterStructs);
@@ -41,7 +41,7 @@ public abstract class BaseService<T>
 //    }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<T> getEntitiesByPage(
+    public List<T> findEntitiesByPage(
             int pageSize,
             int pageNumber,
             List<QueryConditionStruct> filterStructs) {
@@ -59,7 +59,7 @@ public abstract class BaseService<T>
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public T getEntityById(int id) {
+    public T findById(int id) {
         return (T)getBaseDao().selectById(id, getEntityType());
     }
 
@@ -69,7 +69,7 @@ public abstract class BaseService<T>
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void insert(Object entity) {
+    public void save(Object entity) {
         getBaseDao().insert(entity);
     }
 
@@ -101,7 +101,7 @@ public abstract class BaseService<T>
 //    }
 //
 //    @Transactional(propagation = Propagation.REQUIRED)
-//    public T insert(Object entity) {
+//    public T save(Object entity) {
 //        if(entity == null)
 //            return (T)null;
 //        else {
@@ -114,7 +114,7 @@ public abstract class BaseService<T>
 //            }
 //        }
 //        try {
-//            getBaseDao().insert(entity);
+//            getBaseDao().save(entity);
 //        } catch (Exception ex) {
 //            return (T)null;
 //        }

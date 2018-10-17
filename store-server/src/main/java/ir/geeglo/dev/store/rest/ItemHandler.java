@@ -1,6 +1,10 @@
 package ir.geeglo.dev.store.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ir.geeglo.dev.store.GeegloSpringServiceProvider;
+import ir.geeglo.dev.store.data.entity.CartEntity;
+import ir.geeglo.dev.store.data.entity.ItemEntity;
+import ir.geeglo.dev.store.data.entity.UserEntity;
 import ir.geeglo.dev.store.model.ItemModel;
 import ir.geeglo.dev.store.model.ResponseModel;
 import ir.piana.dev.core.annotation.Handler;
@@ -26,29 +30,34 @@ import java.util.Map;
 public class ItemHandler {
     @MethodHandler(requiredRole = RoleType.GUEST)
     public static PianaResponse getItems(@SessionParam Session session) {
-        List<ItemModel> models = new ArrayList<>();
-        models.add(new ItemModel(1, "کالای 1", 2, 1000, "goods.png"));
-        models.add(new ItemModel(2, "کالای 2", 3, 1000,"goods.png"));
-        models.add(new ItemModel(3, "کالای 3", 4, 1000,"goods.png"));
-        models.add(new ItemModel(4, "کالای 4", 2, 1000,"goods.png"));
-        models.add(new ItemModel(5, "کالای 5", 1, 1000,"goods.png"));
+        List<ItemEntity> models = GeegloSpringServiceProvider.getItemService().findAll();
+        CartEntity cart = (CartEntity) session.getObject("cart");
+        cart.getItems().keySet().forEach(key -> {
+            int k = Integer.parseInt(((String)key));
+            for (ItemEntity itemEntity : models) {
+                if(itemEntity.getId() == k)
+                    itemEntity.setCount((int)cart.getItems().get(key));
+            }
+        });
+
+//        models.add(new ItemModel(1, "کالای 1", 2, 1000, "goods.png"));
+//        models.add(new ItemModel(2, "کالای 2", 3, 1000,"goods.png"));
+//        models.add(new ItemModel(3, "کالای 3", 4, 1000,"goods.png"));
+//        models.add(new ItemModel(4, "کالای 4", 2, 1000,"goods.png"));
+//        models.add(new ItemModel(5, "کالای 5", 1, 1000,"goods.png"));
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, models));
     }
 
     @MethodHandler(requiredRole = RoleType.GUEST)
-    @Path("count")
-    public static PianaResponse decrement(@SessionParam Session session,
-                                          @QueryParam("id") int id, int count) {
-        Object cart = session.getObject("cart");
-        Map cartMap = null;
-        if(cart == null) {
-            cartMap = new LinkedHashMap();
-        } else
-            cartMap = (Map)cart;
-
-        cartMap.put(id, count);
-        session.setObject("cart", cartMap);
+    @Path("change-cart")
+    public static PianaResponse changeCart(@SessionParam Session session,
+                                          @QueryParam("id") int id,
+                                          @QueryParam("count") int count) {
+        CartEntity cartEntity = (CartEntity) session.getObject("cart");
+        cartEntity.getItems().put(String.valueOf(id), count);
+        if(cartEntity.getUserEntity() != null)
+            GeegloSpringServiceProvider.getCartService().update(cartEntity);
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, count));
     }

@@ -80,8 +80,34 @@ create table user_location (
 );
 ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+create table item (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(128) NOT NULL,
+  price INT DEFAULT 0,
+  count INT DEFAULT 0,
+  unit VARCHAR(128),
+  image VARCHAR(128)
+);
+ALTER TABLE item CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create table cart (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  creation_time TIMESTAMP,
+  items TEXT,
+  is_paid BOOLEAN DEFAULT FALSE,
+  CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES user (id)
+);
+ALTER TABLE cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 INSERT INTO country (title, phoneCode) VALUES ('ایران', '+98');
 
 INSERT INTO province (country_id, title) VALUES (1, 'تهران');
 
 INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'تهران', '21');
+
+INSERT INTO item (title, price, unit, image) VALUES ('کالای 1', 3000, 'کیلوگرم', 'goods.png');
+INSERT INTO item (title, price, unit, image) VALUES ('کالای 2', 7000, 'لیتر', 'goods.png');
+INSERT INTO item (title, price, unit, image) VALUES ('کالای 3', 3800, 'عدد', 'goods.png');
+INSERT INTO item (title, price, unit, image) VALUES ('کالای 4', 4000, 'نیم کیلو', 'goods.png');
+INSERT INTO item (title, price, unit, image) VALUES ('کالای 5', 15000, 'جین', 'goods.png');

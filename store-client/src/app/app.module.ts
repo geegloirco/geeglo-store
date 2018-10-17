@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import {BaseComponent} from './component/base/base.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -15,6 +15,18 @@ import {CredentialService} from "./service/credential/credential.service";
 import {LoginService} from "./service/login/login.service";
 import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
+import {CartInfoService} from "./service/cart-info/cart-info.service";
+
+export function startupServiceFactory(loginService: LoginService): Function {
+  return () => loginService.init("authorize").subscribe(res => {
+    // if (typeof res === 'object') {
+    //   this.user['image'] = this.serverInfo.getServerBaseUrl() + 'assets/image/user/' + res['image'];
+    //   this.user['username'] = res['username'];
+    //   this.isLoggedIn = true;
+    // }
+  }, err => {
+  });
+}
 
 @NgModule({
   declarations: [
@@ -31,13 +43,21 @@ import {ItemInfoService} from "./service/item-info/item-info.service";
   ],
   providers: [
     RootContainerService,
-    WindowRef,
     ServerInfoService,
+    LoginService,
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [LoginService],
+      multi: true
+    },
+    WindowRef,
     CredentialService,
     MessageService,
     MsgsysService,
-    LoginService,
     ItemInfoService,
+    CartInfoService,
   ],
   bootstrap: [BaseComponent]
 })

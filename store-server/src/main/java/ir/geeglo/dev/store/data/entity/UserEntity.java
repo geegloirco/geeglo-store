@@ -19,6 +19,7 @@ public class UserEntity {
     private Timestamp enterDate;
     private String image;
     private List<UserInfoEntity> userInfos;
+    private List<CartEntity> cartEntities;
     private List<LocationEntity> locationEntities;
 
     @Id
@@ -118,6 +119,15 @@ public class UserEntity {
 
     public void setUserInfos(List<UserInfoEntity> userInfos) {
         this.userInfos = userInfos;
+    }
+
+    @OneToMany(mappedBy = "userEntity")
+    public List<CartEntity> getCartEntities() {
+        return cartEntities;
+    }
+
+    public void setCartEntities(List<CartEntity> cartEntities) {
+        this.cartEntities = cartEntities;
     }
 
     @ManyToMany(cascade = {

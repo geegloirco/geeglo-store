@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ItemViewComponent} from "./item-view/item-view.component";
+import {CartViewComponent} from "./cart-view/cart-view.component";
 
 
 @NgModule({
@@ -17,11 +18,13 @@ import {ItemViewComponent} from "./item-view/item-view.component";
   ],
   declarations: [
     ItemViewComponent,
+    CartViewComponent,
   ],
   providers: [
   ],
   exports: [
     ItemViewComponent,
+    CartViewComponent,
   ],
   entryComponents: [
   ]

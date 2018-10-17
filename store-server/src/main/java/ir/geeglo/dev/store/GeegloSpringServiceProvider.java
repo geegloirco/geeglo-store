@@ -1,9 +1,11 @@
 package ir.geeglo.dev.store;
 
+import ir.geeglo.dev.store.business.GeegloBusinessSpringConfig;
+import ir.geeglo.dev.store.business.KavenegarBusiness;
+import ir.geeglo.dev.store.business.SecurityBusiness;
 import ir.geeglo.dev.store.data.service.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ir.geeglo.dev.store.business.*;
 
 /**
  * @author Mohammad Rahmati, 10/14/2018
@@ -38,6 +40,14 @@ public class GeegloSpringServiceProvider {
 
     public static LocationService getLocationService() {
         return applicationContext.getBean(LocationService.class);
+    }
+
+    public static ItemService getItemService() {
+        return applicationContext.getBean(ItemService.class);
+    }
+
+    public static CartService getCartService() {
+        return applicationContext.getBean(CartService.class);
     }
 
     public static KavenegarBusiness getKavenegarBusiness() {

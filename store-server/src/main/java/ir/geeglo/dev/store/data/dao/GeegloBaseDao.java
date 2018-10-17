@@ -34,6 +34,18 @@ public class GeegloBaseDao<T> implements BaseDao<T> {
         return criteriaBuilder;
     }
 
+    public T findById(Class entityClazz, int id) {
+        T entity = (T)entityManager.find(entityClazz, id);
+        return entity;
+    }
+
+    public List<T> findAll(Class entityClazz) {
+        List<T> entityList = entityManager.createNamedQuery(
+                entityClazz.getSimpleName().concat(".selectAll"),
+                entityClazz).getResultList();
+        return entityList;
+    }
+
     public T findByTitle(Class entityClazz, String title) {
         List<T> entities = selectAll(entityClazz, Arrays.asList(
                 new QueryConditionStruct<>("title",

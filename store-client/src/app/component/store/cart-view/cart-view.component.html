@@ -1,0 +1,34 @@
+<a style="background-color: #b1dfbb; text-align: center !important; cursor: pointer; width: 70px; height: 30px; padding: 10px;"
+   (click)="open(content)">
+  <span class="fa fa-shopping-cart"></span>
+</a>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <div class="container">
+      <table class="table table-striped table-hover table-responsive-sm">
+        <caption>سبد خرید</caption>
+        <thead>
+        <tr class="table-secondary">
+          <th>نام</th>
+          <th>تعداد</th>
+          <th>قیمت</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
+          <tr >
+            <td >{{item['title']}}</td>
+            <td >{{item['count']}}</td>
+            <td >{{item['price'] * item['count']}}</td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >بستن</button>
+  </div>
+</ng-template>
+

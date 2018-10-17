@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ServerInfoService} from '../server-info/server-info.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable()
 export class LoginService {
   restUrl: string;
   sessionKey = null;
+  user = {};
+  loggedIn = false;
+  loginResult: BehaviorSubject<LoginStatus> = new BehaviorSubject(LoginStatus.nothing);
+  initStatus: BehaviorSubject<LoginInitStatus> = new BehaviorSubject(LoginInitStatus.initial);
 
   constructor(
     private serverInfo: ServerInfoService,
@@ -17,22 +21,81 @@ export class LoginService {
     return this.sessionKey;
   }
 
-  init(restUrl: string): Observable<object> {
-    this.restUrl = this.serverInfo.getServerBaseUrl() + restUrl;
-    let ob = new Observable<object>(observer => {
-      this.http.get(this.restUrl).subscribe(res => {
-        if (res['status'] == 0 || res['status'] == 1) {
-          this.sessionKey = res['entity'];
-          observer.next(res['entity']);
-        } else {
-          observer.error(res['entity']);
-        }
-      }, err => {
-        observer.error(err);
-      });
-    });
-    return ob;
+  getUser(): object {
+    return this.user;
   }
+
+  isLoggedIn(): boolean {
+    return this.loginResult.getValue() === LoginStatus.login ? true : false;
+  }
+
+  afterLoggedIn(): BehaviorSubject<LoginStatus> {
+    return this.loginResult;
+  }
+
+  afterInitialized(): BehaviorSubject<LoginInitStatus> {
+    return this.initStatus;
+  }
+
+  init(restUrl: string): BehaviorSubject<LoginStatus> {
+    this.initStatus.subscribe(res => {
+      if(res.valueOf() == LoginInitStatus.initial) {
+        this.initStatus.next(LoginInitStatus.requested);
+        this.restUrl = this.serverInfo.getServerBaseUrl() + restUrl;
+        this.http.get(this.restUrl).subscribe(res => {
+          console.log(res)
+          if (res['status'] == 0) {
+            this.sessionKey = res['entity'];
+            if (typeof res === 'object') {
+              this.user['image'] = this.serverInfo.getServerBaseUrl() + 'assets/image/user/' + res['image'];
+              this.user['username'] = res['username'];
+              this.loggedIn = true;
+            }
+            this.initStatus.next(LoginInitStatus.successed);
+            this.loginResult.next(LoginStatus.login);
+          } else if(res['status'] === 1) {
+            this.sessionKey = res['entity'];
+            this.initStatus.next(LoginInitStatus.successed);
+            this.loginResult.next(LoginStatus.session);
+          } else {
+            this.initStatus.next(LoginInitStatus.initial);
+            this.loginResult.error(true);
+          }
+        }, err => {
+          this.loginResult.error(true);
+          this.initStatus.next(LoginInitStatus.initial);
+        });
+      }
+    });
+
+    return this.loginResult;
+  }
+
+  // init(restUrl: string): Observable<object> {
+  //   this.restUrl = this.serverInfo.getServerBaseUrl() + restUrl;
+  //   let ob = new Observable<object>(observer => {
+  //     this.http.get(this.restUrl).subscribe(res => {
+  //       if (res['status'] == 0 || res['status'] == 1) {
+  //         this.sessionKey = res['entity'];
+  //         if (typeof res === 'object') {
+  //           this.user['image'] = this.serverInfo.getServerBaseUrl() + 'assets/image/user/' + res['image'];
+  //           this.user['username'] = res['username'];
+  //           this.loggedIn = true;
+  //           this.resCall = true;
+  //           this.loginResult.next(true);
+  //         }
+  //         observer.next(res['entity']);
+  //       } else {
+  //         this.resCall = false;
+  //         observer.error(res['entity']);
+  //       }
+  //     }, err => {
+  //       this.resCall = false;
+  //       observer.error(err);
+  //     });
+  //   });
+  //   return ob;
+  // }
 
   login(mobileNo: string, password): Observable<object> {
     let headers = new HttpHeaders();
@@ -124,4 +187,17 @@ export class LoginService {
     });
     return ob;
   }
+}
+
+export enum LoginInitStatus {
+  initial = 0,
+  requested = 1,
+  successed = 2,
+}
+
+export enum LoginStatus {
+  nothing = 0,
+  session = 1,
+  login = 2,
+  error = 3
 }

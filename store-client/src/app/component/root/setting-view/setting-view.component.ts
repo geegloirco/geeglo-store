@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
+import {LoginInitStatus, LoginService, LoginStatus} from "../../../service/login/login.service";
 
 @Component({
   selector: 'setting-view',
@@ -11,19 +12,22 @@ export class SettingViewComponent implements OnInit {
   loadWaited = false;
 
   constructor(
+    private loginService: LoginService,
     public serverInfo: ServerInfoService,
     private itemInfoService: ItemInfoService) {
     itemInfoService.init('store/item');
   }
 
   items = [];
-  image = '';
 
   ngOnInit() {
-    this.itemInfoService.getItems().subscribe(res => {
-      this.items = res;
-    }, err => {
+    this.loginService.afterInitialized().subscribe(res => {
+      if(res === LoginInitStatus.successed) {
+        this.itemInfoService.getItems().subscribe(res => {
+          this.items = res;
+        }, err => {
+        });
+      }
     });
-    this.image = this.serverInfo.getServerBaseUrl() + 'assets/image/user/';
   }
 }
