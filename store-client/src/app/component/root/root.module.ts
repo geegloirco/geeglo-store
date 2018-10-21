@@ -4,14 +4,11 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RootContainerComponent} from './root-container/root-container.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {SendRequestViewComponent} from './send-request-view/send-request-view.component';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {MessagesComponent} from './messages/messages.component';
-import {LoadWaitComponent} from './load-wait/load-wait.component';
-import {PursueRequestViewComponent} from './pursue-request-view/pursue-request-view.component';
 import {ChartsModule} from 'ng2-charts';
-import {SettingViewComponent} from "./setting-view/setting-view.component";
+import {ItemsViewComponent} from "./items-view/items-view.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
@@ -27,16 +24,13 @@ import {StoreModule} from "../store/store.module";
     ModalModule,
     ChartsModule,
     NgbModule,
-    StoreModule,
+    StoreModule
   ],
   declarations: [
     DashboardComponent,
-    SettingViewComponent,
-    SendRequestViewComponent,
-    PursueRequestViewComponent,
+    ItemsViewComponent,
     RootContainerComponent,
     MessagesComponent,
-    LoadWaitComponent,
     NavbarViewComponent,
     LoginViewComponent
   ],
@@ -44,11 +38,9 @@ import {StoreModule} from "../store/store.module";
   ],
   exports: [
     DashboardComponent,
-    SettingViewComponent,
-    SendRequestViewComponent,
-    PursueRequestViewComponent,
+    ItemsViewComponent,
     NavbarViewComponent,
-    LoginViewComponent
+    LoginViewComponent,
   ],
   entryComponents: [
   ]

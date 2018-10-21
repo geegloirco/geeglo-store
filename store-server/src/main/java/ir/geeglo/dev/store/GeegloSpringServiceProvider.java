@@ -50,6 +50,10 @@ public class GeegloSpringServiceProvider {
         return applicationContext.getBean(CartService.class);
     }
 
+    public static OpenCartService getOpenCartService() {
+        return applicationContext.getBean(OpenCartService.class);
+    }
+
     public static KavenegarBusiness getKavenegarBusiness() {
         return applicationContext.getBean(KavenegarBusiness.class);
     }

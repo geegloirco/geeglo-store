@@ -100,6 +100,14 @@ create table cart (
 );
 ALTER TABLE cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+create table open_cart (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  creation_time TIMESTAMP,
+  items TEXT
+);
+ALTER TABLE open_cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 INSERT INTO country (title, phoneCode) VALUES ('ایران', '+98');
 
 INSERT INTO province (country_id, title) VALUES (1, 'تهران');

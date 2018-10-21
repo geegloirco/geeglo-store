@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RootContainerService} from '../root-container/root-container.component';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ActivatedRoute} from '@angular/router';
+import {LoginStatus, PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,8 +11,10 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   isSmallMode = false;
+  loadWaited = true;
 
   constructor(private route: ActivatedRoute,
+              private personalityServiceper: PersonalityService,
               private rootContainerService: RootContainerService,
               public serverInfo: ServerInfoService) {
     // console.log("dashboard constructor");
@@ -19,6 +22,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.personalityServiceper.afterInitialized().subscribe(res => {
+      if(res === ServiceInitStatus.successed)
+        this.loadWaited = false;
+    });
     // console.log("dashboard ngOnInit");
   }
 

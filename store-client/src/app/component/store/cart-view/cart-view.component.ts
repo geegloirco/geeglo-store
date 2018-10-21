@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {CartInfoService} from "../../../service/cart-info/cart-info.service";
+import {PersonalityService} from "../../../service/personality/personality.service";
 
 @Component({
   selector: 'cart-view',
@@ -14,9 +14,10 @@ export class CartViewComponent implements OnInit {
 
   imagePrefix;
   items = [];
+  totalPrice: number = 0;
 
   constructor(
-    private cartService: CartInfoService,
+    public personalityService: PersonalityService,
     private serverInfo: ServerInfoService,
     private modalService: NgbModal,
     private messageService: MsgsysService) {
@@ -24,13 +25,16 @@ export class CartViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("cart-view init")
-    this.cartService.init('store/cart');
+    this.personalityService.afterCartChangedInfluencedServer().subscribe(res => {
+      this.items = this.personalityService.getItems();
+      this.totalPrice = 0;
+      for(let i = 0; i< this.items.length; i++) {
+        this.totalPrice += this.items[i]['price'] * this.items[i]['count'];
+      }
+    });
   }
 
   open(content) {
-    this.items = this.cartService.getItems();
-    console.log(this.items)
     this.modalService.open(content, {}).result.then((result) => {
       if(result === 1) {
       } else if (result === 2) {

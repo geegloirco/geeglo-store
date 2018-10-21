@@ -2,8 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {CartInfoService} from "../../../service/cart-info/cart-info.service";
-import {ServiceInitStatus} from "../../../service/login/login.service";
+import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 
 @Component({
   selector: 'item-view',
@@ -21,7 +20,7 @@ export class ItemViewComponent implements OnInit {
   imagePrefix;
 
   constructor(
-    private cartService: CartInfoService,
+    private personalityService: PersonalityService,
     private modalService: NgbModal,
     private serverInfo: ServerInfoService,
     private messageService: MsgsysService) {
@@ -30,12 +29,11 @@ export class ItemViewComponent implements OnInit {
 
   ngOnInit() {
     this.count = this.item['count'];
-    this.cartService.init('store/cart');
-    this.cartService.afterInitialized().subscribe(res => {
-      if(res === ServiceInitStatus.successed) {
-        this.cartService.fillCount(this.item);
-        this.count = this.item['count'];
-      }
+    this.personalityService.afterCartChangedInfluencedServer().subscribe(res => {
+      // console.log("item-view afterCartChangedInfluencedServer")
+      // console.log(res)
+      this.personalityService.fillCount(this.item);
+      this.count = this.item['count'];
     });
 
   }
@@ -57,17 +55,19 @@ export class ItemViewComponent implements OnInit {
   open(content) {
     this.modalService.open(content, {}).result.then((result) => {
       if(result === 1) {
-        this.count = 0;
+        this.count = this.item['count'];
       } else if (result === 2) {
-        this.loadWaited = true;
-        this.cartService.changeToCart(this.item, this.count).subscribe(res => {
-          this.messageService.add("اضافه شد")
-          this.item['count'] = res;
-          this.loadWaited = false;
-        }, err => {
-          this.messageService.add(err);
-          this.loadWaited = false;
-        });
+        if(this.count !== this.item['count']) {
+          this.loadWaited = true;
+          this.personalityService.changeToCart(this.item, this.count).subscribe(res => {
+            // this.messageService.add("اضافه شد")
+            this.item['count'] = res['count'];
+            this.loadWaited = false;
+          }, err => {
+            this.messageService.add(err);
+            this.loadWaited = false;
+          });
+        }
       }
     }, (reason) => {
       if (reason === ModalDismissReasons.ESC) {

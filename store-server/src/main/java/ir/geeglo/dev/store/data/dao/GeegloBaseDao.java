@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository(value = "GeegloBaseDao")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GeegloBaseDao<T> implements BaseDao<T> {
-    @PersistenceContext()
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     EntityManager entityManager;
 
     protected CriteriaBuilder criteriaBuilder;

@@ -121,7 +121,7 @@ public class UserEntity {
         this.userInfos = userInfos;
     }
 
-    @OneToMany(mappedBy = "userEntity")
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.DETACH)
     public List<CartEntity> getCartEntities() {
         return cartEntities;
     }

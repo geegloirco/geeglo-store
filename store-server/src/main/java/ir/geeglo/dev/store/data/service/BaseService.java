@@ -78,6 +78,15 @@ public abstract class BaseService<T>
         getBaseDao().update(entity);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void refresh(Object entity) {
+        getBaseDao().refresh(entity);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void detach(Object entity) {
+
+    }
 //    @Transactional(propagation = Propagation.REQUIRED)
 //    public T delete(
 //            int id,

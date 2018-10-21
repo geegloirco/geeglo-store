@@ -16,17 +16,27 @@ public interface BaseDao<T> {
     CriteriaBuilder getCriteriaBuilder();
 
     @Transactional(propagation = Propagation.REQUIRED)
-    default void insert(Object object) {
+    default void insert(T object) {
         getEntityManager().persist(object);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    default void update(Object object) {
+    default void update(T object) {
         getEntityManager().merge(object);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    default void delete(Object object) {
+    default void refresh(T object) {
+        getEntityManager().refresh(object);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    default void detach(T entity) {
+        getEntityManager().detach(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    default void delete(T object) {
         getEntityManager().remove(object);
     }
 

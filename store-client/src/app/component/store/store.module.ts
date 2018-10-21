@@ -6,6 +6,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ItemViewComponent} from "./item-view/item-view.component";
 import {CartViewComponent} from "./cart-view/cart-view.component";
+import {RootModule} from "../root/root.module";
+import {LoadWaitComponent} from "./load-wait/load-wait.component";
 
 
 @NgModule({
@@ -17,12 +19,14 @@ import {CartViewComponent} from "./cart-view/cart-view.component";
     NgbModule,
   ],
   declarations: [
+    LoadWaitComponent,
     ItemViewComponent,
     CartViewComponent,
   ],
   providers: [
   ],
   exports: [
+    LoadWaitComponent,
     ItemViewComponent,
     CartViewComponent,
   ],

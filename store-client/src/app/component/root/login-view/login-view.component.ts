@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {ServiceInitStatus, LoginService} from "../../../service/login/login.service";
+import {LoginStatus, PersonalityService} from "../../../service/personality/personality.service";
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {NgbModal, NgbModalConfig, NgbTabChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 
@@ -27,22 +27,21 @@ export class LoginViewComponent implements OnInit {
     config: NgbModalConfig,
     private modalService: NgbModal,
     public serverInfo: ServerInfoService,
-    private loginService: LoginService,
+    private personalityService: PersonalityService,
     private messageService: MsgsysService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit() {
-    this.loginService.afterInitialized().subscribe(res => {
-      if(res === ServiceInitStatus.successed) {
-        if(this.loginService.isLoggedIn()) {
-          this.user = this.loginService.getUser();
-          this.isLoggedIn = true;
-        } else {
-        }
-      }
+    this.personalityService.afterInitialized().subscribe(res => {
     }, err => {
+    });
+    this.personalityService.afterLoggedIn().subscribe(res => {
+      if(res === LoginStatus.login) {
+        this.user = this.personalityService.getUser();
+        this.isLoggedIn = true;
+      }
     });
   }
 
@@ -56,7 +55,7 @@ export class LoginViewComponent implements OnInit {
 
   login() {
     this.loadWaited = true;
-    this.loginService.login(this.mobileNo, this.password).subscribe(
+    this.personalityService.login(this.mobileNo, this.password).subscribe(
       res => {
         // this.enableMobile = res;
         if(typeof res === 'object') {
@@ -65,7 +64,7 @@ export class LoginViewComponent implements OnInit {
         }
         this.loadWaited = false;
         this.isLoggedIn = true;
-        this.messageService.add('با موفقیت انجام شد.');
+        // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
         this.loadWaited = false;
@@ -75,7 +74,7 @@ export class LoginViewComponent implements OnInit {
   register() {
     if(this.registerPass === this.registerPass2) {
       this.loadWaited = true;
-      this.loginService.register(this.registerMobileNo, this.registerPass).subscribe(
+      this.personalityService.register(this.registerMobileNo, this.registerPass).subscribe(
         res => {
           // this.enableMobile = true;
           this.showVerify = true;
@@ -90,13 +89,13 @@ export class LoginViewComponent implements OnInit {
 
   sendVerify() {
     this.loadWaited = true;
-    this.loginService.verify(this.verifyCode).subscribe(
+    this.personalityService.verify(this.verifyCode).subscribe(
       res => {
         // this.enableMobile = true;
         this.showVerify = false;
         this.loadWaited = false;
         this.isLoggedIn = true;
-        this.messageService.add('با موفقیت انجام شد.');
+        // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
         this.loadWaited = false;
@@ -108,14 +107,14 @@ export class LoginViewComponent implements OnInit {
 
   logout() {
     this.loadWaited = true;
-    this.loginService.logout().subscribe(
+    this.personalityService.logout().subscribe(
       res => {
         // this.enableMobile = res;
         this.user['username'] = '';
         this.user['image'] = '';
         this.loadWaited = false;
         this.isLoggedIn = false;
-        this.messageService.add('با موفقیت انجام شد.');
+        // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
         this.loadWaited = false;

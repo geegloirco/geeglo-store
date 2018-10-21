@@ -1,5 +1,8 @@
 package ir.geeglo.dev.store.model;
 
+import ir.geeglo.dev.store.GeegloSpringServiceProvider;
+import ir.geeglo.dev.store.data.entity.OpenCartEntity;
+
 /**
  * @author Mohammad Rahmati, 10/15/2018
  */

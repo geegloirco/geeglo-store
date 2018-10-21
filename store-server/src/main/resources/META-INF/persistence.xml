@@ -14,12 +14,14 @@
         <class>ir.geeglo.dev.store.data.entity.UserInfoEntity</class>
         <class>ir.geeglo.dev.store.data.entity.ItemEntity</class>
         <class>ir.geeglo.dev.store.data.entity.CartEntity</class>
+        <class>ir.geeglo.dev.store.data.entity.OpenCartEntity</class>
         <class>ir.geeglo.dev.store.data.converter.MapConverter</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/geeglo_store"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>

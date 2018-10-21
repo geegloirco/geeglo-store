@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ServerInfoService} from '../server-info/server-info.service';
 import {Observable} from 'rxjs';
-import {LoginService} from "../login/login.service";
+import {PersonalityService} from "../personality/personality.service";
 
 @Injectable()
 export class ItemInfoService {
@@ -11,7 +11,7 @@ export class ItemInfoService {
 
   constructor(
     private serverInfo: ServerInfoService,
-    private loginService: LoginService,
+    private personalityService: PersonalityService,
     private http: HttpClient) {
   }
 
@@ -21,7 +21,7 @@ export class ItemInfoService {
 
   getItems(): Observable<object[]> {
     let headers = new HttpHeaders();
-    headers = headers.append("Authorization", "Bearer " + this.loginService.getSessionKey());
+    headers = headers.append("Authorization", "Bearer " + this.personalityService.getSessionKey());
 
     // Todo: send the message _after_ fetching the Third Parties
     let ob = new Observable<object[]>(observer => {

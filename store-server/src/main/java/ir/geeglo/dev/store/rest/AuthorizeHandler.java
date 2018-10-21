@@ -3,6 +3,7 @@ package ir.geeglo.dev.store.rest;
 import ir.geeglo.dev.store.GeegloSpringServiceProvider;
 import ir.geeglo.dev.store.business.KavenegarBusiness;
 import ir.geeglo.dev.store.data.entity.CartEntity;
+import ir.geeglo.dev.store.data.entity.OpenCartEntity;
 import ir.geeglo.dev.store.data.entity.UserEntity;
 import ir.geeglo.dev.store.data.entity.UserInfoEntity;
 import ir.geeglo.dev.store.data.service.UserService;
@@ -28,35 +29,20 @@ public class AuthorizeHandler {
     @MethodHandler(requiredRole = RoleType.GUEST)
     public static PianaResponse init(@SessionParam Session session) {
         Object existance = session.getExistance();
-        if (existance != null) {
-            if (existance instanceof UserEntity) {
-                UserEntity userEntity = (UserEntity) existance;
-                combineCart(session, userEntity);
-                return new PianaResponse(Status.OK,
-                        new ResponseModel(0, new UserModel(
-                                userEntity.getUsername(),
-                                userEntity.getImage(),
-                                session.getSessionKey())));
-            } else {
-                Object cart = session.getObject("cart");
-                createCartEntityIfNotExist(session, cart);
-            }
-
-        } else {
-            Object cart = session.getObject("cart");
-            createCartEntityIfNotExist(session, cart);
-        }
-
-        return new PianaResponse(Status.OK,
-                new ResponseModel(1, session.getSessionKey()));
-    }
-
-    private static void createCartEntityIfNotExist(Session session, Object cart) {
-        if (cart == null) {
-            CartEntity cartEntity = new CartEntity();
-            cartEntity.setCreationTime(new Timestamp(System.currentTimeMillis()));
-            cartEntity.setItems(new LinkedHashMap());
-            session.setObject("cart", cartEntity);
+        if (existance != null && existance instanceof UserEntity) {
+            UserEntity userEntity = (UserEntity) existance;
+            OpenCartEntity cartEntity = setSessionCartAfterLogin(session, userEntity.getId());
+            return new PianaResponse(Status.OK,
+                    new ResponseModel(0, new UserModel(
+                            userEntity.getUsername(),
+                            userEntity.getImage(),
+                            session.getSessionKey(),
+                            cartEntity.getItems())));
+        }else {
+            OpenCartEntity cartEntity = createCartEntityIfNotExist(session);
+            return new PianaResponse(Status.OK,
+                    new ResponseModel(1, new UserModel(null, null,
+                            session.getSessionKey(), cartEntity.getItems())));
         }
     }
 
@@ -74,14 +60,14 @@ public class AuthorizeHandler {
                 session.setExistance(userEntity);
                 session.setRoleType(RoleType.USER);
 
-                CartEntity notPaid = GeegloSpringServiceProvider.getCartService().findNotPaid(userEntity);
-                session.setObject("cart", combineCart((CartEntity) session.getObject("cart"), notPaid));
+                OpenCartEntity cartEntity = setSessionCartAfterLogin(session, userEntity.getId());
 
                 return new PianaResponse(Status.OK,
                         new ResponseModel(0, new UserModel(
                                 userEntity.getUsername(),
                                 userEntity.getImage(),
-                                session.getSessionKey())));
+                                session.getSessionKey(),
+                                cartEntity.getItems())));
             }
         }
 
@@ -115,6 +101,7 @@ public class AuthorizeHandler {
                 UserService userService = GeegloSpringServiceProvider.getUserService();
                 UserLoginInfoModel model = (UserLoginInfoModel)existance;
                 UserEntity userEntity = userService.selectByMobile(model.getUsername());
+                OpenCartEntity cartEntity = null;
                 if(userEntity == null) {
                     userEntity = new UserEntity();
                     userEntity.setMobile(model.getUsername());
@@ -127,15 +114,16 @@ public class AuthorizeHandler {
                     userEntity.setEnterDate(new Timestamp(System.currentTimeMillis()));
                     userService.save(userEntity, new UserInfoEntity());
 
-                    CartEntity cartEntity = (CartEntity) session.getObject("cart");
-                    cartEntity.setUserEntity(userEntity);
-                    GeegloSpringServiceProvider.getCartService().save(cartEntity);
+                    cartEntity = (OpenCartEntity) session.getObject("cart");
+                    cartEntity.setUserId(userEntity.getId());
+                    GeegloSpringServiceProvider.getOpenCartService().save(cartEntity);
                 } else {
                     String hashPass = GeegloSpringServiceProvider.getSecurityBusiness()
                             .encryptDesEcbPkcs5paddingAsBase64(model.getPassword());
                     userEntity.setPassword(hashPass);
                     userService.update(userEntity);
-                    combineCart(session, userEntity);
+                    OpenCartEntity byUserId = GeegloSpringServiceProvider.getOpenCartService().findByUserId(userEntity.getId());
+                    cartEntity = setSessionCartAfterLogin(session, byUserId);
                 }
                 session.setExistance(userEntity);
                 session.setRoleType(RoleType.USER);
@@ -143,7 +131,8 @@ public class AuthorizeHandler {
                         new ResponseModel(0, new UserModel(
                                 userEntity.getUsername(),
                                 userEntity.getImage(),
-                                session.getSessionKey())));
+                                session.getSessionKey(),
+                                cartEntity.getItems())));
             }
         }
         return new PianaResponse(Status.OK,
@@ -155,22 +144,42 @@ public class AuthorizeHandler {
     public static PianaResponse logout(@SessionParam Session session) {
         session.setExistance(null);
         session.setRoleType(RoleType.GUEST);
+        OpenCartEntity cartEntity = new OpenCartEntity();
+        cartEntity.setCreationTime(new Timestamp(System.currentTimeMillis()));
+        cartEntity.setUserId(0);
+        cartEntity.setItems(new LinkedHashMap());
+        session.setObject("cart", cartEntity);
         return new PianaResponse(Status.OK,
-                new ResponseModel(0, "successful!"));
+                new ResponseModel(0, new UserModel(null, null,
+                        session.getSessionKey(), cartEntity.getItems())));
     }
 
-    public static CartEntity combineCart(CartEntity sessionCart, CartEntity entityCart) {
-        entityCart.setItems(sessionCart.getItems());
-        GeegloSpringServiceProvider.getCartService().update(entityCart);
-        return entityCart;
+    private static OpenCartEntity createCartEntityIfNotExist(Session session) {
+        Object cart = session.getObject("cart");
+        if (cart == null) {
+            OpenCartEntity cartEntity = new OpenCartEntity();
+            cartEntity.setCreationTime(new Timestamp(System.currentTimeMillis()));
+            cartEntity.setItems(new LinkedHashMap());
+            session.setObject("cart", cartEntity);
+            return cartEntity;
+        }
+        return (OpenCartEntity)cart;
     }
 
-    public static void combineCart(Session session, UserEntity userEntity) {
-        CartEntity notPaid = GeegloSpringServiceProvider
-                .getCartService().findNotPaid(userEntity);
-        CartEntity sessionCart = (CartEntity) session.getObject("cart");
-        notPaid.setItems(sessionCart.getItems());
-        GeegloSpringServiceProvider.getCartService().update(notPaid);
-        session.setObject("cart", notPaid);
+    public static OpenCartEntity setSessionCartAfterLogin(Session session, int userId) {
+        OpenCartEntity cartEntity = GeegloSpringServiceProvider
+                .getOpenCartService().findByUserId(userId);
+        setSessionCartAfterLogin(session, cartEntity);
+        return cartEntity;
+    }
+
+    public static OpenCartEntity setSessionCartAfterLogin(Session session, OpenCartEntity cartEntity) {
+        OpenCartEntity cart = (OpenCartEntity)session.getObject("cart");
+        if(cart.getItems().size() > 0) {
+            cartEntity.setItems(cart.getItems());
+            GeegloSpringServiceProvider.getCartService().update(cartEntity);
+        }
+        session.setObject("cart", cartEntity);
+        return cartEntity;
     }
 }

@@ -2,12 +2,10 @@ package ir.geeglo.dev.store.rest;
 
 import ir.geeglo.dev.store.GeegloSpringServiceProvider;
 import ir.geeglo.dev.store.data.entity.CartEntity;
-import ir.geeglo.dev.store.data.entity.ItemEntity;
+import ir.geeglo.dev.store.data.entity.OpenCartEntity;
+import ir.geeglo.dev.store.model.ItemModel;
 import ir.geeglo.dev.store.model.ResponseModel;
-import ir.piana.dev.core.annotation.Handler;
-import ir.piana.dev.core.annotation.HandlerType;
-import ir.piana.dev.core.annotation.MethodHandler;
-import ir.piana.dev.core.annotation.SessionParam;
+import ir.piana.dev.core.annotation.*;
 import ir.piana.dev.core.response.PianaResponse;
 import ir.piana.dev.core.role.RoleType;
 import ir.piana.dev.core.session.Session;
@@ -15,7 +13,7 @@ import ir.piana.dev.core.session.Session;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.sql.Timestamp;
 
 /**
  * @author Mohammad Rahmati, 10/15/2018
@@ -29,16 +27,20 @@ public class CartHandler {
                 new ResponseModel(0, cartEntity.getItems()));
     }
 
-    @MethodHandler(requiredRole = RoleType.GUEST)
+    @MethodHandler(requiredRole = RoleType.GUEST, httpMethod = "POST")
     @Path("change-cart")
     public static PianaResponse changeCart(@SessionParam Session session,
-                                          @QueryParam("id") int id,
-                                          @QueryParam("count") int count) {
-        CartEntity cartEntity = (CartEntity) session.getObject("cart");
-        cartEntity.getItems().put(String.valueOf(id), count);
-        if(cartEntity.getUserEntity() != null)
-            GeegloSpringServiceProvider.getCartService().update(cartEntity);
+                                           @BodyObjectParam ItemModel itemModel) {
+        OpenCartEntity cartEntity = (OpenCartEntity) session.getObject("cart");
+        if(itemModel.getCount() == 0)
+            cartEntity.getItems().remove(String.valueOf(itemModel.getId()));
+        else
+            cartEntity.getItems().put(String.valueOf(itemModel.getId()), itemModel);
+        cartEntity.setItems(cartEntity.getItems());
+        if(cartEntity.getUserId() != 0) {
+            GeegloSpringServiceProvider.getOpenCartService().update(cartEntity);
+        }
         return new PianaResponse(Response.Status.OK,
-                new ResponseModel(0, cartEntity.getItems().get(String.valueOf(id))));
+                new ResponseModel(0, itemModel));
     }
 }

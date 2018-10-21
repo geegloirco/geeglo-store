@@ -18,7 +18,7 @@ import javax.persistence.EntityManagerFactory;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "ir.geeglo.dev.store.data")
-@EnableTransactionManagement
+@EnableTransactionManagement(mode = AdviceMode.PROXY)
 @PropertySource(value = "classpath:application.properties")
 @ComponentScan
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -56,7 +56,7 @@ public class PersistenceSpringConfig {
         vendorAdapter.setDatabasePlatform(databasePlatformName);
         vendorAdapter.setDatabase(Database.MYSQL);
         vendorAdapter.setGenerateDdl(false);
-        vendorAdapter.setShowSql(false);
+        vendorAdapter.setShowSql(true);
         return vendorAdapter;
     }
 
@@ -65,8 +65,8 @@ public class PersistenceSpringConfig {
         HibernateJpaVendorAdapter vendorAdapter =
                 new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5InnoDBDialect");
-        vendorAdapter.setGenerateDdl(true);
-        vendorAdapter.setShowSql(false);
+        vendorAdapter.setGenerateDdl(false);
+        vendorAdapter.setShowSql(true);
         return vendorAdapter;
     }
 

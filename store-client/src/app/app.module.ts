@@ -11,21 +11,12 @@ import {ServerInfoService} from './service/server-info/server-info.service';
 import {RootContainerService, WindowRef} from './component/root/root-container/root-container.component';
 import {MessageService} from './service/message/message.service';
 import {MsgsysService} from './service/msgsys/msgsys.service';
-import {CredentialService} from "./service/credential/credential.service";
-import {LoginService} from "./service/login/login.service";
+import {PersonalityService} from "./service/personality/personality.service";
 import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
-import {CartInfoService} from "./service/cart-info/cart-info.service";
 
-export function startupServiceFactory(loginService: LoginService): Function {
-  return () => loginService.init("authorize").subscribe(res => {
-    // if (typeof res === 'object') {
-    //   this.user['image'] = this.serverInfo.getServerBaseUrl() + 'assets/image/user/' + res['image'];
-    //   this.user['username'] = res['username'];
-    //   this.isLoggedIn = true;
-    // }
-  }, err => {
-  });
+export function startupServiceFactory(personalityService: PersonalityService): Function {
+  return () => personalityService.init();
 }
 
 @NgModule({
@@ -44,20 +35,18 @@ export function startupServiceFactory(loginService: LoginService): Function {
   providers: [
     RootContainerService,
     ServerInfoService,
-    LoginService,
+    PersonalityService,
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
-      deps: [LoginService],
+      deps: [PersonalityService],
       multi: true
     },
     WindowRef,
-    CredentialService,
     MessageService,
     MsgsysService,
     ItemInfoService,
-    CartInfoService,
   ],
   bootstrap: [BaseComponent]
 })

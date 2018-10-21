@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
-import {ServiceInitStatus, LoginService, LoginStatus} from "../../../service/login/login.service";
+import {ServiceInitStatus, PersonalityService, LoginStatus} from "../../../service/personality/personality.service";
 
 @Component({
-  selector: 'setting-view',
-  templateUrl: './setting-view.component.html',
-  styleUrls: ['./setting-view.component.css']
+  selector: 'items-view',
+  templateUrl: './items-view.component.html',
+  styleUrls: ['./items-view.component.css']
 })
-export class SettingViewComponent implements OnInit {
+export class ItemsViewComponent implements OnInit {
   loadWaited = false;
 
   constructor(
-    private loginService: LoginService,
+    private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
     private itemInfoService: ItemInfoService) {
     itemInfoService.init('store/item');
@@ -21,7 +21,7 @@ export class SettingViewComponent implements OnInit {
   items = [];
 
   ngOnInit() {
-    this.loginService.afterInitialized().subscribe(res => {
+    this.personalityService.afterInitialized().subscribe(res => {
       if(res === ServiceInitStatus.successed) {
         this.itemInfoService.getItems().subscribe(res => {
           this.items = res;

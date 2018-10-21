@@ -1,8 +1,10 @@
 package ir.geeglo.dev.store;
 
+import com.mysql.cj.api.io.ServerSession;
 import ir.piana.dev.core.PianaAnnotationAppMain;
 import ir.piana.dev.core.annotation.PianaServer;
 import ir.piana.dev.core.annotation.PianaServerCORS;
+import ir.piana.dev.core.annotation.PianaServerSession;
 import ir.piana.dev.core.annotation.SSLServer;
 import ir.piana.dev.grizzly.http.GrizzlyPianaHttpServer;
 import ir.piana.dev.secure.crypto.CryptoAttribute;
@@ -18,6 +20,7 @@ import javax.crypto.SecretKey;
  * @author Mohammad Rahmati, 10/13/2018
  */
 @PianaServer(serverCORS = @PianaServerCORS(allowOrigin = "*"),
+        serverSession = @PianaServerSession(sessionExpiredSecond = 9999),
         sslServer = @SSLServer(keyStoreName = "keystore.jks", keyStorePassword = "password"))
 public class StoreAppMain {
     public static void main(String[] args) throws Exception {
