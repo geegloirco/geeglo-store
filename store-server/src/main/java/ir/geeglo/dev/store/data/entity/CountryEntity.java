@@ -17,7 +17,7 @@ public class CountryEntity {
     private List<ProvinceEntity> provincesById;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;

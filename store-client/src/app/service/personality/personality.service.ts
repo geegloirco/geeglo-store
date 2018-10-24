@@ -220,6 +220,26 @@ export class PersonalityService {
     return ob;
   }
 
+  registerAddress(address): Observable<boolean> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+    // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
+
+    let ob = new Observable<boolean>(observer => {
+      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address", address,{headers: headers})
+        .subscribe(res => {
+          if(res['status'] == 0) {
+            observer.next(true);
+          } else
+            observer.error(false);
+        }, err => {
+          console.log(err);
+          observer.error(err);
+        });
+    });
+    return ob;
+  }
+
   afterCartChangedInfluencedServer(): BehaviorSubject<object> {
     return this.cartChangedInfluencedServer;
   }

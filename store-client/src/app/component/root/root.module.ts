@@ -13,7 +13,9 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
 import {StoreModule} from "../store/store.module";
-
+import {AgmCoreModule} from "@agm/core";
+import {AngularOpenlayersModule} from 'angular2-openlayers';
+import {AddressRegisterComponent} from "./address-register/address-register.component";
 
 @NgModule({
   imports: [
@@ -24,11 +26,16 @@ import {StoreModule} from "../store/store.module";
     ModalModule,
     ChartsModule,
     NgbModule,
-    StoreModule
+    StoreModule,
+    AngularOpenlayersModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDA7i_rPXzsehpFoE0O9Hxu28ycJ4s5qTI'
+    })
   ],
   declarations: [
     DashboardComponent,
     ItemsViewComponent,
+    AddressRegisterComponent,
     RootContainerComponent,
     MessagesComponent,
     NavbarViewComponent,
@@ -39,6 +46,7 @@ import {StoreModule} from "../store/store.module";
   exports: [
     DashboardComponent,
     ItemsViewComponent,
+    AddressRegisterComponent,
     NavbarViewComponent,
     LoginViewComponent,
   ],

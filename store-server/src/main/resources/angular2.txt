@@ -1,0 +1,3 @@
+npm install --save angular2-openlayers
+npm install --save @types/ol
+npm install --save @types/openlayers

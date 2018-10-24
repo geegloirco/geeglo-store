@@ -2,10 +2,7 @@ package ir.geeglo.dev.store.rest;
 
 import ir.geeglo.dev.store.GeegloSpringServiceProvider;
 import ir.geeglo.dev.store.business.KavenegarBusiness;
-import ir.geeglo.dev.store.data.entity.CartEntity;
-import ir.geeglo.dev.store.data.entity.OpenCartEntity;
-import ir.geeglo.dev.store.data.entity.UserEntity;
-import ir.geeglo.dev.store.data.entity.UserInfoEntity;
+import ir.geeglo.dev.store.data.entity.*;
 import ir.geeglo.dev.store.data.service.UserService;
 import ir.geeglo.dev.store.model.ResponseModel;
 import ir.geeglo.dev.store.model.UserLoginInfoModel;
@@ -20,6 +17,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response.Status;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Mohammad Rahmati, 10/14/2018
@@ -152,6 +150,24 @@ public class AuthorizeHandler {
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, new UserModel(null, null,
                         session.getSessionKey(), cartEntity.getItems())));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
+    @Path("register-address")
+    public static PianaResponse registerAddress(@SessionParam Session session,
+                                                @BodyObjectParam Map map) {
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setTitle(String.valueOf(map.get("title")));
+        addressEntity.setDetail((String)map.get("detail"));
+        addressEntity.setLatitude((Double) map.get("latitude"));
+        addressEntity.setLongitude((Double) map.get("longitude"));
+        addressEntity.setPhoneNumber((String) map.get("phoneNumber"));
+        addressEntity.setPostCode((String) map.get("postCode"));
+        UserEntity existance = (UserEntity) session.getExistance();
+        existance.addAddress(addressEntity);
+        GeegloSpringServiceProvider.getUserService().update(existance);
+        return new PianaResponse(Status.OK,
+                new ResponseModel(0, null));
     }
 
     private static OpenCartEntity createCartEntityIfNotExist(Session session) {

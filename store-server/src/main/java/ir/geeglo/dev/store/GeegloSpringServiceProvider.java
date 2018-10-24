@@ -42,6 +42,10 @@ public class GeegloSpringServiceProvider {
         return applicationContext.getBean(LocationService.class);
     }
 
+    public static AddressService getAddressService() {
+        return applicationContext.getBean(AddressService.class);
+    }
+
     public static ItemService getItemService() {
         return applicationContext.getBean(ItemService.class);
     }

@@ -9,18 +9,15 @@ import java.util.Objects;
  * @author Mohammad Rahmati, 10/14/2018
  */
 @Entity
-@Table(name = "location", schema = "geeglo_store")
-public class LocationEntity {
+@Table(name = "address", schema = "geeglo_store")
+public class AddressEntity {
     private int id;
     private String title;
     private Double latitude;
     private Double longitude;
-    private String address;
+    private String detail;
     private String phoneNumber;
     private String postCode;
-    private CountryEntity countryByCountryId;
-    private ProvinceEntity provinceByProvinceId;
-    private CityEntity cityByCityId;
     private List<UserEntity> userEntities = new ArrayList<>();
 
 
@@ -66,13 +63,13 @@ public class LocationEntity {
     }
 
     @Basic
-    @Column(name = "address", nullable = true, length = 255)
-    public String getAddress() {
-        return address;
+    @Column(name = "detail", nullable = true, length = 255)
+    public String getDetail() {
+        return detail;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     @Basic
@@ -99,52 +96,22 @@ public class LocationEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LocationEntity that = (LocationEntity) o;
+        AddressEntity that = (AddressEntity) o;
         return id == that.id &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude) &&
-                Objects.equals(address, that.address) &&
+                Objects.equals(detail, that.detail) &&
                 Objects.equals(phoneNumber, that.phoneNumber) &&
                 Objects.equals(postCode, that.postCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, latitude, longitude, address, phoneNumber, postCode);
+        return Objects.hash(id, title, latitude, longitude, detail, phoneNumber, postCode);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
-    public CountryEntity getCountryByCountryId() {
-        return countryByCountryId;
-    }
-
-    public void setCountryByCountryId(CountryEntity countryByCountryId) {
-        this.countryByCountryId = countryByCountryId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "province_id", referencedColumnName = "id", nullable = false)
-    public ProvinceEntity getProvinceByProvinceId() {
-        return provinceByProvinceId;
-    }
-
-    public void setProvinceByProvinceId(ProvinceEntity provinceByProvinceId) {
-        this.provinceByProvinceId = provinceByProvinceId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
-    public CityEntity getCityByCityId() {
-        return cityByCityId;
-    }
-
-    public void setCityByCityId(CityEntity cityByCityId) {
-        this.cityByCityId = cityByCityId;
-    }
-
-    @ManyToMany(mappedBy = "locationEntities")
+    @ManyToMany(mappedBy = "addressEntities")
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }

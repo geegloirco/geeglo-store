@@ -26,7 +26,7 @@ public class ProvinceEntity {
     }
 
     @Basic
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "title", nullable = true, length = 128)
     public String getTitle() {
         return title;

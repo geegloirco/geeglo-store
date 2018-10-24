@@ -1,5 +1,7 @@
 package ir.geeglo.dev.store.data.entity;
 
+import org.eclipse.persistence.annotations.Mutable;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,6 +23,7 @@ public class UserEntity {
     private List<UserInfoEntity> userInfos;
     private List<CartEntity> cartEntities;
     private List<LocationEntity> locationEntities;
+    private List<AddressEntity> addressEntities;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,5 +157,32 @@ public class UserEntity {
     public void removeLocation(LocationEntity locationEntity) {
         locationEntities.remove(locationEntity);
         locationEntity.getUserEntities().remove(this);
+    }
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    @Mutable
+    public List<AddressEntity> getAddressEntities() {
+        return addressEntities;
+    }
+
+    public void setAddressEntities(List<AddressEntity> addressEntities) {
+        this.addressEntities = addressEntities;
+    }
+
+    public void addAddress(AddressEntity addressEntity) {
+        addressEntities.add(addressEntity);
+        addressEntity.getUserEntities().add(this);
+    }
+
+    public void removeAddress(AddressEntity addressEntity) {
+        locationEntities.remove(addressEntity);
+        addressEntity.getUserEntities().remove(this);
     }
 }

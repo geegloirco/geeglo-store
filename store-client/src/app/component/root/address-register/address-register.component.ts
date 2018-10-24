@@ -5,11 +5,11 @@ import {ServiceInitStatus, PersonalityService, LoginStatus} from "../../../servi
 import * as ol from 'openlayers';
 
 @Component({
-  selector: 'items-view',
-  templateUrl: './items-view.component.html',
-  styleUrls: ['./items-view.component.css']
+  selector: 'address-register',
+  templateUrl: './address-register.component.html',
+  styleUrls: ['./address-register.component.css']
 })
-export class ItemsViewComponent implements OnInit {
+export class AddressRegisterComponent implements OnInit {
   loadWaited = false;
 
   constructor(
@@ -18,27 +18,30 @@ export class ItemsViewComponent implements OnInit {
     private itemInfoService: ItemInfoService) {
     itemInfoService.init('store/item');
   }
-  lat: number = 51.678418;
-  lng: number = 7.809007;
 
+  address = {
+    'title': '',
+    'detail': '',
+    'latitude': '',
+    'longitude': '',
+    'phoneNumber': '',
+    'postCode': '',
+  };
   items = [];
 
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {
       if(res === ServiceInitStatus.successed) {
-        this.itemInfoService.getItems().subscribe(res => {
-          this.items = res;
-        }, err => {
-        });
       }
     });
   }
 
-  coords;
+  selectedLocation = null;
 
   mapOnClick(evt) {
     let c2 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-    console.log(c2);
+    this.selectedLocation = {'x': c2[0], 'y': c2[1]};
+    console.log(this.selectedLocation);
 
     const map = evt.map;
         const point = map.forEachFeatureAtPixel(evt.pixel,
@@ -46,5 +49,18 @@ export class ItemsViewComponent implements OnInit {
       console.log(feature.getGeometry().getKeys());
       return feature;
       });
+  }
+
+  register() {
+    if(this.selectedLocation) {
+      this.address.longitude = this.selectedLocation.x;
+      this.address.latitude = this.selectedLocation.y;
+      this.loadWaited = true;
+      this.personalityService.registerAddress(this.address).subscribe(res => {
+        this.loadWaited = false;
+      }, err => {
+        this.loadWaited = false;
+      });
+    }
   }
 }

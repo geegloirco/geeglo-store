@@ -1,12 +1,12 @@
 <a class="nav-link" *ngIf="!isLoggedIn"
-   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer; margin: 2px;"
+   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer; margin: 2px 4px;"
    data-target="#thirdPartiesModal"
    (click)="open(content)">ورود</a>
 <a class="nav-link" *ngIf="isLoggedIn"
-   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer"
+   style="background-color: #b1dfbb; text-align: center !important; cursor: pointer; margin: 2px 4px;"
    data-target="#thirdPartiesModal"
    (click)="open(content)">
-  <img [src]="user.image" style="width: 32px; height: 32px;">
+  <img [src]="user.image" style="width: 30px; height: 30px;">
 </a>
 
 <ng-template #content let-c="close" let-d="dismiss" let-modal>
