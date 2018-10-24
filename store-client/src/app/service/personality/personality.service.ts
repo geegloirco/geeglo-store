@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ServerInfoService} from '../server-info/server-info.service';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {CanActivate} from "@angular/router";
 
 @Injectable()
-export class PersonalityService {
+export class PersonalityService implements CanActivate {
   restUrl: string;
   sessionKey = null;
   user = {};
@@ -17,6 +18,10 @@ export class PersonalityService {
   constructor(
     private serverInfo: ServerInfoService,
     private http: HttpClient) {
+  }
+
+  canActivate(): boolean {
+    return this.loggedIn;
   }
 
   getSessionKey(): string {

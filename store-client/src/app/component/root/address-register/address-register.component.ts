@@ -3,6 +3,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {ServiceInitStatus, PersonalityService, LoginStatus} from "../../../service/personality/personality.service";
 import * as ol from 'openlayers';
+import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 
 @Component({
   selector: 'address-register',
@@ -15,6 +16,7 @@ export class AddressRegisterComponent implements OnInit {
   constructor(
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
+    public messageService: MsgsysService,
     private itemInfoService: ItemInfoService) {
     itemInfoService.init('store/item');
   }
@@ -58,8 +60,18 @@ export class AddressRegisterComponent implements OnInit {
       this.loadWaited = true;
       this.personalityService.registerAddress(this.address).subscribe(res => {
         this.loadWaited = false;
+        this.address = {
+          'title': '',
+          'detail': '',
+          'latitude': '',
+          'longitude': '',
+          'phoneNumber': '',
+          'postCode': '',
+        };
+        this.messageService.add("با موفقیت انجام شد.");
       }, err => {
         this.loadWaited = false;
+        this.messageService.add("مشکل پیش آمد.");
       });
     }
   }
