@@ -16,6 +16,7 @@ import {StoreModule} from "../store/store.module";
 import {AgmCoreModule} from "@agm/core";
 import {AngularOpenlayersModule} from 'angular2-openlayers';
 import {AddressRegisterComponent} from "./address-register/address-register.component";
+import {UserInfoComponent} from "./user-info/user-info.component";
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import {AddressRegisterComponent} from "./address-register/address-register.comp
   declarations: [
     DashboardComponent,
     ItemsViewComponent,
+    UserInfoComponent,
     AddressRegisterComponent,
     RootContainerComponent,
     MessagesComponent,
@@ -46,6 +48,7 @@ import {AddressRegisterComponent} from "./address-register/address-register.comp
   exports: [
     DashboardComponent,
     ItemsViewComponent,
+    UserInfoComponent,
     AddressRegisterComponent,
     NavbarViewComponent,
     LoginViewComponent,

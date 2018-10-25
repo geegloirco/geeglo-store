@@ -1,39 +1,5 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <aol-map [width]="'100%'" [height]="'300px'" (onClick)="mapOnClick($event)">
-        <aol-interaction-default></aol-interaction-default>
-        <aol-view [zoom]="8">
-          <aol-coordinate [x]="51.195122" [y]="35.610225" [srid]="'EPSG:4326'"></aol-coordinate>
-        </aol-view>
-        <aol-layer-tile>
-          <aol-source-osm></aol-source-osm>
-        </aol-layer-tile>
-
-
-        <aol-layer-vector [opacity]="opacity">
-          <aol-source-vector>
-            <aol-feature (onSingleClick)="console.log('click')">
-              <aol-geometry-point>
-                <aol-coordinate [x]="51.195122" [y]="35.610225" [srid]="'EPSG:4326'"></aol-coordinate>
-              </aol-geometry-point>
-              <aol-style>
-                <aol-style-circle [radius]="1">
-                  <aol-style-stroke [color]="'black'" [width]="2"></aol-style-stroke>
-                  <aol-style-fill [color]="'green'"></aol-style-fill>
-                </aol-style-circle>
-              </aol-style>
-            </aol-feature>
-          </aol-source-vector>
-        </aol-layer-vector>
-
-      </aol-map>
-      <!--<agm-map [latitude]="lat" [longitude]="lng">-->
-        <!--<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>-->
-      <!--</agm-map>-->
-    </div>
-  </div>
-  <div class="row">
     <ng-template ngFor let-item [ngForOf]="items">
       <div class="col-md-4" >
         <item-view [item]="item"></item-view>

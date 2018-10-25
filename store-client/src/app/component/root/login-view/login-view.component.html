@@ -124,6 +124,9 @@
   <div class="modal-footer" *ngIf="isLoggedIn">
     <button class="btn btn-outline-danger"
             type="button" (click)="logout()">خروج</button>
+    <a class="btn btn-success"
+       [routerLink]="[{ outlets: { dashboardBody: ['user-info']} }]"
+       type="button" (click)="modal.close('user info')">صفحه کاربر</a>
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >بستن</button>
   </div>
 </ng-template>

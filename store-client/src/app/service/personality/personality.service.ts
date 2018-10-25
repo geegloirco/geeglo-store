@@ -225,6 +225,26 @@ export class PersonalityService implements CanActivate {
     return ob;
   }
 
+  getUserInfo(): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+    // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
+
+    let ob = new Observable<object>(observer => {
+      this.http.get<object>(this.serverInfo.getServerBaseUrl() + "authorize/user-info", {headers: headers})
+        .subscribe(res => {
+          if(res['status'] == 0) {
+            observer.next(res['entity']);
+          } else
+            observer.error(false);
+        }, err => {
+          console.log(err);
+          observer.error(err);
+        });
+    });
+    return ob;
+  }
+
   registerAddress(address): Observable<boolean> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.sessionKey);

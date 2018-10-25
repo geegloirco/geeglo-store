@@ -5,13 +5,17 @@ import {RootContainerComponent} from './component/root/root-container/root-conta
 import {ItemsViewComponent} from "./component/root/items-view/items-view.component";
 import {AddressRegisterComponent} from "./component/root/address-register/address-register.component";
 import {PersonalityService} from "./service/personality/personality.service";
+import {UserInfoComponent} from "./component/root/user-info/user-info.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:items))', pathMatch: 'full' },
   { path: 'root', component: RootContainerComponent, children: [
       { path: 'dashboard', component: DashboardComponent, outlet: 'rootContainer', children: [
           { path: 'items', component: ItemsViewComponent, outlet: 'dashboardBody' },
-          { path: 'address-register', component: AddressRegisterComponent, outlet: 'dashboardBody', canActivate: [PersonalityService] },
+          { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody',
+            /*canActivate: [PersonalityService]*/ },
+          { path: 'address-register', component: AddressRegisterComponent, outlet: 'dashboardBody',
+            canActivate: [PersonalityService] },
       ]},
   ]},
 ];

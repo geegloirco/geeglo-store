@@ -5,6 +5,7 @@ import ir.geeglo.dev.store.business.KavenegarBusiness;
 import ir.geeglo.dev.store.data.entity.*;
 import ir.geeglo.dev.store.data.service.UserService;
 import ir.geeglo.dev.store.model.ResponseModel;
+import ir.geeglo.dev.store.model.UserInfoModel;
 import ir.geeglo.dev.store.model.UserLoginInfoModel;
 import ir.geeglo.dev.store.model.UserModel;
 import ir.piana.dev.core.annotation.*;
@@ -150,6 +151,15 @@ public class AuthorizeHandler {
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, new UserModel(null, null,
                         session.getSessionKey(), cartEntity.getItems())));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER)
+    @Path("user-info")
+    public static PianaResponse getUserInfo(@SessionParam Session session) {
+        UserEntity userEntity = (UserEntity) session.getExistance();
+        UserInfoModel userInfoModel = new UserInfoModel(userEntity);
+        return new PianaResponse(Status.OK,
+                new ResponseModel(0, userInfoModel));
     }
 
     @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
