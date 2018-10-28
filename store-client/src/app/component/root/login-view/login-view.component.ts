@@ -13,8 +13,8 @@ export class LoginViewComponent implements OnInit {
   loadWaited = false;
 
   isLoggedIn = false;
-  mobileNo: string = "";
-  password: string = "";
+  mobileNo: string = "09391366128";
+  password: string = "123456";
   registerPass = "";
   registerPass2 = "";
   registerMobileNo = "";

@@ -1,6 +1,8 @@
 package ir.geeglo.dev.store.model;
 
+import ir.geeglo.dev.store.GeegloSpringServiceProvider;
 import ir.geeglo.dev.store.data.entity.AddressEntity;
+import ir.geeglo.dev.store.data.entity.UserEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -99,5 +101,18 @@ public class AddressModel {
 
     public void setPostCode(String postCode) {
         this.postCode = postCode;
+    }
+
+
+    public static void main(String[] args) {
+        UserEntity userEntity = GeegloSpringServiceProvider.getUserService().selectByMobile("09391366128");
+        AddressEntity addressEntity = new AddressEntity();
+        addressEntity.setTitle("title");
+        addressEntity.setDetail("detail");
+        addressEntity.setLongitude(52d);
+        addressEntity.setLatitude(35d);
+        addressEntity.setUserEntity(userEntity);
+        GeegloSpringServiceProvider.getAddressService().save(addressEntity);
+        System.out.println(addressEntity.getId());
     }
 }

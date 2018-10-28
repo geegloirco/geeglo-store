@@ -18,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response.Status;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -158,14 +159,32 @@ public class AuthorizeHandler {
     public static PianaResponse getUserInfo(@SessionParam Session session) {
         UserEntity userEntity = (UserEntity) session.getExistance();
         UserInfoModel userInfoModel = new UserInfoModel(userEntity);
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("user-info", userInfoModel);
+        map.put("addresses", userEntity.getAddressEntities());
         return new PianaResponse(Status.OK,
-                new ResponseModel(0, userInfoModel));
+                new ResponseModel(0, map));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
+    @Path("update-user-info")
+    public static PianaResponse updateUserInfo(
+            @SessionParam Session session,
+            @BodyObjectParam UserInfoModel model) {
+        UserEntity userEntity = (UserEntity) session.getExistance();
+        UserInfoEntity userInfo = userEntity.getUserInfos().get(0);
+        userInfo.setFirstName(model.getFirstName());
+        userInfo.setLastName(model.getLastName());
+        userInfo.setNationalCode(model.getNationalCode());
+        GeegloSpringServiceProvider.getUserService().update(userEntity);
+        return new PianaResponse(Status.OK,
+                new ResponseModel(0, model));
     }
 
     @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
     @Path("register-address")
-    public static PianaResponse registerAddress(@SessionParam Session session,
-                                                @BodyObjectParam Map map) {
+    public static PianaResponse registerAddress(
+            @SessionParam Session session, @BodyObjectParam Map map) {
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setTitle(String.valueOf(map.get("title")));
         addressEntity.setDetail((String)map.get("detail"));
@@ -174,10 +193,51 @@ public class AuthorizeHandler {
         addressEntity.setPhoneNumber((String) map.get("phoneNumber"));
         addressEntity.setPostCode((String) map.get("postCode"));
         UserEntity existance = (UserEntity) session.getExistance();
-        existance.addAddress(addressEntity);
-        GeegloSpringServiceProvider.getUserService().update(existance);
+        existance.addAddressEntity(addressEntity);
+//        addressEntity.setUserEntity(existance);
+//        GeegloSpringServiceProvider.getUserService().update(existance);
+        GeegloSpringServiceProvider.getAddressService().save(addressEntity);
         return new PianaResponse(Status.OK,
-                new ResponseModel(0, null));
+                new ResponseModel(0, addressEntity));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
+    @Path("update-address")
+    public static PianaResponse updateAddress(@SessionParam Session session,
+                                                @BodyObjectParam Map map) {
+        UserEntity existance = (UserEntity) session.getExistance();
+        for(AddressEntity addressEntity : existance.getAddressEntities()) {
+            if(addressEntity.getId() == Integer.parseInt(String.valueOf(map.get("id")))) {
+                addressEntity.setTitle(String.valueOf(map.get("title")));
+                addressEntity.setDetail((String)map.get("detail"));
+                addressEntity.setLatitude((Double) map.get("latitude"));
+                addressEntity.setLongitude((Double) map.get("longitude"));
+                addressEntity.setPhoneNumber((String) map.get("phoneNumber"));
+                addressEntity.setPostCode((String) map.get("postCode"));
+                GeegloSpringServiceProvider.getAddressService().update(addressEntity);
+                return new PianaResponse(Status.OK,
+                        new ResponseModel(0, addressEntity));
+            }
+        }
+        return new PianaResponse(Status.OK,
+                new ResponseModel(1, null));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER, httpMethod = "POST")
+    @Path("remove-address")
+    public static PianaResponse removeAddress(@SessionParam Session session,
+                                              @BodyObjectParam Map map) {
+        UserEntity existance = (UserEntity) session.getExistance();
+        for(AddressEntity addressEntity : existance.getAddressEntities()) {
+            if(addressEntity.getId() == Integer.parseInt(String.valueOf(map.get("id")))) {
+                GeegloSpringServiceProvider.getAddressService().delete(addressEntity);
+                existance.getAddressEntities().remove(addressEntity);
+                return new PianaResponse(Status.OK,
+                        new ResponseModel(0, null));
+            }
+        }
+        return new PianaResponse(Status.OK,
+                new ResponseModel(1, null));
     }
 
     private static OpenCartEntity createCartEntityIfNotExist(Session session) {

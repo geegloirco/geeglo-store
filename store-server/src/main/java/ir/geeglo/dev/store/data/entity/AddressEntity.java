@@ -1,5 +1,7 @@
 package ir.geeglo.dev.store.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,7 @@ public class AddressEntity {
     private String detail;
     private String phoneNumber;
     private String postCode;
-    private List<UserEntity> userEntities = new ArrayList<>();
-
+    private UserEntity userEntity;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,12 +112,14 @@ public class AddressEntity {
         return Objects.hash(id, title, latitude, longitude, detail, phoneNumber, postCode);
     }
 
-    @ManyToMany(mappedBy = "addressEntities")
-    public List<UserEntity> getUserEntities() {
-        return userEntities;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public void setUserEntities(List<UserEntity> userEntities) {
-        this.userEntities = userEntities;
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }

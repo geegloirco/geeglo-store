@@ -245,16 +245,78 @@ export class PersonalityService implements CanActivate {
     return ob;
   }
 
-  registerAddress(address): Observable<boolean> {
+  updateUserInfo(userInfo): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+    // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
+
+    let ob = new Observable<object>(observer => {
+      this.http.post<object>(this.serverInfo.getServerBaseUrl() + "authorize/update-user-info",
+        {'firstName': userInfo['firstName'], 'lastName': userInfo['lastName'], 'nationalCode': userInfo['nationalCode']},
+        {headers: headers})
+        .subscribe(res => {
+          if(res['status'] == 0) {
+            observer.next(res['entity']);
+          } else
+            observer.error(false);
+        }, err => {
+          console.log(err);
+          observer.error(err);
+        });
+    });
+    return ob;
+  }
+
+  registerAddress(address): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+    // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
+
+    let ob = new Observable<object>(observer => {
+      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address", address,{headers: headers})
+        .subscribe(res => {
+          if(res['status'] == 0) {
+            observer.next(res['entity']);
+          } else
+            observer.error(false);
+        }, err => {
+          console.log(err);
+          observer.error(err);
+        });
+    });
+    return ob;
+  }
+
+  removeAddress(address): Observable<boolean> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.sessionKey);
     // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
 
     let ob = new Observable<boolean>(observer => {
-      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address", address,{headers: headers})
+      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/remove-address", address,{headers: headers})
         .subscribe(res => {
           if(res['status'] == 0) {
             observer.next(true);
+          } else
+            observer.error(false);
+        }, err => {
+          console.log(err);
+          observer.error(err);
+        });
+    });
+    return ob;
+  }
+
+  updateAddress(address): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+    // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
+
+    let ob = new Observable<object>(observer => {
+      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/update-address", address,{headers: headers})
+        .subscribe(res => {
+          if(res['status'] == 0) {
+            observer.next(res['entity']);
           } else
             observer.error(false);
         }, err => {
@@ -280,6 +342,7 @@ export class PersonalityService implements CanActivate {
 
   getItems(): object[] {
     let items = [];
+    console.log(this.cart);
     this.cart.forEach((value: object, key: string) => {
       items.push(value);
     });
@@ -312,6 +375,30 @@ export class PersonalityService implements CanActivate {
         }, err => {
           observer.error(err);
         });
+    });
+    return ob;
+  }
+
+  registerCart(): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey)
+      .append('Content-Type', 'application/json; charset=utf-8');
+
+    // Todo: send the message _after_ fetching the Third Parties
+    let ob = new Observable<object>(observer => {
+      this.http.get<object>(this.serverInfo.getServerBaseUrl() + 'store/cart/register-cart',
+        {headers: headers}
+      ).subscribe(res => {
+        if(res['status'] === 0) {
+          this.cart = new Map();
+          this.cartChangedInfluencedServer.next(this.cart);
+          observer.next(this.cart);
+        } else {
+          observer.error(res['entity']);
+        }
+      }, err => {
+        observer.error(err);
+      });
     });
     return ob;
   }

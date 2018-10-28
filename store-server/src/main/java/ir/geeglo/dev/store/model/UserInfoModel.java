@@ -14,7 +14,7 @@ public class UserInfoModel {
     private String firstName;
     private String lastName;
     private String nationalCode;
-    private List<AddressModel> addresses;
+//    private List<AddressModel> addresses;
 
     public UserInfoModel() {
 
@@ -27,7 +27,7 @@ public class UserInfoModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalCode = nationalCode;
-        this.addresses = addresses;
+//        this.addresses = addresses;
     }
 
     public UserInfoModel(
@@ -35,10 +35,10 @@ public class UserInfoModel {
         this.firstName = userEntity.getUserInfos().get(0).getFirstName();
         this.lastName = userEntity.getUserInfos().get(0).getLastName();
         this.nationalCode = userEntity.getUserInfos().get(0).getNationalCode();
-        this.addresses = new ArrayList<>();
-        for(AddressEntity addressEntity : userEntity.getAddressEntities()) {
-            this.addresses.add(new AddressModel(addressEntity));
-        }
+//        this.addresses = new ArrayList<>();
+//        for(AddressEntity addressEntity : userEntity.getAddressEntities()) {
+//            this.addresses.add(new AddressModel(addressEntity));
+//        }
     }
 
     public String getFirstName() {
@@ -65,11 +65,11 @@ public class UserInfoModel {
         this.nationalCode = nationalCode;
     }
 
-    public List<AddressModel> getAddresses() {
-        return addresses;
-    }
+//    public List<AddressModel> getAddresses() {
+//        return addresses;
+//    }
 
-    public void setAddresses(List<AddressModel> addresses) {
-        this.addresses = addresses;
-    }
+//    public void setAddresses(List<AddressModel> addresses) {
+//        this.addresses = addresses;
+//    }
 }

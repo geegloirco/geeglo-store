@@ -48,15 +48,16 @@ ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 create table address (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
   title VARCHAR(60) NOT NULL,
   latitude DOUBLE,
   longitude DOUBLE,
   detail VARCHAR(255),
   phone_number VARCHAR(8),
-  post_code VARCHAR(10)
+  post_code VARCHAR(10),
+  CONSTRAINT fk_address_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 
 create table user (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -92,14 +93,6 @@ create table user_location (
 );
 ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-create table user_address (
-  user_id INT NOT NULL,
-  address_id INT NOT NULL,
-  CONSTRAINT fk_user_address_user FOREIGN KEY (user_id) REFERENCES user (id),
-  CONSTRAINT fk_user_addresss_address FOREIGN KEY (address_id) REFERENCES address (id)
-);
-ALTER TABLE user_address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 create table item (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(128) NOT NULL,
@@ -115,7 +108,9 @@ create table cart (
   user_id INT NOT NULL,
   creation_time TIMESTAMP,
   items TEXT,
+  register_time TIMESTAMP,
   is_paid BOOLEAN DEFAULT FALSE,
+  is_recieved BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 ALTER TABLE cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;

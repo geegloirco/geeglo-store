@@ -3,6 +3,7 @@ package ir.geeglo.dev.store.rest;
 import ir.geeglo.dev.store.GeegloSpringServiceProvider;
 import ir.geeglo.dev.store.data.entity.CartEntity;
 import ir.geeglo.dev.store.data.entity.OpenCartEntity;
+import ir.geeglo.dev.store.data.entity.UserEntity;
 import ir.geeglo.dev.store.model.ItemModel;
 import ir.geeglo.dev.store.model.ResponseModel;
 import ir.piana.dev.core.annotation.*;
@@ -14,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 
 /**
  * @author Mohammad Rahmati, 10/15/2018
@@ -42,5 +44,21 @@ public class CartHandler {
         }
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, itemModel));
+    }
+
+    @MethodHandler(requiredRole = RoleType.USER)
+    @Path("register-cart")
+    public static PianaResponse registerCart(@SessionParam Session session) {
+        OpenCartEntity openCartEntity = (OpenCartEntity) session.getObject("cart");
+        CartEntity cartEntity = new CartEntity(openCartEntity);
+        UserEntity existance = (UserEntity) session.getExistance();
+        existance.addCartEntity(cartEntity);
+
+        GeegloSpringServiceProvider.getCartService().save(cartEntity);
+        openCartEntity.setItems(new LinkedHashMap());
+        openCartEntity.setCreationTime(new Timestamp(System.currentTimeMillis()));
+        GeegloSpringServiceProvider.getOpenCartService().update(openCartEntity);
+        return new PianaResponse(Response.Status.OK,
+                new ResponseModel(0, openCartEntity));
     }
 }

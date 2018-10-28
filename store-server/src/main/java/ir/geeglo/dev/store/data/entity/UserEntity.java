@@ -115,7 +115,7 @@ public class UserEntity {
         return Objects.hash(id, username, gmail, mobile, password, enterDate, image);
     }
 
-    @OneToMany(mappedBy = "userByUserId")
+    @OneToMany(mappedBy = "userByUserId", cascade = CascadeType.ALL)
     public List<UserInfoEntity> getUserInfos() {
         return userInfos;
     }
@@ -131,6 +131,11 @@ public class UserEntity {
 
     public void setCartEntities(List<CartEntity> cartEntities) {
         this.cartEntities = cartEntities;
+    }
+
+    public void addCartEntity(CartEntity cartEntity) {
+        cartEntity.setUserEntity(this);
+        this.cartEntities.add(cartEntity);
     }
 
     @ManyToMany(cascade = {
@@ -159,14 +164,7 @@ public class UserEntity {
         locationEntity.getUserEntities().remove(this);
     }
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "user_address",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id")
-    )
+    @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL})
     @Mutable
     public List<AddressEntity> getAddressEntities() {
         return addressEntities;
@@ -176,13 +174,8 @@ public class UserEntity {
         this.addressEntities = addressEntities;
     }
 
-    public void addAddress(AddressEntity addressEntity) {
-        addressEntities.add(addressEntity);
-        addressEntity.getUserEntities().add(this);
-    }
-
-    public void removeAddress(AddressEntity addressEntity) {
-        locationEntities.remove(addressEntity);
-        addressEntity.getUserEntities().remove(this);
+    public void addAddressEntity(AddressEntity addressEntity) {
+        addressEntity.setUserEntity(this);
+        this.addressEntities.add(addressEntity);
     }
 }

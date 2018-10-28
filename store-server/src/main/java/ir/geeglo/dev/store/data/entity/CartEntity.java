@@ -17,7 +17,18 @@ public class CartEntity {
     private UserEntity userEntity;
     private Timestamp creationTime;
     private Map items;
+    private Timestamp registerTime;
     private boolean paid;
+    private boolean recieved;
+
+    public CartEntity() {
+    }
+
+    public CartEntity(OpenCartEntity openCartEntity) {
+        this.setItems(openCartEntity.getItems());
+        this.setCreationTime(openCartEntity.getCreationTime());
+        this.setRegisterTime(new Timestamp(System.currentTimeMillis()));
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +62,16 @@ public class CartEntity {
     }
 
     @Basic
+    @Column(name = "register_time", nullable = false)
+    public Timestamp getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(Timestamp registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    @Basic
     @Column(name = "is_paid")
     public boolean isPaid() {
         return paid;
@@ -58,6 +79,16 @@ public class CartEntity {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    @Basic
+    @Column(name = "is_recieved")
+    public boolean isRecieved() {
+        return paid;
+    }
+
+    public void setRecieved(boolean recieved) {
+        this.recieved = recieved;
     }
 
     @Override

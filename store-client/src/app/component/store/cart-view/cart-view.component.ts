@@ -26,7 +26,10 @@ export class CartViewComponent implements OnInit {
 
   ngOnInit() {
     this.personalityService.afterCartChangedInfluencedServer().subscribe(res => {
+      console.log("cart view");
       this.items = this.personalityService.getItems();
+      console.log(this.items);
+      console.log(res);
       this.totalPrice = 0;
       for(let i = 0; i< this.items.length; i++) {
         this.totalPrice += this.items[i]['price'] * this.items[i]['count'];
@@ -36,8 +39,14 @@ export class CartViewComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, {}).result.then((result) => {
+      console.log('register cart');
+      console.log(result);
       if(result === 1) {
-      } else if (result === 2) {
+        this.personalityService.registerCart().subscribe(res => {
+
+        }, err => {
+
+        });
       }
     }, (reason) => {
       if (reason === ModalDismissReasons.ESC) {

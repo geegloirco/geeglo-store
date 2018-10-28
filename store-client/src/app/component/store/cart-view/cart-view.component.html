@@ -40,8 +40,9 @@
     </div>
     <button type="button" class="btn btn-outline-dark"
             *ngIf="personalityService.isLoggedIn() && items.length > 0"
-            (click)="modal.close('Save click')" >ثبت سفارش</button>
-    <button type="button" class="btn btn-outline-dark mr-2" placement="top"
+            (click)="modal.close(1)" >ثبت سفارش</button>
+    <button type="button" class="btn btn-outline-dark mr-2"
+            placement="top"
             *ngIf="!personalityService.isLoggedIn() && items.length > 0"
             ngbPopover="ابتدا وارد حساب کاربری خود شوید." >
       ثبت سفارش

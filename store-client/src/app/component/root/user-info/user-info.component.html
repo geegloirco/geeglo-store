@@ -1,7 +1,11 @@
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin: 30px 1px 15px;">
+    <div class="col-md-12" style="margin: 0px">
+      <label style="margin: 0px;">مشخصات فردی</label>
+    </div>
+  </div>
+  <div class="row" style="border: 2px gray solid; border-radius: 5px; padding: 20px 0px; margin: 0px 1px;">
     <div class="col-md-12">
-      <div class="jumbotron">
         <div class="form-row">
           <div class="col-md-6 col-sm-12">
             <label for="inp-first-name">نام</label>
@@ -21,48 +25,58 @@
                    [(ngModel)]="userInfoModel.nationalCode"
                    class="form-control">
           </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-row">
+          <button class="btn btn-outline-success m-2" (click)="userInfoRegister()">ثبت</button>
+          <button class="btn btn-outline-danger m-2" (click)="userInfoCancel()">انصراف</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <label>آدرس ها</label>
+  <div class="row" style="margin: 30px 1px 15px;">
+    <div class="col-md-12" style="margin: 0px">
+      <label style="margin: 0px;">آدرس ها</label>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6 col-sm-12">
-      <ng-template ngIf="userInfoModel['addresses'].length > 0">
-        <ng-template ngFor let-address [ngForOf]="userInfoModel.addresses">
-          <button type="button" class="btn btn-outline-primary m-2" (click)="toggleAddressCollapseMap(address)"
-                  [attr.aria-expanded]="!addressCollapseMap[address['id']]" aria-controls="collapseExample">
+  <div class="row" style="padding: 20px 0px; margin: 0px 1px;">
+    <div class="col-md-12 col-sm-12">
+      <ng-template ngIf="addresses.length > 0">
+        <ng-template ngFor let-address [ngForOf]="addresses">
+          <button type="button" class="btn m-2"
+                  [class.btn-success]="addressSelectedMap[address['id']]"
+                  [class.btn-outline-success]="!addressSelectedMap[address['id']]"
+                  (click)="toggleAddressCollapseMap(address)">
             {{address['title']}}
           </button>
-          <div id="collapseExample" [ngbCollapse]="addressCollapseMap[address['id']]">
-            <div class="card">
-              <div class="card-body">
-                <p>{{address['detail']}}</p>
-              </div>
-            </div>
-          </div>
         </ng-template>
       </ng-template>
+      <button type="button" class="btn btn-outline-success m-2"
+              [class.btn-success]="addressSelectedMap[0]"
+              [class.btn-outline-success]="!addressSelectedMap[0]"
+              (click)="createNewAddress()">
+        آدرس جدید
+      </button>
     </div>
+  </div>
+  <div class="row" *ngIf="selected"
+       style="border: 2px gray solid; border-radius: 5px; padding: 20px 0px; margin: 0px 1px;">
     <div class="col-md-6 col-sm-12">
       <aol-map [width]="'100%'" [height]="'300px'" (onClick)="mapOnClick($event)">
         <aol-interaction-default></aol-interaction-default>
         <aol-view [zoom]="15">
-          <aol-coordinate [x]="51.33754394892479" [y]="35.699634208435455" [srid]="'EPSG:4326'"></aol-coordinate>
+          <aol-coordinate *ngIf="!addressSelectedMap[0]" [x]="selected['longitude']" [y]="selected['latitude']" [srid]="'EPSG:4326'"></aol-coordinate>
+          <aol-coordinate *ngIf="addressSelectedMap[0]" [x]="51.33754394892479" [y]="35.699634208435455" [srid]="'EPSG:4326'"></aol-coordinate>
         </aol-view>
         <aol-layer-tile>
           <aol-source-osm></aol-source-osm>
         </aol-layer-tile>
 
-        <aol-layer-vector [opacity]="opacity" *ngIf="selectedLocation">
+        <aol-layer-vector [opacity]="opacity" *ngIf="selected">
           <aol-source-vector>
-            <aol-feature (onSingleClick)="console.log('click')">
+            <aol-feature>
               <aol-geometry-point>
-                <aol-coordinate [x]="selectedLocation['x']" [y]="selectedLocation['y']" [srid]="'EPSG:4326'"></aol-coordinate>
+                <aol-coordinate [x]="selected['longitude']" [y]="selected['latitude']" [srid]="'EPSG:4326'"></aol-coordinate>
               </aol-geometry-point>
               <aol-style>
                 <aol-style-icon
@@ -74,8 +88,8 @@
                   [offsetOrigin]="'top-left'">
                 </aol-style-icon>
                 <!--<aol-style-circle [radius]="10">-->
-                  <!--<aol-style-stroke [color]="'black'" [width]="2"></aol-style-stroke>-->
-                  <!--<aol-style-fill [color]="'green'"></aol-style-fill>-->
+                <!--<aol-style-stroke [color]="'black'" [width]="2"></aol-style-stroke>-->
+                <!--<aol-style-fill [color]="'green'"></aol-style-fill>-->
                 <!--</aol-style-circle>-->
               </aol-style>
             </aol-feature>
@@ -84,8 +98,51 @@
 
       </aol-map>
       <!--<agm-map [latitude]="lat" [longitude]="lng">-->
-        <!--<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>-->
+      <!--<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>-->
       <!--</agm-map>-->
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="form-row">
+        <div class="col-md-6 col-sm-12">
+          <label for="inp-address-title">عنوان</label>
+          <input type="text" id="inp-address-title"
+                 [(ngModel)]="selected['title']"
+                 class="form-control">
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="inp-address-detail">جزییات آدرس</label>
+          <input type="text" id="inp-address-detail"
+                 [(ngModel)]="selected['detail']"
+                 class="form-control">
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="inp-address-phone">شماره تماس</label>
+          <input type="text" id="inp-address-phone"
+                 [(ngModel)]="selected['phoneNumber']"
+                 class="form-control">
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label for="inp-address-post-code">کد پستی</label>
+          <input type="text" id="inp-address-post-code"
+                 [(ngModel)]="selected['postCode']"
+                 class="form-control">
+        </div>
+        <div class="col-md-12">
+          <button class="btn btn-outline-success m-2"
+                  (click)="addressChangeOk()">
+            <span *ngIf="!addressSelectedMap[0]">ثبت تغییرات</span>
+            <span *ngIf="addressSelectedMap[0]">ذخیره</span>
+          </button>
+          <button class="btn btn-outline-success m-2"
+                  *ngIf="!addressSelectedMap[0]"
+                  (click)="removeAddress()">حذف</button>
+          <button class="btn btn-outline-success m-2"
+                  (click)="addressChangeCancel()">
+            <span *ngIf="!addressSelectedMap[0]">بازگشت تغییرات</span>
+            <span *ngIf="addressSelectedMap[0]">انصراف</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
