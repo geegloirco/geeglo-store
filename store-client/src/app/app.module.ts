@@ -14,6 +14,7 @@ import {MsgsysService} from './service/msgsys/msgsys.service';
 import {PersonalityService} from "./service/personality/personality.service";
 import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 export function startupServiceFactory(personalityService: PersonalityService): Function {
   return () => personalityService.init();
@@ -31,6 +32,7 @@ export function startupServiceFactory(personalityService: PersonalityService): F
     AppRoutingModule,
     RootModule,
     StoreModule,
+    LeafletModule.forRoot()
   ],
   providers: [
     RootContainerService,

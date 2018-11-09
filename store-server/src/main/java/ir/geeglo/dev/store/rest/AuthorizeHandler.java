@@ -197,6 +197,7 @@ public class AuthorizeHandler {
 //        addressEntity.setUserEntity(existance);
 //        GeegloSpringServiceProvider.getUserService().update(existance);
         GeegloSpringServiceProvider.getAddressService().save(addressEntity);
+
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, addressEntity));
     }
@@ -230,8 +231,9 @@ public class AuthorizeHandler {
         UserEntity existance = (UserEntity) session.getExistance();
         for(AddressEntity addressEntity : existance.getAddressEntities()) {
             if(addressEntity.getId() == Integer.parseInt(String.valueOf(map.get("id")))) {
-                GeegloSpringServiceProvider.getAddressService().delete(addressEntity);
-                existance.getAddressEntities().remove(addressEntity);
+                existance.removeAddressEntity(addressEntity);
+                GeegloSpringServiceProvider.getUserService().update(existance);
+//                existance.getAddressEntities().remove(addressEntity);
                 return new PianaResponse(Status.OK,
                         new ResponseModel(0, null));
             }

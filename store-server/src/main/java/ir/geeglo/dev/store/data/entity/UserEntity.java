@@ -178,4 +178,8 @@ public class UserEntity {
         addressEntity.setUserEntity(this);
         this.addressEntities.add(addressEntity);
     }
+
+    public void removeAddressEntity(AddressEntity addressEntity) {
+        this.addressEntities.remove(addressEntity);
+    }
 }

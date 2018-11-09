@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
-import * as ol from 'openlayers';
-import {MsgsysService} from "../../../service/msgsys/msgsys.service";
+
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {MsgsysService} from "../../../service/msgsys/msgsys.service";
+import {latLng, marker, tileLayer} from "leaflet";
 
 @Component({
   selector: 'user-info',
@@ -18,6 +19,20 @@ export class UserInfoComponent implements OnInit {
 
   addresses = null;
   addressSelectedMap = {};
+  selected = null;
+  selectedOriginal = null;
+  selectedLocation = {};
+
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
+    ],
+    zoom: 12,
+    center: latLng(35.679966, 51.4)
+  };
+
+  layers = [
+  ];
 
   constructor(
     private modalService: NgbModal,
@@ -32,22 +47,6 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-  userInfoRegister() {
-    this.loadWaited = true;
-    this.personalityService.updateUserInfo(this.userInfoModel).subscribe(res => {
-      this.loadWaited = false;
-      this.userInfoModel = res;
-      this.userClone = JSON.parse(JSON.stringify(this.userInfoModel));
-
-    }, err => {
-      this.loadWaited = false;
-    });
-  }
-
-  userInfoCancel() {
-    this.userInfoModel = this.userClone;
-  }
-
   // address = {
   //   'title': '',
   //   'detail': '',
@@ -57,17 +56,23 @@ export class UserInfoComponent implements OnInit {
   //   'postCode': '',
   // };
 
-
-
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {
       if(res === ServiceInitStatus.successed) {
         this.loadWaited = true;
         this.personalityService.getUserInfo().subscribe(res => {
+          // console.log(res);
           this.userInfoModel = res['user-info'];
+          // console.log(this.userInfoModel);
           this.userClone = JSON.parse(JSON.stringify(this.userInfoModel));
 
           this.addresses = res['addresses'];
+          console.log(this.addresses)
+          if(!this.addresses) {
+            console.log("is empty")
+            this.addresses = [];
+          }
+
           this.addressSelectedMap = {};
           for(let a of this.addresses) {
             this.addressSelectedMap[a['id']] = false;
@@ -81,21 +86,37 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
-  selected = null;
-  selectedOriginal = null;
+  userInfoRegister() {
+    this.loadWaited = true;
+    this.personalityService.updateUserInfo(this.userInfoModel).subscribe(res => {
+      this.loadWaited = false;
+      this.userInfoModel = res;
+      this.userClone = JSON.parse(JSON.stringify(this.userInfoModel));
+      this.messageService.add("با موفقیت انجام شد");
+    }, err => {
+      this.loadWaited = false;
+      this.messageService.add("با شکست مواجه شد");
+    });
+  }
+
+  userInfoCancel() {
+    this.userInfoModel = this.userClone;
+  }
 
   toggleAddressCollapseMap(address) {
-    console.log(address);
+    // console.log(address);
     let lastState = this.addressSelectedMap[address['id']];
     for (let key in this.addressSelectedMap) {
       this.addressSelectedMap[key] = false;
     }
     this.addressSelectedMap[address['id']] = !lastState;
-    console.log(this.addressSelectedMap)
+    // console.log(this.addressSelectedMap)
 
     if(this.addressSelectedMap[address['id']]) {
       this.selectedOriginal = address;
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
+      this.layers = [];
+      this.layers.push(marker([ this.selected['latitude'], this.selected['longitude'] ]))
     } else {
       this.selectedOriginal = null;
       this.selected = null;
@@ -104,16 +125,20 @@ export class UserInfoComponent implements OnInit {
   }
 
   addressChangeOk() {
-    if(this.addressSelectedMap[0]) {
+    if(!this.selected.latitude) {
+      this.messageService.add("موقعیت روی نقشه انتخاب شود");
+    } else if(this.addressSelectedMap[0]) {
       this.loadWaited = true;
       this.personalityService.registerAddress(this.selected).subscribe(res => {
         console.log(res);
-        this.userInfoModel['addresses'].push(res);
+        this.addresses.push(res);
         this.addressSelectedMap[res['id']] = false;
         this.toggleAddressCollapseMap(res);
+        this.messageService.add("موفق");
         this.loadWaited = false;
       }, err => {
         console.log(err);
+        this.messageService.add("نا موفق");
         this.loadWaited = false;
       });
     } else {
@@ -122,8 +147,8 @@ export class UserInfoComponent implements OnInit {
       } else {
         this.personalityService.updateAddress(this.selected).subscribe(res => {
           console.log(res);
-          let index = this.userInfoModel['addresses'].indexOf(this.selectedOriginal);
-          this.userInfoModel['addresses'][index] = res;
+          let index = this.addresses.indexOf(this.selectedOriginal);
+          this.addresses[index] = res;
           this.loadWaited = false;
         }, err => {
           console.log(err);
@@ -136,8 +161,8 @@ export class UserInfoComponent implements OnInit {
   removeAddress() {
     this.personalityService.removeAddress(this.selected).subscribe(res => {
       console.log(res);
-      let index = this.userInfoModel['addresses'].indexOf(this.selectedOriginal);
-      this.userInfoModel['addresses'].splice(index, 1);
+      let index = this.addresses.indexOf(this.selectedOriginal);
+      this.addresses.splice(index, 1);
       delete this.addressSelectedMap[this.selected['id']];
       console.log(this.selectedLocation);
       this.selected = null;
@@ -166,24 +191,22 @@ export class UserInfoComponent implements OnInit {
   //     this.overDetail = null;
   // }
 
-  selectedLocation = {};
-
   mapOnClick(evt) {
-    console.log('map clicked')
-    let c2 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    // let c2 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
     if(this.selected) {
-      this.selected['longitude'] = c2[0];
-      this.selected['latitude'] = c2[1];
-      // console.log(this.selectedLocation);
+      this.selected['latitude'] = evt['latlng']['lat'];
+      this.selected['longitude'] = evt['latlng']['lng'];
+      this.layers = [];
+      this.layers.push(marker([ this.selected['latitude'], this.selected['longitude'] ]))
     }
 
 
-    const map = evt.map;
-        const point = map.forEachFeatureAtPixel(evt.pixel,
-      function (feature, layer) {
-      console.log(feature.getGeometry().getKeys());
-      return feature;
-      });
+    // const map = evt.map;
+    //     const point = map.forEachFeatureAtPixel(evt.pixel,
+    //   function (feature, layer) {
+    //   console.log(feature.getGeometry().getKeys());
+    //   return feature;
+    //   });
   }
 
   createNewAddress() {

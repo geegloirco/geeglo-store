@@ -46,19 +46,6 @@ create table location (
 );
 ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-create table address (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  user_id INT NOT NULL,
-  title VARCHAR(60) NOT NULL,
-  latitude DOUBLE,
-  longitude DOUBLE,
-  detail VARCHAR(255),
-  phone_number VARCHAR(8),
-  post_code VARCHAR(10),
-  CONSTRAINT fk_address_user FOREIGN KEY (user_id) REFERENCES user (id)
-);
-ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 create table user (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(128),
@@ -84,6 +71,19 @@ create table user_info (
   CONSTRAINT fk_user_info_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 ALTER TABLE user_info CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create table address (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  title VARCHAR(60) NOT NULL,
+  latitude DOUBLE,
+  longitude DOUBLE,
+  detail VARCHAR(255),
+  phone_number VARCHAR(8),
+  post_code VARCHAR(10),
+  CONSTRAINT fk_address_user FOREIGN KEY (user_id) REFERENCES user (id)
+);
+ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 create table user_location (
   user_id INT NOT NULL,

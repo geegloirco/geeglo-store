@@ -12,11 +12,10 @@ import {ItemsViewComponent} from "./items-view/items-view.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
-import {StoreModule} from "../store/store.module";
-import {AgmCoreModule} from "@agm/core";
-import {AngularOpenlayersModule} from 'angular2-openlayers';
-import {AddressRegisterComponent} from "./address-register/address-register.component";
 import {UserInfoComponent} from "./user-info/user-info.component";
+
+import {StoreModule} from "../store/store.module";
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   imports: [
@@ -28,16 +27,12 @@ import {UserInfoComponent} from "./user-info/user-info.component";
     ChartsModule,
     NgbModule,
     StoreModule,
-    AngularOpenlayersModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDA7i_rPXzsehpFoE0O9Hxu28ycJ4s5qTI'
-    })
+    LeafletModule
   ],
   declarations: [
     DashboardComponent,
     ItemsViewComponent,
     UserInfoComponent,
-    AddressRegisterComponent,
     RootContainerComponent,
     MessagesComponent,
     NavbarViewComponent,
@@ -49,7 +44,6 @@ import {UserInfoComponent} from "./user-info/user-info.component";
     DashboardComponent,
     ItemsViewComponent,
     UserInfoComponent,
-    AddressRegisterComponent,
     NavbarViewComponent,
     LoginViewComponent,
   ],

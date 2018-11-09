@@ -272,8 +272,10 @@ export class PersonalityService implements CanActivate {
     headers = headers.append("Authorization", "Bearer " + this.sessionKey);
     // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
 
+    console.log(address)
     let ob = new Observable<object>(observer => {
-      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address", address,{headers: headers})
+      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address",
+        address,{headers: headers})
         .subscribe(res => {
           if(res['status'] == 0) {
             observer.next(res['entity']);

@@ -19,9 +19,11 @@ import java.util.Map;
 /**
  * @author Mohammad Rahmati, 10/13/2018
  */
-@PianaServer(serverCORS = @PianaServerCORS(allowOrigin = "*"),
+@PianaServer(
+        serverCORS = @PianaServerCORS(allowOrigin = "*"),
         serverSession = @PianaServerSession(sessionExpiredSecond = 9999),
-        sslServer = @SSLServer(keyStoreName = "keystore.jks", keyStorePassword = "password"))
+        sslServer = @SSLServer(keyStoreName = "keystore.jks", keyStorePassword = "password")
+)
 public class StoreAppMain {
     public static void main(String[] args) throws Exception {
         PianaAnnotationAppMain.start(new GrizzlyPianaHttpServer(), StoreAppMain.class);
