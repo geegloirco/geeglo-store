@@ -272,7 +272,7 @@ export class PersonalityService implements CanActivate {
     headers = headers.append("Authorization", "Bearer " + this.sessionKey);
     // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
 
-    console.log(address)
+    // console.log(address)
     let ob = new Observable<object>(observer => {
       this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/register-address",
         address,{headers: headers})
@@ -344,7 +344,7 @@ export class PersonalityService implements CanActivate {
 
   getItems(): object[] {
     let items = [];
-    console.log(this.cart);
+    // console.log(this.cart);
     this.cart.forEach((value: object, key: string) => {
       items.push(value);
     });

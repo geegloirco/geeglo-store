@@ -60,12 +60,15 @@
   <div class="row" *ngIf="selected"
        style="border: 2px gray solid; border-radius: 5px; padding: 20px 0px; margin: 0px 1px;">
     <div class="col-md-6 col-sm-12">
-      <div style="height: 300px;"
-           leaflet
-           (leafletClick)="mapOnClick($event)"
-           [leafletOptions]="options"
-           [leafletLayers]="layers">
-      </div>
+      <map-view></map-view>
+      <!--<div [style.height.px]="mapHeight"-->
+           <!--leaflet-->
+           <!--(leafletClick)="mapOnClick($event)"-->
+           <!--[(leafletCenter)]="mapCenter"-->
+           <!--[leafletOptions]="options"-->
+           <!--(leafletMapReady)="onMapReady($event)"-->
+           <!--[leafletLayers]="layers">-->
+      <!--</div>-->
     </div>
     <div class="col-md-6 col-sm-12">
       <div class="form-row">

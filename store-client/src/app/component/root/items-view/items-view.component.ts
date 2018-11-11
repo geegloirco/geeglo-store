@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
-import {ServiceInitStatus, PersonalityService, LoginStatus} from "../../../service/personality/personality.service";
+import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
+import {latLng, Map, tileLayer} from "leaflet";
 
 @Component({
   selector: 'items-view',
@@ -10,6 +11,7 @@ import {ServiceInitStatus, PersonalityService, LoginStatus} from "../../../servi
 })
 export class ItemsViewComponent implements OnInit {
   loadWaited = false;
+  items = [];
 
   constructor(
     private personalityService: PersonalityService,
@@ -17,8 +19,6 @@ export class ItemsViewComponent implements OnInit {
     private itemInfoService: ItemInfoService) {
     itemInfoService.init('store/item');
   }
-
-  items = [];
 
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {

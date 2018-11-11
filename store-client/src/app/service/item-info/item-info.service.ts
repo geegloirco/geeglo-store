@@ -27,7 +27,7 @@ export class ItemInfoService {
     let ob = new Observable<object[]>(observer => {
       this.http.get<object[]>(this.restUrl, {headers: headers})
         .subscribe(res => {
-          console.log(res);
+          // console.log(res);
           if(res['status'] === 0)
             observer.next(res['entity']);
           else

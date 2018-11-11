@@ -197,6 +197,7 @@ public class AuthorizeHandler {
 //        addressEntity.setUserEntity(existance);
 //        GeegloSpringServiceProvider.getUserService().update(existance);
         GeegloSpringServiceProvider.getAddressService().save(addressEntity);
+        GeegloSpringServiceProvider.getUserService().update(existance);
 
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, addressEntity));

@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MsgsysService} from "../../../service/msgsys/msgsys.service";
-import {latLng, marker, tileLayer} from "leaflet";
+import {latLng, Map, marker, tileLayer} from "leaflet";
+import {MapService} from "../../../service/map-service/map.service";
+import {MapViewComponent} from "../map-view/map-view.component";
 
 @Component({
   selector: 'user-info',
@@ -23,18 +25,9 @@ export class UserInfoComponent implements OnInit {
   selectedOriginal = null;
   selectedLocation = {};
 
-  options = {
-    layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-    ],
-    zoom: 12,
-    center: latLng(35.679966, 51.4)
-  };
-
-  layers = [
-  ];
-
   constructor(
+    public mapService: MapService,
+    private zone: NgZone,
     private modalService: NgbModal,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
@@ -46,15 +39,6 @@ export class UserInfoComponent implements OnInit {
       "addresses":[]
     }
   }
-
-  // address = {
-  //   'title': '',
-  //   'detail': '',
-  //   'latitude': '',
-  //   'longitude': '',
-  //   'phoneNumber': '',
-  //   'postCode': '',
-  // };
 
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {
@@ -104,7 +88,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   toggleAddressCollapseMap(address) {
-    // console.log(address);
+    console.log(address);
     let lastState = this.addressSelectedMap[address['id']];
     for (let key in this.addressSelectedMap) {
       this.addressSelectedMap[key] = false;
@@ -115,8 +99,7 @@ export class UserInfoComponent implements OnInit {
     if(this.addressSelectedMap[address['id']]) {
       this.selectedOriginal = address;
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
-      this.layers = [];
-      this.layers.push(marker([ this.selected['latitude'], this.selected['longitude'] ]))
+      this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
     } else {
       this.selectedOriginal = null;
       this.selected = null;
@@ -125,25 +108,34 @@ export class UserInfoComponent implements OnInit {
   }
 
   addressChangeOk() {
-    if(!this.selected.latitude) {
+    // console.log(this.mapService.getMarker())
+    // console.log(!this.mapService.getMarker())
+    // console.log(this.addressSelectedMap[0])
+    // if(!this.selected.latitude) {
+    if(!this.mapService.getMarker()) {
       this.messageService.add("موقعیت روی نقشه انتخاب شود");
     } else if(this.addressSelectedMap[0]) {
       this.loadWaited = true;
+      this.selected['latitude'] = this.mapService.getMarker().lat;
+      this.selected['longitude'] = this.mapService.getMarker().lng;
+      // console.log(this.selected)
       this.personalityService.registerAddress(this.selected).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.addresses.push(res);
         this.addressSelectedMap[res['id']] = false;
         this.toggleAddressCollapseMap(res);
         this.messageService.add("موفق");
         this.loadWaited = false;
       }, err => {
-        console.log(err);
+        // console.log(err);
         this.messageService.add("نا موفق");
         this.loadWaited = false;
       });
     } else {
+      this.selected['latitude'] = this.mapService.getMarker().lat;
+      this.selected['longitude'] = this.mapService.getMarker().lng;
       if(JSON.stringify(this.selectedOriginal) === JSON.stringify(this.selected)) {
-        console.log('no change');
+        // console.log('no change');
       } else {
         this.personalityService.updateAddress(this.selected).subscribe(res => {
           console.log(res);
@@ -160,21 +152,22 @@ export class UserInfoComponent implements OnInit {
 
   removeAddress() {
     this.personalityService.removeAddress(this.selected).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       let index = this.addresses.indexOf(this.selectedOriginal);
       this.addresses.splice(index, 1);
       delete this.addressSelectedMap[this.selected['id']];
-      console.log(this.selectedLocation);
+      // console.log(this.selectedLocation);
       this.selected = null;
       this.selectedOriginal = null;
       this.loadWaited = false;
-    }, err => {
+      }, err => {
       console.log(err);
       this.loadWaited = false;
     });
   }
 
   addressChangeCancel() {
+    this.mapService.defaultReset();
     this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
   }
 
@@ -191,23 +184,23 @@ export class UserInfoComponent implements OnInit {
   //     this.overDetail = null;
   // }
 
-  mapOnClick(evt) {
-    // let c2 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-    if(this.selected) {
-      this.selected['latitude'] = evt['latlng']['lat'];
-      this.selected['longitude'] = evt['latlng']['lng'];
-      this.layers = [];
-      this.layers.push(marker([ this.selected['latitude'], this.selected['longitude'] ]))
-    }
-
-
-    // const map = evt.map;
-    //     const point = map.forEachFeatureAtPixel(evt.pixel,
-    //   function (feature, layer) {
-    //   console.log(feature.getGeometry().getKeys());
-    //   return feature;
-    //   });
-  }
+  // mapOnClick(evt) {
+  //   // let c2 = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+  //   if(this.selected) {
+  //     this.selected['latitude'] = evt['latlng']['lat'];
+  //     this.selected['longitude'] = evt['latlng']['lng'];
+  //     this.layers = [];
+  //     this.layers.push(marker([ this.selected['latitude'], this.selected['longitude'] ]));
+  //     this.mapCenter = latLng(this.selected['latitude'], this.selected['longitude']);
+  //   }
+  //
+  //   // const map = evt.map;
+  //   //     const point = map.forEachFeatureAtPixel(evt.pixel,
+  //   //   function (feature, layer) {
+  //   //   console.log(feature.getGeometry().getKeys());
+  //   //   return feature;
+  //   //   });
+  // }
 
   createNewAddress() {
     let lastState = this.addressSelectedMap[0];
@@ -227,11 +220,16 @@ export class UserInfoComponent implements OnInit {
         'latitude': null,
       }
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
+      this.mapService.defaultReset();
+      // if(this.map) {
+      //   this.zone.run(() => {
+      //       setTimeout(() => {this.map.invalidateSize(true); console.log("invalidate")}, 1000);
+      //   });
+      // }
     } else {
       this.selectedOriginal = null;
       this.selected = null;
     }
 
   }
-
 }

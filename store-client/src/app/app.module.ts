@@ -15,9 +15,13 @@ import {PersonalityService} from "./service/personality/personality.service";
 import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {MapService} from "./service/map-service/map.service";
 
-export function startupServiceFactory(personalityService: PersonalityService): Function {
-  return () => personalityService.init();
+export function startupServiceFactory(personalityService: PersonalityService, mapService: MapService): Function {
+  return () => {
+    personalityService.init();
+    mapService.init();
+  }
 }
 
 @NgModule({
@@ -42,13 +46,14 @@ export function startupServiceFactory(personalityService: PersonalityService): F
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
-      deps: [PersonalityService],
+      deps: [PersonalityService, MapService],
       multi: true
     },
     WindowRef,
     MessageService,
     MsgsysService,
     ItemInfoService,
+    MapService,
   ],
   bootstrap: [BaseComponent]
 })
