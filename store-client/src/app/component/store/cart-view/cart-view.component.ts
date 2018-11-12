@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PersonalityService} from "../../../service/personality/personality.service";
+import {MessageService} from "../../../service/message/message.service";
 
 @Component({
   selector: 'cart-view',
@@ -20,7 +20,7 @@ export class CartViewComponent implements OnInit {
     public personalityService: PersonalityService,
     private serverInfo: ServerInfoService,
     private modalService: NgbModal,
-    private messageService: MsgsysService) {
+    private messageService: MessageService) {
     this.imagePrefix = this.serverInfo.getServerBaseUrl() + 'assets/image/item/';
   }
 

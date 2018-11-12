@@ -1,7 +1,8 @@
 /* MessagesComponent's private CSS styles */
 .notify-alert {
-  position:absolute !important;
-  z-index:1;
+  position:relative !important;
+  z-index:10000000000;
+  width: 400px !important;
 }
 
 .btn-notify {
@@ -13,13 +14,6 @@ h2 {
   color: red;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
-}
-body {
-  margin: 2em;
-}
-body, input[text], button {
-  color: crimson;
-  font-family: Cambria, Georgia;
 }
 
 button.clear {

@@ -3,10 +3,10 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {latLng, Map, marker, tileLayer} from "leaflet";
 import {MapService} from "../../../service/map-service/map.service";
 import {MapViewComponent} from "../map-view/map-view.component";
+import {MessageService} from "../../../service/message/message.service";
 
 @Component({
   selector: 'user-info',
@@ -31,7 +31,7 @@ export class UserInfoComponent implements OnInit {
     private modalService: NgbModal,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
-    public messageService: MsgsysService) {
+    public messageService: MessageService) {
     this.userInfoModel = {
       "firstName": '',
       "lastName": '',

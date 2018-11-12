@@ -3,6 +3,7 @@ import {RootContainerService} from '../root-container/root-container.component';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {ActivatedRoute} from '@angular/router';
 import {LoginStatus, PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
+import {MessageService} from "../../../service/message/message.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private personalityServiceper: PersonalityService,
+              public messageService: MessageService,
               private rootContainerService: RootContainerService,
               public serverInfo: ServerInfoService) {
     // console.log("dashboard constructor");

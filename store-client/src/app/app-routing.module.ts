@@ -6,7 +6,7 @@ import {ItemsViewComponent} from "./component/root/items-view/items-view.compone
 import {UserInfoComponent} from "./component/root/user-info/user-info.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:user-info))', pathMatch: 'full' },
+  { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:items))', pathMatch: 'full' },
   { path: 'root', component: RootContainerComponent, children: [
       { path: 'dashboard', component: DashboardComponent, outlet: 'rootContainer', children: [
           { path: 'items', component: ItemsViewComponent, outlet: 'dashboardBody' },

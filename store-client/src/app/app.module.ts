@@ -10,7 +10,6 @@ import {RootModule} from './component/root/root.module';
 import {ServerInfoService} from './service/server-info/server-info.service';
 import {RootContainerService, WindowRef} from './component/root/root-container/root-container.component';
 import {MessageService} from './service/message/message.service';
-import {MsgsysService} from './service/msgsys/msgsys.service';
 import {PersonalityService} from "./service/personality/personality.service";
 import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
@@ -51,7 +50,6 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
     },
     WindowRef,
     MessageService,
-    MsgsysService,
     ItemInfoService,
     MapService,
   ],

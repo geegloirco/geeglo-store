@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {LoginStatus, PersonalityService} from "../../../service/personality/personality.service";
-import {MsgsysService} from "../../../service/msgsys/msgsys.service";
+
 import {NgbModal, NgbModalConfig, NgbTabChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {MessageService} from "../../../service/message/message.service";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,7 @@ export class LoginViewComponent implements OnInit {
     private modalService: NgbModal,
     public serverInfo: ServerInfoService,
     private personalityService: PersonalityService,
-    private messageService: MsgsysService) {
+    private messageService: MessageService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }

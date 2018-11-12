@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {MsgsysService} from "../../../service/msgsys/msgsys.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
+import {MessageService} from "../../../service/message/message.service";
 
 @Component({
   selector: 'item-view',
@@ -23,7 +23,7 @@ export class ItemViewComponent implements OnInit {
     private personalityService: PersonalityService,
     private modalService: NgbModal,
     private serverInfo: ServerInfoService,
-    private messageService: MsgsysService) {
+    private messageService: MessageService) {
     this.imagePrefix = this.serverInfo.getServerBaseUrl() + 'assets/image/item/';
   }
 
@@ -60,7 +60,7 @@ export class ItemViewComponent implements OnInit {
         if(this.count !== this.item['count']) {
           this.loadWaited = true;
           this.personalityService.changeToCart(this.item, this.count).subscribe(res => {
-            // this.messageService.add("اضافه شد")
+            this.messageService.add("اضافه شد")
             this.item['count'] = res['count'];
             this.loadWaited = false;
           }, err => {
