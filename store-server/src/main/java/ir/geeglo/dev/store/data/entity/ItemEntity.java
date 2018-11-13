@@ -1,5 +1,7 @@
 package ir.geeglo.dev.store.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,6 +23,7 @@ public class ItemEntity {
     private Integer count;
     private String unit;
     private String image;
+    private ItemGroupEntity itemGroupEntity;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,5 +102,16 @@ public class ItemEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, count, price, unit, image);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "item_group_id", referencedColumnName = "id")
+    @JsonIgnore
+    public ItemGroupEntity getItemGroupEntity() {
+        return itemGroupEntity;
+    }
+
+    public void setItemGroupEntity(ItemGroupEntity itemGroupEntity) {
+        this.itemGroupEntity = itemGroupEntity;
     }
 }

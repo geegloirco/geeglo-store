@@ -29,22 +29,22 @@ create table city (
 );
 ALTER TABLE city CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-create table location (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  country_id INT NOT NULL,
-  province_id INT NOT NULL,
-  city_id INT NOT NULL,
-  title VARCHAR(60) NOT NULL,
-  latitude DOUBLE,
-  longitude DOUBLE,
-  address VARCHAR(255),
-  phone_number VARCHAR(8),
-  post_code VARCHAR(10),
-  CONSTRAINT fk_location_country FOREIGN KEY (country_id) REFERENCES country (id),
-  CONSTRAINT fk_location_province FOREIGN KEY (province_id) REFERENCES province (id),
-  CONSTRAINT fk_location_city FOREIGN KEY (city_id) REFERENCES city (id)
-);
-ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- create table location (
+--   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+--   country_id INT NOT NULL,
+--   province_id INT NOT NULL,
+--   city_id INT NOT NULL,
+--   title VARCHAR(60) NOT NULL,
+--   latitude DOUBLE,
+--   longitude DOUBLE,
+--   address VARCHAR(255),
+--   phone_number VARCHAR(8),
+--   post_code VARCHAR(10),
+--   CONSTRAINT fk_location_country FOREIGN KEY (country_id) REFERENCES country (id),
+--   CONSTRAINT fk_location_province FOREIGN KEY (province_id) REFERENCES province (id),
+--   CONSTRAINT fk_location_city FOREIGN KEY (city_id) REFERENCES city (id)
+-- );
+-- ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 create table user (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -85,21 +85,31 @@ create table address (
 );
 ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-create table user_location (
-  user_id INT NOT NULL,
-  location_id INT NOT NULL,
-  CONSTRAINT fk_user_location_user FOREIGN KEY (user_id) REFERENCES user (id),
-  CONSTRAINT fk_user_location_location FOREIGN KEY (location_id) REFERENCES location (id)
+-- create table user_location (
+--   user_id INT NOT NULL,
+--   location_id INT NOT NULL,
+--   CONSTRAINT fk_user_location_user FOREIGN KEY (user_id) REFERENCES user (id),
+--   CONSTRAINT fk_user_location_location FOREIGN KEY (location_id) REFERENCES location (id)
+-- );
+-- ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create table item_group (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(128) NOT NULL,
+  icon VARCHAR(128),
+  image VARCHAR(128)
 );
-ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE item_group CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 create table item (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  item_group_id INT NOT NULL,
   title VARCHAR(128) NOT NULL,
   price INT DEFAULT 0,
   count INT DEFAULT 0,
   unit VARCHAR(128),
-  image VARCHAR(128)
+  image VARCHAR(128),
+  CONSTRAINT fk_item_item_group FOREIGN KEY (item_group_id) REFERENCES item_group (id)
 );
 ALTER TABLE item CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -129,8 +139,16 @@ INSERT INTO province (country_id, title) VALUES (1, 'تهران');
 
 INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'تهران', '21');
 
-INSERT INTO item (title, price, unit, image) VALUES ('کالای 1', 3000, 'کیلوگرم', 'goods.png');
-INSERT INTO item (title, price, unit, image) VALUES ('کالای 2', 7000, 'لیتر', 'goods.png');
-INSERT INTO item (title, price, unit, image) VALUES ('کالای 3', 3800, 'عدد', 'goods.png');
-INSERT INTO item (title, price, unit, image) VALUES ('کالای 4', 4000, 'نیم کیلو', 'goods.png');
-INSERT INTO item (title, price, unit, image) VALUES ('کالای 5', 15000, 'جین', 'goods.png');
+select * from item_group;
+
+INSERT INTO item_group (title, image) VALUES ('سبزیجات', 'vegetable.png');
+INSERT INTO item_group (title, image) VALUES ('مرکبات', 'orange.png');
+INSERT INTO item_group (title, image) VALUES ('میوه', 'fruit.png');
+INSERT INTO item_group (title, image) VALUES ('صیفیچات', 'carrot.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image)
+VALUES (1, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
+(1, 'کالای 2', 7000, 'لیتر', 'goods.png'),
+(1, 'کالای 3', 3800, 'عدد', 'goods.png'),
+(1, 'کالای 4', 4000, 'نیم کیلو', 'goods.png'),
+(1, 'کالای 5', 15000, 'جین', 'goods.png');

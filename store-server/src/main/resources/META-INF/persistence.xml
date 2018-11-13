@@ -8,7 +8,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>ir.geeglo.dev.store.data.entity.CityEntity</class>
         <class>ir.geeglo.dev.store.data.entity.CountryEntity</class>
-        <class>ir.geeglo.dev.store.data.entity.LocationEntity</class>
+        <class>ir.geeglo.dev.store.data.entity.ItemGroupEntity</class>
         <class>ir.geeglo.dev.store.data.entity.AddressEntity</class>
         <class>ir.geeglo.dev.store.data.entity.ProvinceEntity</class>
         <class>ir.geeglo.dev.store.data.entity.UserEntity</class>

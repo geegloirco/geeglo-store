@@ -13,6 +13,7 @@ import {UserAddressViewComponent} from "./user-address-view/user-address-view.co
 import {MapViewComponent} from "./map-view/map-view.component";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {UserInfoViewComponent} from "./user-info-view/user-info-view.component";
+import {GroupViewComponent} from "./group-view/group-view.component";
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {UserInfoViewComponent} from "./user-info-view/user-info-view.component";
     MapViewComponent,
     UserAddressViewComponent,
     UserInfoViewComponent,
+    GroupViewComponent,
   ],
   providers: [
   ],
@@ -45,6 +47,7 @@ import {UserInfoViewComponent} from "./user-info-view/user-info-view.component";
     MapViewComponent,
     UserAddressViewComponent,
     UserInfoViewComponent,
+    GroupViewComponent,
   ],
   entryComponents: [
   ]

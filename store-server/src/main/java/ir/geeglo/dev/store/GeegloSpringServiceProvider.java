@@ -38,8 +38,8 @@ public class GeegloSpringServiceProvider {
         return applicationContext.getBean(CityService.class);
     }
 
-    public static LocationService getLocationService() {
-        return applicationContext.getBean(LocationService.class);
+    public static ItemGroupService getItemGroupService() {
+        return applicationContext.getBean(ItemGroupService.class);
     }
 
     public static AddressService getAddressService() {

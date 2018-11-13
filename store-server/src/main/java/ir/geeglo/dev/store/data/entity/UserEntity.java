@@ -22,7 +22,6 @@ public class UserEntity {
     private String image;
     private List<UserInfoEntity> userInfos;
     private List<CartEntity> cartEntities;
-    private List<LocationEntity> locationEntities;
     private List<AddressEntity> addressEntities;
 
     @Id
@@ -136,32 +135,6 @@ public class UserEntity {
     public void addCartEntity(CartEntity cartEntity) {
         cartEntity.setUserEntity(this);
         this.cartEntities.add(cartEntity);
-    }
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "user_location",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id")
-    )
-    public List<LocationEntity> getLocationEntities() {
-        return locationEntities;
-    }
-
-    public void setLocationEntities(List<LocationEntity> locationEntities) {
-        this.locationEntities = locationEntities;
-    }
-
-    public void addLocation(LocationEntity locationEntity) {
-        locationEntities.add(locationEntity);
-        locationEntity.getUserEntities().add(this);
-    }
-
-    public void removeLocation(LocationEntity locationEntity) {
-        locationEntities.remove(locationEntity);
-        locationEntity.getUserEntities().remove(this);
     }
 
     @OneToMany(mappedBy = "userEntity", cascade = {CascadeType.ALL})

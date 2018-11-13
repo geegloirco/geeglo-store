@@ -17,6 +17,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {MapService} from "./service/map-service/map.service";
 import {UserService} from "./service/user/user.service";
 import {AddressService} from "./service/address/address.service";
+import {GroupService} from "./service/group/group.service";
 
 export function startupServiceFactory(personalityService: PersonalityService, mapService: MapService): Function {
   return () => {
@@ -45,6 +46,7 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
     PersonalityService,
     UserService,
     AddressService,
+    GroupService,
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
