@@ -8,7 +8,6 @@ import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {MessagesComponent} from './messages/messages.component';
 import {ChartsModule} from 'ng2-charts';
-import {ItemsViewComponent} from "./items-view/items-view.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
@@ -32,7 +31,6 @@ import {MapViewComponent} from "./map-view/map-view.component";
   ],
   declarations: [
     DashboardComponent,
-    ItemsViewComponent,
     UserInfoComponent,
     RootContainerComponent,
     MessagesComponent,
@@ -44,7 +42,6 @@ import {MapViewComponent} from "./map-view/map-view.component";
   ],
   exports: [
     DashboardComponent,
-    ItemsViewComponent,
     UserInfoComponent,
     NavbarViewComponent,
     LoginViewComponent,

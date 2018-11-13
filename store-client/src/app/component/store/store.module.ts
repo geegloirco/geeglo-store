@@ -8,6 +8,8 @@ import {ItemViewComponent} from "./item-view/item-view.component";
 import {CartViewComponent} from "./cart-view/cart-view.component";
 import {RootModule} from "../root/root.module";
 import {LoadWaitComponent} from "./load-wait/load-wait.component";
+import {StoreViewComponent} from "./store-view/store-view.component";
+import {ItemsViewComponent} from "./items-view/items-view.component";
 
 
 @NgModule({
@@ -20,15 +22,19 @@ import {LoadWaitComponent} from "./load-wait/load-wait.component";
   ],
   declarations: [
     LoadWaitComponent,
+    ItemsViewComponent,
     ItemViewComponent,
     CartViewComponent,
+    StoreViewComponent,
   ],
   providers: [
   ],
   exports: [
     LoadWaitComponent,
     ItemViewComponent,
+    ItemsViewComponent,
     CartViewComponent,
+    StoreViewComponent,
   ],
   entryComponents: [
   ]

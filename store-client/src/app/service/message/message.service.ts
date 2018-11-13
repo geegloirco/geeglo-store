@@ -23,7 +23,7 @@ export class MessageService {
     this.appearMessage.next(msg);
     setTimeout(()=>{
       this.disappearMessage.next(id);
-    }, 1000000);
+    }, 3000);
   }
 
   remove(id) {

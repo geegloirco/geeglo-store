@@ -166,6 +166,11 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
+  addressRevert() {
+    this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
+    this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
+  }
+
   addressChangeCancel() {
     this.mapService.defaultReset();
     this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));

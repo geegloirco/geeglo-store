@@ -1,14 +1,11 @@
-<div *ngIf="messages.length" style="position:fixed; right: 20px;">
-  <div class="notify-alert">
-    <div *ngFor='let message of messages' >
-      <button type="button" class="btn-notify btn btn-link" (click)="messageService.remove(message['id'])">
-        <span >&times;</span>
-      </button>
-      <div  class="alert alert-warning alert-dismissible fade show" role="alert"
-            style="background-color: #d4edda; ">
-        {{message['message']}}
-      </div>
+<div class="notify-alert">
+  <div *ngFor='let message of messages' >
+    <button type="button" class="btn-notify btn btn-link" (click)="messageService.remove(message['id'])">
+      <span >&times;</span>
+    </button>
+    <div  class="alert alert-warning alert-dismissible fade show" role="alert"
+          style="background-color: #d4edda; ">
+      {{message['message']}}
     </div>
   </div>
-
 </div>

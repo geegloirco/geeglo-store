@@ -27,8 +27,6 @@ export class MapViewComponent implements OnInit {
     };
 
     this.mapService.afterChangeState(this.name).subscribe(res => {
-      // console.log("afterChangeState")
-      // console.log(res)
       this.mapCenter = res.center;
       this.layers = [];
       if(res.marker) {
