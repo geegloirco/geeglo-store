@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="row" style="padding: 20px 0px; margin: 0px 1px;">
+    <div class="col-md-12 col-sm-12">
+      <ng-template ngIf="addresses.length > 0">
+        <ng-template ngFor let-address [ngForOf]="addresses">
+          <button type="button" class="btn m-2"
+                  [class.btn-success]="addressSelectedMap[address['id']]"
+                  [class.btn-outline-success]="!addressSelectedMap[address['id']]"
+                  (click)="toggleAddressCollapseMap(address)">
+            {{address['title']}}
+          </button>
+        </ng-template>
+      </ng-template>
+      <button type="button" class="btn btn-outline-success m-2"
+              [class.btn-success]="addressSelectedMap[0]"
+              [class.btn-outline-success]="!addressSelectedMap[0]"
+              (click)="createNewAddress()">آدرس جدید</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <map-view></map-view>
+      <!--<div [style.height.px]="mapHeight"-->
+      <!--leaflet-->
+      <!--(leafletClick)="mapOnClick($event)"-->
+      <!--[(leafletCenter)]="mapCenter"-->
+      <!--[leafletOptions]="options"-->
+      <!--(leafletMapReady)="onMapReady($event)"-->
+      <!--[leafletLayers]="layers">-->
+      <!--</div>-->
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="form-row">
+        <div class="col-md-12 col-sm-12">
+          <label for="inp-address-title">عنوان</label>
+          <input type="text" id="inp-address-title"
+                 [(ngModel)]="selected['title']"
+                 class="form-control">
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <label for="inp-address-detail">جزییات آدرس</label>
+          <input type="text" id="inp-address-detail"
+                 [(ngModel)]="selected['detail']"
+                 class="form-control">
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <label for="inp-address-phone">شماره تماس</label>
+          <input type="text" id="inp-address-phone"
+                 [(ngModel)]="selected['phoneNumber']"
+                 class="form-control">
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <label for="inp-address-post-code">کد پستی</label>
+          <input type="text" id="inp-address-post-code"
+                 [(ngModel)]="selected['postCode']"
+                 class="form-control">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selected" style="padding: 20px 0px; margin: 0px 1px;">
+    <div class="col-md-12">
+      <button class="btn btn-outline-success m-2"
+              (click)="addressChangeOk()">
+        <span *ngIf="!addressSelectedMap[0]">ثبت تغییرات</span>
+        <span *ngIf="addressSelectedMap[0]">ذخیره</span>
+      </button>
+      <button class="btn btn-outline-success m-2"
+              *ngIf="!addressSelectedMap[0]"
+              (click)="removeAddress()">حذف</button>
+      <button class="btn btn-outline-success m-2"
+              *ngIf="!addressSelectedMap[0]"
+              (click)="addressRevert()">
+        <span >بازگشت تغییرات</span>
+      </button>
+      <button class="btn btn-outline-success m-2"
+              *ngIf="addressSelectedMap[0]"
+              (click)="addressChangeCancel()">
+        <span>انصراف</span>
+      </button>
+    </div>
+  </div>
+</div>

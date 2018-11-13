@@ -181,5 +181,6 @@ public class UserEntity {
 
     public void removeAddressEntity(AddressEntity addressEntity) {
         this.addressEntities.remove(addressEntity);
+//        addressEntity.setUserEntity(null);
     }
 }

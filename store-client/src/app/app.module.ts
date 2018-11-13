@@ -15,6 +15,8 @@ import {StoreModule} from "./component/store/store.module";
 import {ItemInfoService} from "./service/item-info/item-info.service";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {MapService} from "./service/map-service/map.service";
+import {UserService} from "./service/user/user.service";
+import {AddressService} from "./service/address/address.service";
 
 export function startupServiceFactory(personalityService: PersonalityService, mapService: MapService): Function {
   return () => {
@@ -41,6 +43,8 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
     RootContainerService,
     ServerInfoService,
     PersonalityService,
+    UserService,
+    AddressService,
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,

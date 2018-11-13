@@ -79,13 +79,18 @@ public abstract class BaseService<T>
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteIfNotAttach(Object entity) {
+        getBaseDao().delete(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
     public void refresh(Object entity) {
         getBaseDao().refresh(entity);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void detach(Object entity) {
-
+        getBaseDao().detach(entity);
     }
 //    @Transactional(propagation = Propagation.REQUIRED)
 //    public T delete(

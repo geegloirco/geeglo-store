@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CartViewComponent } from './cart-view.component';
+import { UserAddressViewComponent } from './user-address-view.component';
 
-describe('CartViewComponent', () => {
-  let component: CartViewComponent;
-  let fixture: ComponentFixture<CartViewComponent>;
+describe('UserAddressViewComponent', () => {
+  let component: UserAddressViewComponent;
+  let fixture: ComponentFixture<UserAddressViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartViewComponent ]
+      declarations: [ UserAddressViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CartViewComponent);
+    fixture = TestBed.createComponent(UserAddressViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

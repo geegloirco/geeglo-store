@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CartViewComponent } from './cart-view.component';
+import { UserInfoViewComponent } from './user-info-view.component';
 
-describe('CartViewComponent', () => {
-  let component: CartViewComponent;
-  let fixture: ComponentFixture<CartViewComponent>;
+describe('UserInfoViewComponent', () => {
+  let component: UserInfoViewComponent;
+  let fixture: ComponentFixture<UserInfoViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CartViewComponent ]
+      declarations: [ UserInfoViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CartViewComponent);
+    fixture = TestBed.createComponent(UserInfoViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

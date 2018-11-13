@@ -37,6 +37,9 @@ public interface BaseDao<T> {
 
     @Transactional(propagation = Propagation.REQUIRED)
     default void delete(T object) {
+        if (!getEntityManager().contains(object)) {
+            object = getEntityManager().merge(object);
+        }
         getEntityManager().remove(object);
     }
 

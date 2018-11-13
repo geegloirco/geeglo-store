@@ -289,18 +289,22 @@ export class PersonalityService implements CanActivate {
     return ob;
   }
 
-  removeAddress(address): Observable<boolean> {
+  removeAddress(id): Observable<boolean> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.sessionKey);
     // headers = headers.append("Authorization", "Basic " + btoa("admin:123"));
 
     let ob = new Observable<boolean>(observer => {
-      this.http.post<boolean>(this.serverInfo.getServerBaseUrl() + "authorize/remove-address", address,{headers: headers})
+      this.http.delete<boolean>(this.serverInfo.getServerBaseUrl() + "address",
+        {
+          params: {id: id},
+          headers: headers
+        })
         .subscribe(res => {
           if(res['status'] == 0) {
             observer.next(true);
           } else
-            observer.error(false);
+            observer.error(res['entity']);
         }, err => {
           console.log(err);
           observer.error(err);
