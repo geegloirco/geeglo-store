@@ -3,6 +3,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {latLng, Map, tileLayer} from "leaflet";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'store-view',

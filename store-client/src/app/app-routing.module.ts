@@ -10,10 +10,13 @@ const routes: Routes = [
   { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:store))', pathMatch: 'full' },
   { path: 'root', component: RootContainerComponent, children: [
       { path: 'dashboard', component: DashboardComponent, outlet: 'rootContainer', children: [
-          { path: 'store', component: StoreViewComponent, outlet: 'dashboardBody' },
-          { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody',
-            /*canActivate: [PersonalityService]*/ }
-      ]},
+          { path: 'store', component: StoreViewComponent, outlet: 'dashboardBody', children: [
+              {path: 'items/:groupId', component: ItemsViewComponent, outlet: 'storeItems'}
+            ]
+          },
+          { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody', /*canActivate: [PersonalityService]*/ }
+        ]
+      },
   ]},
 ];
 

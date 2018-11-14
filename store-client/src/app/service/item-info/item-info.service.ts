@@ -19,13 +19,17 @@ export class ItemInfoService {
     this.restUrl = this.serverInfo.getServerBaseUrl() + restUrl;
   }
 
-  getItems(): Observable<object[]> {
+  getItems(groupId?): Observable<object[]> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.personalityService.getSessionKey());
 
+    let params = {};
+    if(groupId)
+      params['group-id'] = groupId;
+
     // Todo: send the message _after_ fetching the Third Parties
     let ob = new Observable<object[]>(observer => {
-      this.http.get<object[]>(this.restUrl, {headers: headers})
+      this.http.get<object[]>(this.restUrl, {params: params, headers: headers})
         .subscribe(res => {
           // console.log(res);
           if(res['status'] === 0)

@@ -31,11 +31,11 @@ public class ItemHandler {
     @MethodHandler(requiredRole = RoleType.GUEST)
     public static PianaResponse getItems(
             @SessionParam Session session,
-            @MapParam Map<String, String> mapParam) {
+            @MapParam Map<String, List<String>> mapParam) {
         List<ItemEntity> itemEntities = null;
         if(mapParam.containsKey("group-id")) {
             ItemGroupEntity byId = (ItemGroupEntity)getItemGroupService().findById(
-                    Integer.valueOf(mapParam.get("group-id")));
+                    Integer.valueOf(mapParam.get("group-id").get(0)));
             itemEntities = getItemService().findByGroup(byId);
         } else {
             itemEntities = getItemService().findAll();

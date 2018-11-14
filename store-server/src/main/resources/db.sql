@@ -141,10 +141,11 @@ INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'ته
 
 select * from item_group;
 
-INSERT INTO item_group (title, image) VALUES ('سبزیجات', 'vegetable.png');
-INSERT INTO item_group (title, image) VALUES ('مرکبات', 'orange.png');
-INSERT INTO item_group (title, image) VALUES ('میوه', 'fruit.png');
-INSERT INTO item_group (title, image) VALUES ('صیفیچات', 'carrot.png');
+INSERT INTO item_group (title, image) VALUES ('سبزیجات', 'vegetable.png'),
+('مرکبات', 'orange.png'),
+('میوه', 'fruit.png'),
+('صیفیجات', 'carrot.png');
+
 
 INSERT INTO item (item_group_id, title, price, unit, image)
 VALUES (1, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
@@ -152,3 +153,12 @@ VALUES (1, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
 (1, 'کالای 3', 3800, 'عدد', 'goods.png'),
 (1, 'کالای 4', 4000, 'نیم کیلو', 'goods.png'),
 (1, 'کالای 5', 15000, 'جین', 'goods.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image)
+VALUES (2, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
+(2, 'کالای 5', 15000, 'جین', 'goods.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image)
+VALUES (3, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
+(3, 'کالای 5', 15000, 'جین', 'goods.png'),
+(3, 'کالای 4', 4000, 'نیم کیلو', 'goods.png');

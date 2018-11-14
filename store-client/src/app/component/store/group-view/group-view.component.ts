@@ -3,6 +3,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {GroupService} from "../../../service/group/group.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'group-view',
@@ -12,8 +13,11 @@ import {GroupService} from "../../../service/group/group.service";
 export class GroupViewComponent implements OnInit {
   loadWaited = false;
   groups = [];
+  imagePrefix;
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
     private groupService: GroupService) {
@@ -22,11 +26,18 @@ export class GroupViewComponent implements OnInit {
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {
       if(res === ServiceInitStatus.successed) {
+        this.imagePrefix = this.serverInfo.getServerBaseUrl() + 'assets/image/group/';
         this.groupService.getGroups().subscribe(res => {
           this.groups = res;
+          if(!this.activatedRoute.queryParams["groupId"]) {
+            this.router.navigate([{ outlets: { storeItems: ['items', 1]} }], {relativeTo: this.activatedRoute})
+          }
         }, err => {
         });
       }
     });
+  }
+
+  clicked() {
   }
 }

@@ -1,3 +1,35 @@
+.list-group-item {
+  border: none;
+  border-radius: 0px;
+  border-top: 1px solid #b1dfbb;
+  padding: 4px 0px;
+  cursor: pointer !important;
+  margin-bottom: 2px;
+}
+
+.menu-image {
+  border: 1px solid #b1dfbb;
+  background-color: #b1dfbb;
+  padding: 4px;
+  margin-left: 8px;
+}
+
+.list-group-item:hover {
+  background-color: #d0e9c6;
+}
+
+.list-group-item:hover .menu-image {
+  margin-left: 20px;
+}
+
+.list-group-item.selected-group {
+  background: #d0e9c6;
+}
+
+.list-group-item.selected-group .menu-image {
+  margin-left: 20px;
+}
+
 .row div {
   margin-bottom: 14px;
 }
