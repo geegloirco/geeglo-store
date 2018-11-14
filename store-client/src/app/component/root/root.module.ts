@@ -15,6 +15,7 @@ import {UserInfoComponent} from "./user-info/user-info.component";
 
 import {StoreModule} from "../store/store.module";
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {FooterViewComponent} from "./footer-view/footer.component";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     MessagesComponent,
     NavbarViewComponent,
     LoginViewComponent,
+    FooterViewComponent,
   ],
   providers: [
   ],
@@ -42,6 +44,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     UserInfoComponent,
     NavbarViewComponent,
     LoginViewComponent,
+    FooterViewComponent,
   ],
   entryComponents: [
   ]

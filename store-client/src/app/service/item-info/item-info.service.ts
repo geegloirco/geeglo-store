@@ -8,6 +8,8 @@ import {PersonalityService} from "../personality/personality.service";
 export class ItemInfoService {
   restUrl: string;
   lastPage = 0;
+  itemByGroup = {}
+  items = null;
 
   constructor(
     private serverInfo: ServerInfoService,
@@ -20,25 +22,31 @@ export class ItemInfoService {
   }
 
   getItems(groupId?): Observable<object[]> {
-    let headers = new HttpHeaders();
-    headers = headers.append("Authorization", "Bearer " + this.personalityService.getSessionKey());
-
-    let params = {};
-    if(groupId)
-      params['group-id'] = groupId;
-
     // Todo: send the message _after_ fetching the Third Parties
     let ob = new Observable<object[]>(observer => {
-      this.http.get<object[]>(this.restUrl, {params: params, headers: headers})
-        .subscribe(res => {
-          // console.log(res);
-          if(res['status'] === 0)
-            observer.next(res['entity']);
-          else
-            observer.error(res['entity']);
-        }, err => {
-          observer.error(err);
-        });
+      if(!groupId)
+        groupId = 0;
+      if(groupId in this.itemByGroup) {
+        observer.next(this.itemByGroup[groupId]);
+      } else {
+        let headers = new HttpHeaders();
+        headers = headers.append("Authorization", "Bearer " + this.personalityService.getSessionKey());
+        let params = {};
+        if(groupId && groupId > 0)
+          params['group-id'] = groupId;
+        this.http.get<object[]>(this.restUrl, {params: params, headers: headers})
+          .subscribe(res => {
+            // console.log(res);
+            if(res['status'] === 0) {
+              // this.items = res['entity'];
+              this.itemByGroup[groupId] = res['entity'];
+              observer.next(this.itemByGroup[groupId]);
+            } else
+              observer.error(res['entity']);
+          }, err => {
+            observer.error(err);
+          });
+      }
     });
     return ob;
   }
