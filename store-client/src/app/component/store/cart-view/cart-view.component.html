@@ -1,7 +1,7 @@
 <a style="background-color: #b1dfbb; height: 50px; text-align: center !important; cursor: pointer; margin: 2px;"
    class="nav-link"
    (click)="open(content)">
-  <span class="fa fa-shopping-cart"></span>
+  <img [src]="'assets/image/user/cart.png'">
 </a>
 
 <ng-template #content let-modal>
@@ -38,9 +38,10 @@
       <span style="margin-right: 10px;">مبلغ کل</span>
       <span style="margin-right: 10px;">{{totalPrice}}</span>
     </div>
-    <button type="button" class="btn btn-outline-dark"
-            *ngIf="personalityService.isLoggedIn() && items.length > 0"
-            (click)="modal.close(1)" >ثبت سفارش</button>
+    <a type="button" class="btn btn-outline-dark"
+       *ngIf="personalityService.isLoggedIn() && items.length > 0"
+       [routerLink]="[{ outlets: { dashboardBody: ['order']} }]"
+       (click)="modal.close(1)" >ثبت سفارش</a>
     <button type="button" class="btn btn-outline-dark mr-2"
             placement="top"
             *ngIf="!personalityService.isLoggedIn() && items.length > 0"

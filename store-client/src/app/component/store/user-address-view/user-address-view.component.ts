@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoginStatus, PersonalityService} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
 import {MapService} from "../../../service/map-service/map.service";
@@ -19,6 +17,8 @@ export class UserAddressViewComponent implements OnInit {
   addressSelectedMap = {};
   selectedOriginal = null;
   selectedLocation = {};
+
+  @Output() addressSelected = new EventEmitter<boolean>();
 
   selected = {
     id: 0,
@@ -64,47 +64,52 @@ export class UserAddressViewComponent implements OnInit {
       this.addressSelectedMap[key] = false;
     }
     this.addressSelectedMap[address['id']] = !lastState;
-    // console.log(this.addressSelectedMap)
+    console.log(this.addressSelectedMap[address['id']])
 
     if(this.addressSelectedMap[address['id']]) {
       this.selectedOriginal = address;
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
       this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
+      this.addressSelected.emit(true);
     } else {
-      this.selectedOriginal = null;
-      this.selected = null;
+      this.createNewAddress();
+      // this.addressSelected.emit(false);
+      // this.selectedOriginal = null;
+      // this.selected = null;
     }
   }
 
   createNewAddress() {
-    let lastState = this.addressSelectedMap[0];
-    for (let key in this.addressSelectedMap) {
-      this.addressSelectedMap[key] = false;
-    }
-    this.addressSelectedMap[0] = !lastState;
-
-    if(this.addressSelectedMap[0]) {
-      this.selectedOriginal = {
-        'id': 0,
-        'title': '',
-        'detail': '',
-        'phoneNumber': '',
-        'postCode': '',
-        'longitude': null,
-        'latitude': null,
+    if(!this.addressSelectedMap[0]) {
+      let lastState = this.addressSelectedMap[0];
+      for (let key in this.addressSelectedMap) {
+        this.addressSelectedMap[key] = false;
       }
-      this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
-      this.mapService.defaultReset();
-      // if(this.map) {
-      //   this.zone.run(() => {
-      //       setTimeout(() => {this.map.invalidateSize(true); console.log("invalidate")}, 1000);
-      //   });
-      // }
-    } else {
-      this.selectedOriginal = null;
-      this.selected = null;
-    }
+      this.addressSelectedMap[0] = !lastState;
+      this.addressSelected.emit(false);
 
+      if(this.addressSelectedMap[0]) {
+        this.selectedOriginal = {
+          'id': 0,
+          'title': '',
+          'detail': '',
+          'phoneNumber': '',
+          'postCode': '',
+          'longitude': null,
+          'latitude': null,
+        }
+        this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
+        this.mapService.defaultReset();
+        // if(this.map) {
+        //   this.zone.run(() => {
+        //       setTimeout(() => {this.map.invalidateSize(true); console.log("invalidate")}, 1000);
+        //   });
+        // }
+      } else {
+        this.selectedOriginal = null;
+        this.selected = null;
+      }
+    }
   }
 
   addressChangeOk() {

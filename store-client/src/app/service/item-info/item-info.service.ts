@@ -27,8 +27,10 @@ export class ItemInfoService {
       if(!groupId)
         groupId = 0;
       if(groupId in this.itemByGroup) {
+        console.log("has group");
         observer.next(this.itemByGroup[groupId]);
       } else {
+        console.log("has not group");
         let headers = new HttpHeaders();
         headers = headers.append("Authorization", "Bearer " + this.personalityService.getSessionKey());
         let params = {};

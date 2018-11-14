@@ -144,7 +144,7 @@ select * from item_group;
 INSERT INTO item_group (title, image) VALUES ('سبزیجات', 'vegetable.png'),
 ('مرکبات', 'orange.png'),
 ('میوه', 'fruit.png'),
-('صیفیجات', 'carrot.png');
+('صیفی جات', 'carrot.png');
 
 
 INSERT INTO item (item_group_id, title, price, unit, image)

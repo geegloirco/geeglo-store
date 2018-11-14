@@ -5,12 +5,15 @@ import {PersonalityService} from "../../../service/personality/personality.servi
 import {MessageService} from "../../../service/message/message.service";
 
 @Component({
-  selector: 'cart-view',
-  templateUrl: './cart-view.component.html',
-  styleUrls: ['./cart-view.component.css']
+  selector: 'order-view',
+  templateUrl: './order-view.component.html',
+  styleUrls: ['./order-view.component.css']
 })
-export class CartViewComponent implements OnInit {
+export class OrderViewComponent implements OnInit {
   loadWaited = false;
+
+  verifyList = false;
+  verifyAddress = false;
 
   imagePrefix;
   items = [];
@@ -37,16 +40,20 @@ export class CartViewComponent implements OnInit {
     });
   }
 
+  addressSelected($event) {
+    this.verifyAddress = $event;
+  }
+
   open(content) {
     this.modalService.open(content, {}).result.then((result) => {
       // console.log('register cart');
       // console.log(result);
       if(result === 1) {
-        // this.personalityService.registerCart().subscribe(res => {
-        //
-        // }, err => {
-        //
-        // });
+        this.personalityService.registerCart().subscribe(res => {
+
+        }, err => {
+
+        });
       }
     }, (reason) => {
       if (reason === ModalDismissReasons.ESC) {

@@ -14,6 +14,7 @@ import {MapViewComponent} from "./map-view/map-view.component";
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {UserInfoViewComponent} from "./user-info-view/user-info-view.component";
 import {GroupViewComponent} from "./group-view/group-view.component";
+import {OrderViewComponent} from "./order-view/order-view.component";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {GroupViewComponent} from "./group-view/group-view.component";
     ItemsViewComponent,
     ItemViewComponent,
     CartViewComponent,
+    OrderViewComponent,
     StoreViewComponent,
     MapViewComponent,
     UserAddressViewComponent,
@@ -43,6 +45,7 @@ import {GroupViewComponent} from "./group-view/group-view.component";
     ItemViewComponent,
     ItemsViewComponent,
     CartViewComponent,
+    OrderViewComponent,
     StoreViewComponent,
     MapViewComponent,
     UserAddressViewComponent,

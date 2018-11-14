@@ -16,8 +16,6 @@ export class GroupViewComponent implements OnInit {
   imagePrefix;
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
     private groupService: GroupService) {
@@ -29,9 +27,6 @@ export class GroupViewComponent implements OnInit {
         this.imagePrefix = this.serverInfo.getServerBaseUrl() + 'assets/image/group/';
         this.groupService.getGroups().subscribe(res => {
           this.groups = res;
-          if(!this.activatedRoute.queryParams["groupId"]) {
-            this.router.navigate([{ outlets: { storeItems: ['items', 1]} }], {relativeTo: this.activatedRoute})
-          }
         }, err => {
         });
       }

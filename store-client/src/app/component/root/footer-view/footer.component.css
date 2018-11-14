@@ -1,3 +1,11 @@
+.label-owner {
+  color: #fff3cd;
+}
+
+li a {
+  color: #2d2d2d;
+}
+
 .list-group-item {
   border: none;
 }

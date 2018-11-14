@@ -1,0 +1,12 @@
+.address-selected {
+  border-color: green;
+  color: white;
+  background-color: green;
+}
+
+.address-not-selected {
+  border-color: red;
+  color: red;
+  background-color: white;
+}
+

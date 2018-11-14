@@ -5,7 +5,7 @@
         <ng-template ngFor let-address [ngForOf]="addresses">
           <button type="button" class="btn m-2"
                   [class.btn-success]="addressSelectedMap[address['id']]"
-                  [class.btn-outline-success]="!addressSelectedMap[address['id']]"
+                  [class.btn-outline-danger]="!addressSelectedMap[address['id']]"
                   (click)="toggleAddressCollapseMap(address)">
             {{address['title']}}
           </button>
@@ -13,7 +13,7 @@
       </ng-template>
       <button type="button" class="btn btn-outline-success m-2"
               [class.btn-success]="addressSelectedMap[0]"
-              [class.btn-outline-success]="!addressSelectedMap[0]"
+              [class.btn-outline-danger]="!addressSelectedMap[0]"
               (click)="createNewAddress()">آدرس جدید</button>
     </div>
   </div>

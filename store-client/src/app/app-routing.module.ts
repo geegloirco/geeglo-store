@@ -5,6 +5,7 @@ import {RootContainerComponent} from './component/root/root-container/root-conta
 import {ItemsViewComponent} from "./component/store/items-view/items-view.component";
 import {UserInfoComponent} from "./component/root/user-info/user-info.component";
 import {StoreViewComponent} from "./component/store/store-view/store-view.component";
+import {OrderViewComponent} from "./component/store/order-view/order-view.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:store))', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
             ]
           },
           { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody', /*canActivate: [PersonalityService]*/ }
+          { path: 'order', component: OrderViewComponent, outlet: 'dashboardBody', /*canActivate: [PersonalityService]*/ }
         ]
       },
   ]},
