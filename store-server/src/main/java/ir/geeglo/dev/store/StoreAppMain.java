@@ -19,10 +19,10 @@ import java.util.Map;
 /**
  * @author Mohammad Rahmati, 10/13/2018
  */
-@PianaServer(
+@PianaServer(host = "192.168.43.111",
         serverCORS = @PianaServerCORS(allowOrigin = "*"),
-        serverSession = @PianaServerSession(sessionExpiredSecond = 9999),
-        sslServer = @SSLServer(keyStoreName = "keystore.jks", keyStorePassword = "password")
+        serverSession = @PianaServerSession(sessionExpiredSecond = 9999)
+//        sslServer = @SSLServer(httpsHost = "192.168.43.111", keyStoreName = "keystore.jks", keyStorePassword = "password")
 )
 public class StoreAppMain {
     public static void main(String[] args) throws Exception {

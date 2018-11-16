@@ -3,7 +3,6 @@ package ir.geeglo.dev.store.data.service;
 import ir.geeglo.dev.store.data.dao.BaseDao;
 import ir.geeglo.dev.store.data.dao.GeegloBaseDao;
 import ir.geeglo.dev.store.data.entity.AddressEntity;
-import ir.geeglo.dev.store.data.entity.LocationEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;

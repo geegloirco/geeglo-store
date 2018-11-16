@@ -7,13 +7,15 @@ export class ServerInfoService {
   deployContext = "";
   // deployContext = '';
   // protocol: string = '';
-  protocol: string = 'https';
+  protocol: string = 'http';
+  // protocol: string = 'https';
   // host: string = ''
   // host: string = '192.168.50.107'
-  host: string = 'localhost'
+  host: string = '192.168.43.111'
 
   // port: string = '';
-  port: string = '8443';
+  port: string = '8000';
+  // port: string = '8443';
   baseUrl: string = "";
 
 

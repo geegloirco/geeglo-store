@@ -8,15 +8,15 @@ import {StoreViewComponent} from "./component/store/store-view/store-view.compon
 import {OrderViewComponent} from "./component/store/order-view/order-view.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:store))', pathMatch: 'full' },
+  { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:store/(storeItems:items/0)))', pathMatch: 'full' },
   { path: 'root', component: RootContainerComponent, children: [
       { path: 'dashboard', component: DashboardComponent, outlet: 'rootContainer', children: [
-          { path: 'store', component: StoreViewComponent, outlet: 'dashboardBody', children: [
+        { path: 'store', component: StoreViewComponent, outlet: 'dashboardBody', children: [
               {path: 'items/:groupId', component: ItemsViewComponent, outlet: 'storeItems'}
             ]
-          },
-          { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody', /*canActivate: [PersonalityService]*/ }
-          { path: 'order', component: OrderViewComponent, outlet: 'dashboardBody', /*canActivate: [PersonalityService]*/ }
+        },
+        { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody'},
+        { path: 'order', component: OrderViewComponent, outlet: 'dashboardBody'/*, canActivate: [PersonalityService]*/ }
         ]
       },
   ]},

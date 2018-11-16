@@ -11,7 +11,7 @@
               [class.fa-check]="verifyList" ></span> </button>
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 pb-5" style="border-bottom: 1px solid gray;">
       <table class="table table-striped table-hover">
         <thead>
         <tr class="table-secondary">
@@ -50,8 +50,23 @@
         </span>
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 pb-5" style="border-bottom: 1px solid gray;">
       <user-address-view (addressSelected)="addressSelected($event)"></user-address-view>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="d-flex justify-content-center align-items-center mb-5" style="height: 100%;">
+        <span
+          [class.address-selected]="verifyPayment"
+          [class.address-not-selected]="!verifyPayment"
+          style="border: 1px solid; border-radius: 4px;" class="p-2">انتخاب نحوه پرداخت
+          <span class="fa" [class.fa-check]="verifyPayment"></span>
+          <span class="fa" [class.fa-times]="!verifyPayment"></span>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-9 pb-5" style="border-bottom: 1px solid gray;">
     </div>
   </div>
   <div class="row mt-5">

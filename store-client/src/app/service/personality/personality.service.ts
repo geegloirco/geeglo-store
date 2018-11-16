@@ -48,6 +48,7 @@ export class PersonalityService implements CanActivate {
     this.initStatus.subscribe(res => {
       if(res.valueOf() == ServiceInitStatus.initial) {
         this.initStatus.next(ServiceInitStatus.requested);
+        console.log(this.serverInfo.getServerBaseUrl())
         this.http.get(this.serverInfo.getServerBaseUrl() + "authorize").subscribe(res => {
           if (res['status'] == 0) {
             let entity = res['entity'];

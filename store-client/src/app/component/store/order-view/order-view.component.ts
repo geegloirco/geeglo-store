@@ -14,6 +14,7 @@ export class OrderViewComponent implements OnInit {
 
   verifyList = false;
   verifyAddress = false;
+  verifyPayment = false;
 
   imagePrefix;
   items = [];
