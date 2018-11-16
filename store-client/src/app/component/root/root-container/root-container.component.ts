@@ -1,9 +1,6 @@
 import {Component, HostListener, Injectable, OnInit} from '@angular/core';
-
-function _window(): any {
-  // return the native window obj
-  return window;
-}
+import {WindowRefService} from "../../../service/window-ref/window-ref.service";
+import {BehaviorSubject} from "rxjs/index";
 
 class CallbackObject {
   callback: (isSmall: boolean, owner: Object) => void;
@@ -16,23 +13,15 @@ class CallbackObject2 {
 }
 
 @Injectable()
-export class WindowRef {
-  constructor() {}
-
-  get nativeWindow(): any {
-    return _window();
-  }
-}
-
-@Injectable()
 export class RootContainerService {
   isSmall = true;
   isInit = false;
   currentSize = {width: 0, height: 0};
   callbacks: CallbackObject[] = [];
   callbacks2: CallbackObject2[] = [];
+  resizeSubject: BehaviorSubject<object> = new BehaviorSubject({});
 
-  constructor(private windowRef: WindowRef) {
+  constructor(private windowRef: WindowRefService) {
     this.init({
       width: windowRef.nativeWindow.innerWidth,
       height: windowRef.nativeWindow.innerHeight
@@ -43,14 +32,12 @@ export class RootContainerService {
     this.currentSize = size;
     if(size.width < 768) {
       this.isSmall = true;
-      for(let callback of this.callbacks) {
-        callback.callback(this.isSmall, callback.owner);
-      }
     } else {
       this.isSmall = false;
-      for(let callback of this.callbacks) {
-        callback.callback(this.isSmall, callback.owner);
-      }
+    }
+    this.resizeSubject.next({isSmall: this.isSmall, size: size});
+    for(let callback of this.callbacks) {
+      callback.callback(this.isSmall, callback.owner);
     }
   }
 
@@ -59,22 +46,23 @@ export class RootContainerService {
     if (size.width < 768) {
       if (this.isSmall === false) {
         this.isSmall = true;
-        for (let callback of this.callbacks) {
-          callback.callback(this.isSmall, callback.owner);
-        }
       }
     } else {
       if (this.isSmall === true) {
         this.isSmall = false;
-        for (let callback of this.callbacks) {
-          callback.callback(this.isSmall, callback.owner);
-        }
       }
     }
-
+    this.resizeSubject.next({isSmall: this.isSmall, size: size});
+    for (let callback of this.callbacks) {
+      callback.callback(this.isSmall, callback.owner);
+    }
     for (let callback of this.callbacks2) {
       callback.callback(this.isSmall, size, callback.owner);
     }
+  }
+
+  afterResize(): BehaviorSubject<object> {
+    return this.resizeSubject;
   }
 
   setCallback(callback: (isSmall: boolean, owner: Object) => void, owner: Object) {

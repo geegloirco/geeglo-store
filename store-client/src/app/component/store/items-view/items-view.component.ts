@@ -3,7 +3,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {latLng, Map, tileLayer} from "leaflet";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'items-view',
@@ -15,6 +15,7 @@ export class ItemsViewComponent implements OnInit {
   items = [];
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
@@ -25,12 +26,19 @@ export class ItemsViewComponent implements OnInit {
   ngOnInit() {
     this.personalityService.afterInitialized().subscribe(res => {
       if(res === ServiceInitStatus.successed) {
-        this.activatedRoute.params.subscribe(res => {
-          this.itemInfoService.getItems(res['groupId']).subscribe(res => {
+        this.activatedRoute.queryParams.subscribe(res => {
+          // console.log(res);
+          this.itemInfoService.getItems(res['groupId'] || 0).subscribe(res => {
             this.items = res;
           }, err => {
           });
         })
+        // this.activatedRoute.params.subscribe(res => {
+        //   this.itemInfoService.getItems(res['groupId']).subscribe(res => {
+        //     this.items = res;
+        //   }, err => {
+        //   });
+        // })
       }
     });
   }

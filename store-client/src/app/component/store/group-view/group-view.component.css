@@ -15,7 +15,7 @@
 }
 
 .list-group-item:hover {
-  background-color: #d0e9c6;
+  background-color: #fff3cd;
 }
 
 .list-group-item:hover .menu-image {
@@ -30,10 +30,18 @@
   margin-left: 20px;
 }
 
-.row div {
-  margin-bottom: 14px;
+.badge {
+  color: #000;
 }
 
-agm-map {
-  height: 300px;
+.badge:hover {
+  background-color: #fff3cd;
+}
+
+.badge.selected-group {
+  background: #d0e9c6;
+}
+
+.row div {
+  margin-bottom: 14px;
 }

@@ -1,10 +1,11 @@
 <div class="container">
   <div class="row">
-      <div class="col-md-12 col-sm-12" >
+      <div class="col-md-12 col-sm-12" *ngIf="!isSmall">
         <ul class="list-group">
           <ng-template ngFor let-group [ngForOf]="groups">
             <li class="list-group-item"
-                [routerLink]="[{ outlets: { storeItems: ['items', group['id']]} }]"
+                [routerLink]="['../store']"
+                [queryParams]="{groupId: group['id']}"
                 routerLinkActive="selected-group">
               <a>
                 <span class="menu-image">
@@ -16,6 +17,19 @@
           </ng-template>
         </ul>
       </div>
+    <div class="col-md-12 col-sm-12" *ngIf="isSmall">
+      <ng-template ngFor let-group [ngForOf]="groups">
+        <a class="badge"
+           [routerLink]="['../store']"
+           [queryParams]="{groupId: group['id']}"
+           routerLinkActive="selected-group">
+                <!--<span class="menu-image">-->
+                  <!--<img [src]="imagePrefix + group['image']">-->
+                <!--</span>-->
+            <span class="menu-title">{{group['title']}}</span>
+          </a>
+      </ng-template>
+    </div>
   </div>
 </div>
 

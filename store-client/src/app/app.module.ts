@@ -8,7 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {RootModule} from './component/root/root.module';
 import {ServerInfoService} from './service/server-info/server-info.service';
-import {RootContainerService, WindowRef} from './component/root/root-container/root-container.component';
+import {RootContainerService} from './component/root/root-container/root-container.component';
 import {MessageService} from './service/message/message.service';
 import {PersonalityService} from "./service/personality/personality.service";
 import {StoreModule} from "./component/store/store.module";
@@ -18,6 +18,7 @@ import {MapService} from "./service/map-service/map.service";
 import {UserService} from "./service/user/user.service";
 import {AddressService} from "./service/address/address.service";
 import {GroupService} from "./service/group/group.service";
+import {WindowRefService} from "./service/window-ref/window-ref.service";
 
 export function startupServiceFactory(personalityService: PersonalityService, mapService: MapService): Function {
   return () => {
@@ -54,7 +55,7 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
       deps: [PersonalityService, MapService],
       multi: true
     },
-    WindowRef,
+    WindowRefService,
     MessageService,
     ItemInfoService,
     MapService,

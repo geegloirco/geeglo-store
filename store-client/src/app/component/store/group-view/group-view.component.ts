@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {GroupService} from "../../../service/group/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {WindowResizeService} from "../../../service/window-resize/window-resize.service";
+import {RootContainerService} from "../../root/root-container/root-container.component";
 
 @Component({
   selector: 'group-view',
@@ -14,10 +15,12 @@ export class GroupViewComponent implements OnInit {
   loadWaited = false;
   groups = [];
   imagePrefix;
+  isSmall = false;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private resizeService: RootContainerService,
     private personalityService: PersonalityService,
     public serverInfo: ServerInfoService,
     private groupService: GroupService) {
@@ -28,6 +31,10 @@ export class GroupViewComponent implements OnInit {
       if(res === ServiceInitStatus.successed) {
         this.imagePrefix = this.serverInfo.getServerBaseUrl() + 'assets/image/group/';
 
+        this.resizeService.afterResize().subscribe(res => {
+          this.isSmall = res['isSmall'];
+        })
+
         this.groupService.getGroups().subscribe(res => {
           this.groups = res;
         }, err => {
@@ -37,6 +44,7 @@ export class GroupViewComponent implements OnInit {
   }
 
   navig(id) {
+    // [routerLink]="[{ outlets: { storeItems: ['items', group['id']]} }]"
     // [routerLink]="['../store', group['id']]"
     // routerLinkActive="selected-group"
     // [routerLink]="['../' +  +group['id']]"

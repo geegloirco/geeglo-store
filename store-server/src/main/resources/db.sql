@@ -142,9 +142,10 @@ INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'ته
 select * from item_group;
 
 INSERT INTO item_group (title, image) VALUES ('سبزیجات', 'vegetable.png'),
-('مرکبات', 'orange.png'),
+('مرکبات', 'lemon.png'),
 ('میوه', 'fruit.png'),
-('صیفی جات', 'carrot.png');
+('صیفی جات', 'carrot.png'),
+('استوایی', 'ananas.png');
 
 
 INSERT INTO item (item_group_id, title, price, unit, image)
