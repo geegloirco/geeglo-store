@@ -17,6 +17,17 @@
   color: #000000 !important;
 }
 
-a.active {
-  background-color: #dff0d8;
+.nav-link {
+  border-radius: 4px;
+  padding: 13px;
+  margin: 2px;
+}
+
+.nav-link.active {
+  background-color: #8cb14d;
+}
+
+.nav-link.active:hover {
+  background-color: darkolivegreen;
+  padding: 14px!important;
 }

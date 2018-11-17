@@ -20,7 +20,10 @@ export class FooterViewComponent implements OnInit {
               private rootContainerService: RootContainerService,
               public serverInfo: ServerInfoService) {
     // console.log("dashboard constructor");
-    this.rootContainerService.setCallback(this.windowResized, this);
+    this.rootContainerService.afterResize().subscribe(res => {
+      this.isSmallMode = res['isSmall'];
+    })
+    // this.rootContainerService.setCallback(this.windowResized, this);
   }
 
   ngOnInit() {
@@ -31,8 +34,8 @@ export class FooterViewComponent implements OnInit {
     // console.log("dashboard ngOnInit");
   }
 
-  windowResized(isSmall: boolean, owner: FooterViewComponent) {
-    // console.log("DashboardComponent windowResized");
-    owner.isSmallMode = isSmall;
-  }
+  // windowResized(isSmall: boolean, owner: FooterViewComponent) {
+  //   console.log("DashboardComponent windowResized");
+    // owner.isSmallMode = isSmall;
+  // }
 }

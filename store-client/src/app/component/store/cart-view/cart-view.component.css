@@ -1,3 +1,22 @@
+.cart-link {
+  background-color: #8cb14d;
+  height: 50px;
+  text-align: center !important;
+  cursor: pointer;
+  margin: 2px;
+  border-radius:4px;
+}
+
+.cart-link:hover {
+  background-color: darkolivegreen;
+  height: 50px;
+  text-align: center !important;
+  cursor: pointer;
+  margin: 2px;
+  padding: 10px;
+  border-radius:4px;
+}
+
 .modal-body{
   height: 350px;
   overflow-y: auto;

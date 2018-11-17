@@ -1,5 +1,19 @@
-.modal-body{
+.login-link {
+  background-color: #8cb14d;
+  height: 50px !important;
+  text-align: center !important;
+  cursor: pointer;
+  margin: 2px;
+  border-radius: 4px;
+}
 
+.login-link:hover {
+  background-color: darkolivegreen;
+  height: 50px !important;
+  padding: 10px;
+}
+
+.modal-body{
   overflow-y: auto;
 }
 

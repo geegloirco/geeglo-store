@@ -1,135 +1,137 @@
-<footer class="page-footer font-small stylish-color-dark pt-4" style="background-color: #b1dfbb;">
+<footer [class.pt-4]="!isSmallMode"
+  class="page-footer font-small stylish-color-dark" style="background-color: olivedrab;">
 
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left">
+  <!-- Footer Links -->
+  <div *ngIf="!isSmallMode" class="container text-center text-md-left" >
 
-      <!-- Grid row -->
-      <div class="row">
+    <!-- Grid row -->
+    <div class="row" >
 
-        <!-- Grid column -->
+      <!-- Grid column -->
 
-        <hr class="clearfix w-100 d-md-none">
+      <hr class="clearfix w-100 d-md-none">
 
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
 
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">اطلاعات</h5>
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">اطلاعات</h5>
 
-          <ul class="list-unstyled">
-            <li>
-              <a href="#!">درباره ما</a>
-            </li>
-            <li>
-              <a href="#!">تماس با ما</a>
-            </li>
-            <li>
-              <a href="#!">تضمین بازگشت خرید</a>
-            </li>
-            <li>
-              <a href="#!">قوانین و مقررات</a>
-            </li>
-          </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a class="footer-link" href="#!">درباره ما</a>
+          </li>
+          <li>
+            <a class="footer-link" href="#!">تماس با ما</a>
+          </li>
+          <li>
+            <a class="footer-link" href="#!">تضمین بازگشت خرید</a>
+          </li>
+          <li>
+            <a class="footer-link" href="#!">قوانین و مقررات</a>
+          </li>
+        </ul>
 
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">بیشتر بخوانید</h5>
-
-          <ul class="list-unstyled">
-            <li>
-              <a href="#!">نحوه ارسال خرید</a>
-            </li>
-            <li>
-              <a href="#!">نحوه تامین کالا</a>
-            </li>
-          </ul>
-
-        </div>
-        <!-- Grid column -->
-
-        <hr class="clearfix w-100 d-md-none">
-
-        <!-- Grid column -->
-        <div class="col-md-2 mx-auto">
-
-          <!-- Links -->
-          <!--<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
-
-          <!--<ul class="list-unstyled">-->
-            <!--<li>-->
-              <!--<a href="#!">Link 1</a>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<a href="#!">Link 2</a>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<a href="#!">Link 3</a>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<a href="#!">Link 4</a>-->
-            <!--</li>-->
-          <!--</ul>-->
-
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col-md-4 mx-auto">
-
-          <!-- Content -->
-          <h5 class="font-weight-bold text-uppercase mt-3 mb-4">سپاسگزاری</h5>
-          <p>زندگی شوق رسیدن به همان<br>فردایی است، که نخواهد آمد<br>تو نه در دیروزی، و نه در فردایی<br>ظرف امروز، پر از بودن توست</p>
-        </div>
       </div>
-      <!-- Grid row -->
+      <!-- Grid column -->
 
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">بیشتر بخوانید</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a class="footer-link" href="#!">نحوه ارسال خرید</a>
+          </li>
+          <li>
+            <a class="footer-link" href="#!">نحوه تامین کالا</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none">
+
+      <!-- Grid column -->
+      <div class="col-md-2 mx-auto">
+
+        <!-- Links -->
+        <!--<h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>-->
+
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="#!">Link 1</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#!">Link 2</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#!">Link 3</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="#!">Link 4</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-4 mx-auto">
+
+        <!-- Content -->
+        <h5 class="font-weight-bold text-uppercase mt-3 mb-4">سپاسگزاری</h5>
+        <p>زندگی شوق رسیدن به همان<br>فردایی است، که نخواهد آمد<br>تو نه در دیروزی، و نه در فردایی<br>ظرف امروز، پر از بودن توست</p>
+      </div>
     </div>
-    <!-- Footer Links -->
+    <!-- Grid row -->
 
-    <hr>
+  </div>
+  <!-- Footer Links -->
 
-    <!-- Social buttons -->
-    <ul class="list-unstyled list-inline text-center">
-      <li class="list-inline-item">
-        <a class="btn-floating btn-fb mx-1">
-          <i class="fa fa-facebook"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-tw mx-1">
-          <i class="fa fa-instagram"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-gplus mx-1">
-          <i class="fa fa-google-plus"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-li mx-1">
-          <i class="fa fa-twitter"> </i>
-        </a>
-      </li>
-      <li class="list-inline-item">
-        <a class="btn-floating btn-dribbble mx-1">
-          <i class="fa fa-whatsapp"> </i>
-        </a>
-      </li>
-    </ul>
-    <!-- Social buttons -->
+  <hr *ngIf="!isSmallMode">
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3" style="background-color: #75b386">© 2018 Copyright:
-      <a class="label-owner" href="http://piana.ir"> Piana.ir</a>
-    </div>
-    <!-- Copyright -->
+  <!-- Social buttons -->
+  <ul *ngIf="!isSmallMode" class="list-unstyled list-inline text-center">
+    <li class="list-inline-item">
+      <a class="btn-floating btn-fb mx-1">
+        <i class="fa fa-facebook"> </i>
+      </a>
+    </li>
+    <li class="list-inline-item">
+      <a class="btn-floating btn-tw mx-1">
+        <i class="fa fa-instagram"> </i>
+      </a>
+    </li>
+    <li class="list-inline-item">
+      <a class="btn-floating btn-gplus mx-1">
+        <i class="fa fa-google-plus"> </i>
+      </a>
+    </li>
+    <li class="list-inline-item">
+      <a class="btn-floating btn-li mx-1">
+        <i class="fa fa-twitter"> </i>
+      </a>
+    </li>
+    <li class="list-inline-item">
+      <a class="btn-floating btn-dribbble mx-1">
+        <i class="fa fa-whatsapp"> </i>
+      </a>
+    </li>
+  </ul>
+  <!-- Social buttons -->
 
-  </footer>
-  <!-- Footer -->
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3"
+       style="background-color: darkolivegreen">© 2018 Copyright:
+    <a class="label-owner" href="http://piana.ir"> Piana.ir</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->

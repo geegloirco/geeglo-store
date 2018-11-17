@@ -2,11 +2,10 @@
    style="background-color: #b1dfbb; height: 50px !important; text-align: center !important; cursor: pointer; margin: 2px 4px;"
    data-target="#thirdPartiesModal"
    (click)="open(content)">ورود</a>
-<a class="nav-link" *ngIf="isLoggedIn"
-   style="background-color: #b1dfbb; height: 50px !important; text-align: center !important; cursor: pointer; margin: 2px;"
+<a class="nav-link login-link" *ngIf="isLoggedIn"
    data-target="#thirdPartiesModal"
    (click)="open(content)">
-  <img [src]="user.image" style="width: 30px; height: 30px;">
+  <img [src]="user.image" style="width: 32px; height: 32px;">
 </a>
 
 <ng-template #content let-c="close" let-d="dismiss" let-modal>

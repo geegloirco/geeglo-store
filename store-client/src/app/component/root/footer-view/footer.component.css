@@ -1,9 +1,14 @@
 .label-owner {
-  color: #fff3cd;
+  color: #000;
 }
 
-li a {
-  color: #2d2d2d;
+.footer-link {
+  color: #000 !important;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  padding-right: 4px;
 }
 
 .list-group-item {

@@ -8,14 +8,14 @@
 }
 
 .menu-image {
-  border: 1px solid #b1dfbb;
-  background-color: #b1dfbb;
+  border: 1px solid #88f15d;
+  background-color: #88f15d;
   padding: 14px;
   margin-left: 8px;
 }
 
 .list-group-item:hover {
-  background-color: #fff3cd;
+  background-color: #d8ff00c2;
 }
 
 .list-group-item:hover .menu-image {
@@ -23,7 +23,7 @@
 }
 
 .list-group-item.selected-group {
-  background: #d0e9c6;
+  background: #96ff6b;
 }
 
 .list-group-item.selected-group .menu-image {
@@ -35,11 +35,11 @@
 }
 
 .badge:hover {
-  background-color: #fff3cd;
+  background-color: #d8ff00c2;
 }
 
 .badge.selected-group {
-  background: #d0e9c6;
+  background: #96ff6b;
 }
 
 .row div {
