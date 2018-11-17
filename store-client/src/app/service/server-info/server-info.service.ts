@@ -9,9 +9,9 @@ export class ServerInfoService {
   // protocol: string = '';
   protocol: string = 'http';
   // protocol: string = 'https';
-  // host: string = ''
+  host: string = 'localhost'
   // host: string = '192.168.50.107'
-  host: string = '192.168.43.111'
+  // host: string = '192.168.43.111'
 
   // port: string = '';
   port: string = '8000';

@@ -3,7 +3,6 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {GroupService} from "../../../service/group/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {WindowResizeService} from "../../../service/window-resize/window-resize.service";
 import {RootContainerService} from "../../root/root-container/root-container.component";
 
 @Component({

@@ -15,10 +15,17 @@ export class OrderViewComponent implements OnInit {
   verifyList = false;
   verifyAddress = false;
   verifyPayment = false;
+  selectedPayment = null;
 
   imagePrefix;
   items = [];
   totalPrice: number = 0;
+
+  paymentTypes =[
+    {id: 1, image: 'internet.png', enabled: false},
+    {id: 2, image: 'cash.png', enabled: true},
+    {id: 3, image: 'pos.png', enabled: true},
+  ]
 
   constructor(
     public personalityService: PersonalityService,
@@ -43,6 +50,21 @@ export class OrderViewComponent implements OnInit {
 
   addressSelected($event) {
     this.verifyAddress = $event;
+  }
+
+  paymentSelected(payment) {
+    if(payment.enabled) {
+      this.selectedPayment = payment;
+      if(this.selectedPayment && this.selectedPayment.id > 0)
+        this.verifyPayment = true;
+      else
+        this.verifyPayment = false;
+    }
+
+  }
+
+  finalVerify() {
+    console.log('completed');
   }
 
   open(content) {
