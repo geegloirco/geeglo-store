@@ -18,7 +18,7 @@ export class UserAddressViewComponent implements OnInit {
   selectedOriginal = null;
   selectedLocation = {};
 
-  @Output() addressSelected = new EventEmitter<boolean>();
+  @Output() addressSelected = new EventEmitter<object>();
 
   selected = {
     id: 0,
@@ -70,7 +70,7 @@ export class UserAddressViewComponent implements OnInit {
       this.selectedOriginal = address;
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
       this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
-      this.addressSelected.emit(true);
+      this.addressSelected.emit(this.selected);
     } else {
       this.createNewAddress();
       // this.addressSelected.emit(false);
@@ -86,7 +86,7 @@ export class UserAddressViewComponent implements OnInit {
         this.addressSelectedMap[key] = false;
       }
       this.addressSelectedMap[0] = !lastState;
-      this.addressSelected.emit(false);
+      this.addressSelected.emit(null);
 
       if(this.addressSelectedMap[0]) {
         this.selectedOriginal = {

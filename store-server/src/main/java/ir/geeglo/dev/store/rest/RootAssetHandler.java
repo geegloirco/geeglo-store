@@ -8,7 +8,7 @@ import ir.piana.dev.core.annotation.HandlerType;
  * @author Mohammad Rahmati, 10/13/2018
  */
 @Handler(baseUrl = "/", handlerType = HandlerType.ASSET_HANDLER)
-@AssetHandler(assetPath = "store-client/src")
+@AssetHandler(assetPath = "store-client/dist/store-client")
 //@AssetHandler(assetPath = "store-client/dist/store-client")
 public class RootAssetHandler {
 }

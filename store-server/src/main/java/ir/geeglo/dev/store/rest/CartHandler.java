@@ -16,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author Mohammad Rahmati, 10/15/2018
@@ -48,7 +49,9 @@ public class CartHandler {
 
     @MethodHandler(requiredRole = RoleType.USER)
     @Path("register-cart")
-    public static PianaResponse registerCart(@SessionParam Session session) {
+    public static PianaResponse registerCart(
+            @SessionParam Session session,
+            @MapParam Map map) {
         OpenCartEntity openCartEntity = (OpenCartEntity) session.getObject("cart");
         CartEntity cartEntity = new CartEntity(openCartEntity);
         UserEntity existance = (UserEntity) session.getExistance();

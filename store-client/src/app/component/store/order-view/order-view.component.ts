@@ -13,7 +13,10 @@ export class OrderViewComponent implements OnInit {
   loadWaited = false;
 
   verifyList = false;
+
   verifyAddress = false;
+  selectedAddress = null;
+
   verifyPayment = false;
   selectedPayment = null;
 
@@ -48,8 +51,10 @@ export class OrderViewComponent implements OnInit {
     });
   }
 
-  addressSelected($event) {
-    this.verifyAddress = $event;
+  addressSelected(event) {
+    console.log(event);
+    this.selectedAddress = event;
+    this.verifyAddress = event != null;
   }
 
   paymentSelected(payment) {
@@ -64,7 +69,16 @@ export class OrderViewComponent implements OnInit {
   }
 
   finalVerify() {
-    console.log('completed');
+    console.log(this.selectedPayment);
+    console.log(this.selectedAddress);
+
+    this.personalityService.registerCartByAddressAndPayment(
+      this.selectedPayment['id'], this.selectedAddress['id'], ).subscribe(res => {
+      console.log('completed');
+      this.messageService.add("با موفقیت ثبت شد.");
+    }, err => {
+
+    });
   }
 
   open(content) {

@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Handler(baseUrl = "address", handlerType = HandlerType.METHOD_HANDLER)
 public class AddressHandler {
-    @MethodHandler(requiredRole = RoleType.USER)
+    @MethodHandler(requiredRole = RoleType.USER, sync = false)
     public static PianaResponse getUserInfo(@SessionParam Session session) {
         UserEntity userEntity = (UserEntity) session.getExistance();
         UserInfoModel userInfoModel = new UserInfoModel(userEntity);
