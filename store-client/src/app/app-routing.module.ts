@@ -3,9 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './component/root/dashboard/dashboard.component';
 import {RootContainerComponent} from './component/root/root-container/root-container.component';
 import {ItemsViewComponent} from "./component/store/items-view/items-view.component";
-import {UserInfoComponent} from "./component/root/user-info/user-info.component";
 import {StoreViewComponent} from "./component/store/store-view/store-view.component";
 import {OrderViewComponent} from "./component/store/order-view/order-view.component";
+import {PersonViewComponent} from "./component/store/person-view/person-view.component";
 
 // const routes: Routes = [
 //   { path: '', redirectTo: '/root/(rootContainer:dashboard/(dashboardBody:store/(storeItems:items)))', pathMatch: 'full' },
@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'root', component: RootContainerComponent, children: [
     { path: 'dashboard', component: DashboardComponent, outlet: 'rootContainer', children: [
       { path: 'store', component: StoreViewComponent, outlet: 'dashboardBody'},
-      { path: 'user-info', component: UserInfoComponent, outlet: 'dashboardBody'},
+      { path: 'person', component: PersonViewComponent, outlet: 'dashboardBody'},
       { path: 'order', component: OrderViewComponent, outlet: 'dashboardBody'/*, canActivate: [PersonalityService]*/ }
     ]
     },

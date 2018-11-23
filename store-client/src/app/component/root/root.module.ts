@@ -11,10 +11,7 @@ import {ChartsModule} from 'ng2-charts';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
-import {UserInfoComponent} from "./user-info/user-info.component";
-
 import {StoreModule} from "../store/store.module";
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {FooterViewComponent} from "./footer-view/footer.component";
 
 @NgModule({
@@ -30,7 +27,6 @@ import {FooterViewComponent} from "./footer-view/footer.component";
   ],
   declarations: [
     DashboardComponent,
-    UserInfoComponent,
     RootContainerComponent,
     MessagesComponent,
     NavbarViewComponent,
@@ -41,7 +37,6 @@ import {FooterViewComponent} from "./footer-view/footer.component";
   ],
   exports: [
     DashboardComponent,
-    UserInfoComponent,
     NavbarViewComponent,
     LoginViewComponent,
     FooterViewComponent,

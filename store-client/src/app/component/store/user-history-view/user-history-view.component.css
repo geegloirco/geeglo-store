@@ -1,0 +1,41 @@
+th, td {
+  text-align: center;
+}
+
+.address-selected {
+  border-color: green;
+  color: white;
+  background-color: green;
+}
+
+.address-not-selected {
+  border-color: red;
+  color: red;
+  background-color: white;
+}
+
+.payment-image {
+  width: 128px;
+  height: 128px;
+  padding: 3px;
+  margin: 6px;
+}
+
+.payment-enable {
+  cursor: pointer;
+}
+
+.payment-disable {
+  opacity: 0.3;
+  background-color: rgba(200, 200, 200, 0.3);
+  cursor: not-allowed;
+}
+
+.payment-enable:hover {
+  padding: 6px;
+}
+
+.payment-selected {
+  cursor: pointer;
+  border: 3px solid green;
+}

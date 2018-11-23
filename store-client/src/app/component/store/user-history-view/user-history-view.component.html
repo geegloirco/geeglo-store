@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-sm-12" style="border-bottom: 1px solid gray;">
+      <table class="table table-condensed table-hover">
+        <thead>
+        <tr class="table-secondary">
+          <th>نام</th>
+          <th>تعداد</th>
+          <th>قیمت(تومان)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
+          <tr >
+            <td >{{item['title']}}</td>
+            <td >{{item['count']}}</td>
+            <td >{{item['price'] * item['count']}}</td>
+          </tr>
+        </ng-template>
+        <tr class="bg-success">
+          <td>
+            <span style="margin-right: 10px;">مبلغ کل</span>
+          </td>
+          <td>&nbsp;</td>
+          <td>
+            <span style="margin-right: 10px;">{{totalPrice}}</span>
+            <span style="margin-right: 10px;">تومان</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="mr-auto p-2">
+
+      </div>
+    </div>
+  </div>
+</div>
+

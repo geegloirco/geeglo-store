@@ -9,11 +9,11 @@ import {MapViewComponent} from "../../store/map-view/map-view.component";
 import {MessageService} from "../../../service/message/message.service";
 
 @Component({
-  selector: 'user-info',
-  templateUrl: './user-info.component.html',
-  styleUrls: ['./user-info.component.css']
+  selector: 'app-person-view',
+  templateUrl: './person-view.component.html',
+  styleUrls: ['./person-view.component.css']
 })
-export class UserInfoComponent implements OnInit {
+export class PersonViewComponent implements OnInit {
   loadWaited = false;
 
   addresses = null;

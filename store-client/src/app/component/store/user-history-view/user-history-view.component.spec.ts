@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserInfoComponent } from './user-info.component';
+import { UserHistoryViewComponent } from "./user-history-view.component";
 
-describe('UserInfoComponent', () => {
-  let component: UserInfoComponent;
-  let fixture: ComponentFixture<UserInfoComponent>;
+describe('UserHistoryViewComponent', () => {
+  let component: UserHistoryViewComponent;
+  let fixture: ComponentFixture<UserHistoryViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserInfoComponent ]
+      declarations: [ UserHistoryViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserInfoComponent);
+    fixture = TestBed.createComponent(UserHistoryViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
