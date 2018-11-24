@@ -13,6 +13,8 @@ import {NavbarViewComponent} from "./navbar-view/navbar-view.component";
 import {LoginViewComponent} from "./login-view/login-view.component";
 import {StoreModule} from "../store/store.module";
 import {FooterViewComponent} from "./footer-view/footer.component";
+import {LoadWaitService} from "../../service/load-wait/load-wait.service";
+import {LoadWaitComponent} from "./load-wait/load-wait.component";
 
 @NgModule({
   imports: [
@@ -31,6 +33,7 @@ import {FooterViewComponent} from "./footer-view/footer.component";
     MessagesComponent,
     NavbarViewComponent,
     LoginViewComponent,
+    LoadWaitComponent,
     FooterViewComponent,
   ],
   providers: [
@@ -40,6 +43,7 @@ import {FooterViewComponent} from "./footer-view/footer.component";
     NavbarViewComponent,
     LoginViewComponent,
     FooterViewComponent,
+    LoadWaitComponent,
   ],
   entryComponents: [
   ]

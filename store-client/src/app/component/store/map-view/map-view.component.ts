@@ -8,7 +8,6 @@ import {MapService} from "../../../service/map-service/map.service";
   styleUrls: ['./map-view.component.css']
 })
 export class MapViewComponent implements OnInit {
-  loadWaited = false;
   @Input()
   name: string = 'default';
 
@@ -32,7 +31,7 @@ export class MapViewComponent implements OnInit {
       if(res.marker) {
         this.layers.push(marker(res.marker));
         this.mapCenter = res.marker;
-      } 
+      }
     });
   }
 

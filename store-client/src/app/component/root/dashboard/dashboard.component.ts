@@ -4,6 +4,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ActivatedRoute} from '@angular/router';
 import {LoginStatus, PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,18 +16,26 @@ export class DashboardComponent implements OnInit {
   loadWaited = true;
 
   constructor(private route: ActivatedRoute,
+              private loadWaitService: LoadWaitService,
               private personalityServiceper: PersonalityService,
               public messageService: MessageService,
               private rootContainerService: RootContainerService,
               public serverInfo: ServerInfoService) {
     // console.log("dashboard constructor");
     this.rootContainerService.setCallback(this.windowResized, this);
+
   }
 
   ngOnInit() {
+    this.loadWaitService.changeState().subscribe(res => {
+      console.log(res)
+      this.loadWaited = res;
+    });
+    this.loadWaitService.wait();
     this.personalityServiceper.afterInitialized().subscribe(res => {
-      if(res === ServiceInitStatus.successed)
-        this.loadWaited = false;
+      if(res === ServiceInitStatus.successed) {
+        this.loadWaitService.release();
+      }
     });
     // console.log("dashboard ngOnInit");
   }

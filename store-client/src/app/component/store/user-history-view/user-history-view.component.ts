@@ -10,8 +10,6 @@ import {MessageService} from "../../../service/message/message.service";
   styleUrls: ['./user-history-view.component.css']
 })
 export class UserHistoryViewComponent implements OnInit {
-  loadWaited = false;
-
   imagePrefix;
   items = [];
   totalPrice: number = 0;
@@ -31,5 +29,14 @@ export class UserHistoryViewComponent implements OnInit {
         this.items = res;
       });
     });
+  }
+
+  createArray(size) {
+    console.log(size)
+    let arr: number[] = [];
+    for (let i = 0; i < size; i++) {
+      arr[i] = i;
+    }
+    return arr;
   }
 }

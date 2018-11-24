@@ -7,18 +7,4 @@
        (leafletClick)="mapOnClick($event)"
        (leafletMapReady)="onMapReady($event)">
   </div>
-
-  <aol-map [height]="'300'" [loadTilesWhileInteracting]="true">
-    <aol-control-defaults></aol-control-defaults>
-    <!--<aol-control-scaleline></aol-control-scaleline>-->
-    <aol-interaction-default></aol-interaction-default>
-    <aol-view [zoom]="12">
-      <aol-coordinate [x]="mapCenter.lng" [y]="mapCenter.lat" [srid]="'EPSG:4326'"></aol-coordinate>
-    </aol-view>
-
-
-    <aol-layer-tile >
-      <aol-source-osm></aol-source-osm>
-    </aol-layer-tile>
-  </aol-map>
 </div>

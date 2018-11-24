@@ -1,11 +1,9 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {latLng, Map, marker, tileLayer} from "leaflet";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MapService} from "../../../service/map-service/map.service";
-import {MapViewComponent} from "../../store/map-view/map-view.component";
 import {MessageService} from "../../../service/message/message.service";
 
 @Component({
@@ -14,8 +12,6 @@ import {MessageService} from "../../../service/message/message.service";
   styleUrls: ['./person-view.component.css']
 })
 export class PersonViewComponent implements OnInit {
-  loadWaited = false;
-
   addresses = null;
   addressSelectedMap = {};
   selected = null;

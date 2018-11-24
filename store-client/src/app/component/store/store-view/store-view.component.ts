@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ServerInfoService} from '../../../service/server-info/server-info.service';
-import {ItemInfoService} from "../../../service/item-info/item-info.service";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import { Location } from '@angular/common';
+import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'store-view',
@@ -11,7 +10,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./store-view.component.css']
 })
 export class StoreViewComponent implements OnInit {
-  loadWaited = false;
   items = [];
 
   constructor(

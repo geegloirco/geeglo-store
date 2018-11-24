@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LoginStatus, PersonalityService} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
 import {MapService} from "../../../service/map-service/map.service";
 import {LatLng, latLng} from "leaflet";
 import {AddressService} from "../../../service/address/address.service";
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
 
 @Component({
   selector: 'user-address-view',
@@ -11,13 +12,12 @@ import {AddressService} from "../../../service/address/address.service";
   styleUrls: ['./user-address-view.component.css']
 })
 export class UserAddressViewComponent implements OnInit {
-  loadWaited = false;
-
   addresses = null;
   addressSelectedMap = {};
   selectedOriginal = null;
   selectedLocation = {};
 
+  @Input() name: string = "default";
   @Output() addressSelected = new EventEmitter<object>();
 
   selected = {
@@ -31,13 +31,14 @@ export class UserAddressViewComponent implements OnInit {
 
   constructor(
     public personalityService: PersonalityService,
+    private loadWaitService: LoadWaitService,
     public addressService: AddressService,
     public mapService: MapService,
     private messageService: MessageService) {
   }
 
   ngOnInit() {
-    this.loadWaited = true;
+    this.loadWaitService.wait();
     this.personalityService.afterLoggedIn().subscribe(res => {
       if(res === LoginStatus.login)
         this.addressService.getAddresses().subscribe(res => {
@@ -51,9 +52,9 @@ export class UserAddressViewComponent implements OnInit {
           }
           this.addressSelectedMap[0] = false;
           this.createNewAddress();
-          this.loadWaited = false;
+          this.loadWaitService.release();
         }, err => {
-          this.loadWaited = false;
+          this.loadWaitService.release();
         })
     });
   }
@@ -69,7 +70,7 @@ export class UserAddressViewComponent implements OnInit {
     if(this.addressSelectedMap[address['id']]) {
       this.selectedOriginal = address;
       this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
-      this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
+      this.mapService.setMarker(this.name, latLng(this.selected['latitude'], this.selected['longitude']));
       this.addressSelected.emit(this.selected);
     } else {
       this.createNewAddress();
@@ -99,7 +100,7 @@ export class UserAddressViewComponent implements OnInit {
           'latitude': null,
         }
         this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
-        this.mapService.defaultReset();
+        this.mapService.reset(this.name);
         // if(this.map) {
         //   this.zone.run(() => {
         //       setTimeout(() => {this.map.invalidateSize(true); console.log("invalidate")}, 1000);
@@ -113,27 +114,27 @@ export class UserAddressViewComponent implements OnInit {
   }
 
   addressChangeOk() {
-    if(!this.mapService.getMarker()) {
+    if(!this.mapService.getMarker(this.name)) {
       this.messageService.add("موقعیت روی نقشه انتخاب شود");
     } else if(this.addressSelectedMap[0]) {
-      this.loadWaited = true;
-      this.selected['latitude'] = this.mapService.getMarker().lat;
-      this.selected['longitude'] = this.mapService.getMarker().lng;
+      this.loadWaitService.wait();
+      this.selected['latitude'] = this.mapService.getMarker(this.name).lat;
+      this.selected['longitude'] = this.mapService.getMarker(this.name).lng;
       this.personalityService.registerAddress(this.selected).subscribe(res => {
         // console.log(res);
         this.addresses.push(res);
         this.addressSelectedMap[res['id']] = false;
         this.toggleAddressCollapseMap(res);
         this.messageService.add("موفق");
-        this.loadWaited = false;
+        this.loadWaitService.release();
       }, err => {
         // console.log(err);
         this.messageService.add("نا موفق");
-        this.loadWaited = false;
+        this.loadWaitService.release();
       });
     } else {
-      this.selected['latitude'] = this.mapService.getMarker().lat;
-      this.selected['longitude'] = this.mapService.getMarker().lng;
+      this.selected['latitude'] = this.mapService.getMarker(this.name).lat;
+      this.selected['longitude'] = this.mapService.getMarker(this.name).lng;
       if(JSON.stringify(this.selectedOriginal) === JSON.stringify(this.selected)) {
         // console.log('no change');
       } else {
@@ -141,16 +142,17 @@ export class UserAddressViewComponent implements OnInit {
           console.log(res);
           let index = this.addresses.indexOf(this.selectedOriginal);
           this.addresses[index] = res;
-          this.loadWaited = false;
+          this.loadWaitService.release();
         }, err => {
           console.log(err);
-          this.loadWaited = false;
+          this.loadWaitService.release();
         });
       }
     }
   }
 
   removeAddress() {
+    this.loadWaitService.wait();
     this.personalityService.removeAddress(this.selected.id).subscribe(res => {
       // console.log(res);
       let index = this.addresses.indexOf(this.selectedOriginal);
@@ -160,20 +162,20 @@ export class UserAddressViewComponent implements OnInit {
       this.selected = null;
       this.selectedOriginal = null;
       this.createNewAddress();
-      this.loadWaited = false;
+      this.loadWaitService.release();
     }, err => {
       console.log(err);
-      this.loadWaited = false;
+      this.loadWaitService.release();
     });
   }
 
   addressRevert() {
     this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
-    this.mapService.setDefaultMarker(latLng(this.selected['latitude'], this.selected['longitude']));
+    this.mapService.setMarker(this.name, latLng(this.selected['latitude'], this.selected['longitude']));
   }
 
   addressChangeCancel() {
-    this.mapService.defaultReset();
+    this.mapService.reset(this.name);
     this.selected = JSON.parse(JSON.stringify(this.selectedOriginal));
   }
 }

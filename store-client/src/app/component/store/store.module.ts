@@ -6,7 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ItemViewComponent } from "./item-view/item-view.component";
 import { CartViewComponent } from "./cart-view/cart-view.component";
-import { LoadWaitComponent } from "./load-wait/load-wait.component";
+import { LoadWaitComponent } from "../root/load-wait/load-wait.component";
 import { StoreViewComponent } from "./store-view/store-view.component";
 import { ItemsViewComponent } from "./items-view/items-view.component";
 import { MapViewComponent } from "./map-view/map-view.component";
@@ -17,7 +17,6 @@ import { UserHistoryViewComponent } from "./user-history-view/user-history-view.
 import { UserAddressViewComponent } from "./user-address-view/user-address-view.component";
 import { UserInfoViewComponent } from "./user-info-view/user-info-view.component";
 import { PersonViewComponent } from "./person-view/person-view.component";
-import {AngularOpenlayersModule} from "ngx-openlayers";
 
 
 @NgModule({
@@ -27,11 +26,9 @@ import {AngularOpenlayersModule} from "ngx-openlayers";
     FormsModule,
     RouterModule,
     NgbModule,
-    AngularOpenlayersModule,
     LeafletModule,
   ],
   declarations: [
-    LoadWaitComponent,
     ItemsViewComponent,
     ItemViewComponent,
     CartViewComponent,
@@ -47,7 +44,6 @@ import {AngularOpenlayersModule} from "ngx-openlayers";
   providers: [
   ],
   exports: [
-    LoadWaitComponent,
     ItemViewComponent,
     ItemsViewComponent,
     CartViewComponent,

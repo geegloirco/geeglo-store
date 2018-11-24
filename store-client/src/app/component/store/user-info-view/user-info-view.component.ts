@@ -5,6 +5,7 @@ import {LoginStatus, PersonalityService} from "../../../service/personality/pers
 import {MessageService} from "../../../service/message/message.service";
 import {MapService} from "../../../service/map-service/map.service";
 import {UserService} from "../../../service/user/user.service";
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
 
 @Component({
   selector: 'user-info-view',
@@ -12,7 +13,6 @@ import {UserService} from "../../../service/user/user.service";
   styleUrls: ['./user-info-view.component.css']
 })
 export class UserInfoViewComponent implements OnInit {
-  loadWaited = false;
   userClone = null;
 
   userInfoModel: object = {
@@ -24,6 +24,7 @@ export class UserInfoViewComponent implements OnInit {
 
   constructor(
     public personalityService: PersonalityService,
+    public loadWaitService: LoadWaitService,
     private serverInfo: ServerInfoService,
     private modalService: NgbModal,
     private userService: UserService,
@@ -44,14 +45,14 @@ export class UserInfoViewComponent implements OnInit {
   }
 
   userInfoRegister() {
-    this.loadWaited = true;
+    this.loadWaitService.wait();
     this.personalityService.updateUserInfo(this.userInfoModel).subscribe(res => {
-      this.loadWaited = false;
+      this.loadWaitService.release();
       this.userInfoModel = res;
       this.userClone = JSON.parse(JSON.stringify(this.userInfoModel));
       this.messageService.add("با موفقیت انجام شد");
     }, err => {
-      this.loadWaited = false;
+      this.loadWaitService.release();
       this.messageService.add("با شکست مواجه شد");
     });
   }

@@ -4,13 +4,14 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PersonalityService, ServiceInitStatus} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
 
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
+
 @Component({
   selector: 'item-view',
   templateUrl: './item-view.component.html',
   styleUrls: ['./item-view.component.css']
 })
 export class ItemViewComponent implements OnInit {
-  loadWaited = false;
   model = 1;
   count = 0;
 
@@ -21,6 +22,7 @@ export class ItemViewComponent implements OnInit {
 
   constructor(
     private personalityService: PersonalityService,
+    private loadWaitService: LoadWaitService,
     private modalService: NgbModal,
     private serverInfo: ServerInfoService,
     private messageService: MessageService) {
@@ -58,14 +60,14 @@ export class ItemViewComponent implements OnInit {
         this.count = this.item['count'];
       } else if (result === 2) {
         if(this.count !== this.item['count']) {
-          this.loadWaited = true;
+          this.loadWaitService.wait();
           this.personalityService.changeToCart(this.item, this.count).subscribe(res => {
             this.messageService.add("اضافه شد")
             this.item['count'] = res['count'];
-            this.loadWaited = false;
+            this.loadWaitService.release();
           }, err => {
             this.messageService.add(err);
-            this.loadWaited = false;
+            this.loadWaitService.release();
           });
         }
       }

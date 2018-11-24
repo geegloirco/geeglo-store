@@ -11,8 +11,6 @@ import {PaymentTypeService} from "../../../service/payment-type/payment-type.ser
   styleUrls: ['./order-view.component.css']
 })
 export class OrderViewComponent implements OnInit {
-  loadWaited = false;
-
   verifyList = false;
 
   verifyAddress = false;

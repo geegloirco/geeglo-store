@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row" style="padding: 20px 0px; margin: 0px 1px;">
-    <div class="col-md-12 col-sm-12" style="border-bottom: 1px solid gray;">
+    <div class="col-md-12 col-sm-12 pt-5 pb-5" style="border-bottom: 1px solid gray;">
       <table class="table table-condensed table-hover">
         <thead>
         <tr class="table-secondary">
@@ -30,7 +30,16 @@
               <span class="fa fa-times" style="color: red;" *ngIf="!item['received']"></span>
               <span class="fa fa-check" style="color: green;" *ngIf="item['received']"></span>
             </td>
-            <td >&nbsp;</td>
+            <td >
+              <button class="badge badge-danger" style="cursor: pointer; ">
+                <span class="fa fa-info"></span>
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template [ngIf]="items.length < 5">
+          <tr *ngFor="let i of createArray(5 - items.length)">
+            <td colspan="8">&nbsp;</td>
           </tr>
         </ng-template>
         </tbody>

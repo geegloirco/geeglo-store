@@ -4,6 +4,7 @@ import {LoginStatus, PersonalityService} from "../../../service/personality/pers
 
 import {NgbModal, NgbModalConfig, NgbTabChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {MessageService} from "../../../service/message/message.service";
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,6 @@ import {MessageService} from "../../../service/message/message.service";
   styleUrls: ['./login-view.component.css']
 })
 export class LoginViewComponent implements OnInit {
-  loadWaited = false;
-
   isLoggedIn = false;
   mobileNo: string = "09391366128";
   password: string = "123";
@@ -26,6 +25,7 @@ export class LoginViewComponent implements OnInit {
 
   constructor(
     config: NgbModalConfig,
+    private loadWaitService: LoadWaitService,
     private modalService: NgbModal,
     public serverInfo: ServerInfoService,
     private personalityService: PersonalityService,
@@ -55,7 +55,7 @@ export class LoginViewComponent implements OnInit {
   }
 
   login() {
-    this.loadWaited = true;
+    this.loadWaitService.wait();
     this.personalityService.login(this.mobileNo, this.password).subscribe(
       res => {
         // this.enableMobile = res;
@@ -63,25 +63,25 @@ export class LoginViewComponent implements OnInit {
           this.user['username'] = res['username'];
           this.user['image'] = this.serverInfo.getServerBaseUrl() + 'assets/image/user/' + res['image'];
         }
-        this.loadWaited = false;
+        this.loadWaitService.release();
         this.isLoggedIn = true;
         // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
-        this.loadWaited = false;
+        this.loadWaitService.release();
       });
   }
 
   register() {
     if(this.registerPass === this.registerPass2) {
-      this.loadWaited = true;
+      this.loadWaitService.wait();
       this.personalityService.register(this.registerMobileNo, this.registerPass).subscribe(
         res => {
           // this.enableMobile = true;
           this.showVerify = true;
-          this.loadWaited = false;
+          this.loadWaitService.release();
         },err => {
-          this.loadWaited = false;
+          this.loadWaitService.release();
         });
     }
 
@@ -89,17 +89,17 @@ export class LoginViewComponent implements OnInit {
   }
 
   sendVerify() {
-    this.loadWaited = true;
+    this.loadWaitService.wait();
     this.personalityService.verify(this.verifyCode).subscribe(
       res => {
         // this.enableMobile = true;
         this.showVerify = false;
-        this.loadWaited = false;
+        this.loadWaitService.release();
         this.isLoggedIn = true;
         // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
-        this.loadWaited = false;
+        this.loadWaitService.release();
       });
 
 
@@ -107,24 +107,24 @@ export class LoginViewComponent implements OnInit {
   }
 
   logout() {
-    this.loadWaited = true;
+    this.loadWaitService.wait();
     this.personalityService.logout().subscribe(
       res => {
         // this.enableMobile = res;
         this.user['username'] = '';
         this.user['image'] = '';
-        this.loadWaited = false;
+        this.loadWaitService.release();
         this.isLoggedIn = false;
         // this.messageService.add('با موفقیت انجام شد.');
         this.modalService.dismissAll();
       },err => {
-        this.loadWaited = false;
+        this.loadWaitService.release();
       });
   }
 
   clear() {
     console.log('clear');
-    this.loadWaited = false;
+    // this.loadWaitService.release();
 
     this.mobileNo = "";
     this.password = "";
