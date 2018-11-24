@@ -1,32 +1,38 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" style="padding: 20px 0px; margin: 0px 1px;">
     <div class="col-md-12 col-sm-12" style="border-bottom: 1px solid gray;">
       <table class="table table-condensed table-hover">
         <thead>
         <tr class="table-secondary">
-          <th>نام</th>
-          <th>تعداد</th>
-          <th>قیمت(تومان)</th>
+          <th>شماره سفارش</th>
+          <th>تاریخ</th>
+          <th>مبلغ</th>
+          <th>آدرس</th>
+          <th>نوع پرداخت</th>
+          <th>پرداخت شد</th>
+          <th>تحویل شد</th>
+          <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
         <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
           <tr >
-            <td >{{item['title']}}</td>
-            <td >{{item['count']}}</td>
-            <td >{{item['price'] * item['count']}}</td>
+            <td >{{item['referenceId']}}</td>
+            <td >{{item['history']['register-date']}}</td>
+            <td >{{item['history']['total-price']}}</td>
+            <td >{{item['history']['address-title']}}</td>
+            <td >{{item['history']['payment-type-title']}}</td>
+            <td >
+              <span class="fa fa-times" style="color: red;" *ngIf="!item['paid']"></span>
+              <span class="fa fa-check" style="color: green;" *ngIf="item['paid']"></span>
+            </td>
+            <td >
+              <span class="fa fa-times" style="color: red;" *ngIf="!item['received']"></span>
+              <span class="fa fa-check" style="color: green;" *ngIf="item['received']"></span>
+            </td>
+            <td >&nbsp;</td>
           </tr>
         </ng-template>
-        <tr class="bg-success">
-          <td>
-            <span style="margin-right: 10px;">مبلغ کل</span>
-          </td>
-          <td>&nbsp;</td>
-          <td>
-            <span style="margin-right: 10px;">{{totalPrice}}</span>
-            <span style="margin-right: 10px;">تومان</span>
-          </td>
-        </tr>
         </tbody>
       </table>
 

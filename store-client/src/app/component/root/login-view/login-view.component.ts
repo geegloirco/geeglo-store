@@ -15,7 +15,7 @@ export class LoginViewComponent implements OnInit {
 
   isLoggedIn = false;
   mobileNo: string = "09391366128";
-  password: string = "123456";
+  password: string = "123";
   registerPass = "";
   registerPass2 = "";
   registerMobileNo = "";
@@ -123,6 +123,7 @@ export class LoginViewComponent implements OnInit {
   }
 
   clear() {
+    console.log('clear');
     this.loadWaited = false;
 
     this.mobileNo = "";
@@ -132,6 +133,7 @@ export class LoginViewComponent implements OnInit {
     this.registerMobileNo = "";
     this.showVerify = false;
     this.verifyCode = "";
+    this.tab = "tab-login";
   }
 
   open(content) {

@@ -27,7 +27,7 @@ public class AddressService extends BaseService {
     @Qualifier("GeegloBaseDao")
     GeegloBaseDao<AddressEntity> bazarBaseDao;
 
-    public AddressEntity selectByUserId(int userId) {
+    public AddressEntity findByUserId(int userId) {
         return bazarBaseDao.findByCondition(
                 AddressEntity.class, "userId", userId);
     }

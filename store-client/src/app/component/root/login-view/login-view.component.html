@@ -117,7 +117,8 @@
     <button class="btn btn-outline-success"
             *ngIf="showVerify"
             type="button" (click)="sendVerify()">تایید</button>
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >انصراف</button>
+    <button type="button" class="btn btn-outline-dark"
+            (click)="modal.close('Save click')" >انصراف</button>
   </div>
   <div class="modal-footer" *ngIf="isLoggedIn">
     <button class="btn btn-outline-danger"

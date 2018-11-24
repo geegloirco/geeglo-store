@@ -3,6 +3,7 @@ import {ServerInfoService} from '../../../service/server-info/server-info.servic
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PersonalityService} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
+import {PaymentTypeService} from "../../../service/payment-type/payment-type.service";
 
 @Component({
   selector: 'order-view',
@@ -24,14 +25,16 @@ export class OrderViewComponent implements OnInit {
   items = [];
   totalPrice: number = 0;
 
-  paymentTypes =[
-    {id: 1, image: 'internet.png', enabled: false},
-    {id: 2, image: 'cash.png', enabled: true},
-    {id: 3, image: 'pos.png', enabled: true},
-  ]
+  paymentTypes = null;
+    // [
+    // {id: 1, image: 'internet.png', enabled: false},
+    // {id: 2, image: 'cash.png', enabled: true},
+    // {id: 3, image: 'pos.png', enabled: true},
+  // ]
 
   constructor(
     public personalityService: PersonalityService,
+    public paymentTypeService: PaymentTypeService,
     public serverInfo: ServerInfoService,
     private modalService: NgbModal,
     private messageService: MessageService) {
@@ -41,6 +44,9 @@ export class OrderViewComponent implements OnInit {
   ngOnInit() {
     this.personalityService.afterCartChangedInfluencedServer().subscribe(res => {
       // console.log("cart view");
+      this.paymentTypeService.getPaymentType().subscribe(res => {
+        this.paymentTypes = res;
+      });
       this.items = this.personalityService.getItems();
       // console.log(this.items);
       // console.log(res);
@@ -69,11 +75,8 @@ export class OrderViewComponent implements OnInit {
   }
 
   finalVerify() {
-    console.log(this.selectedPayment);
-    console.log(this.selectedAddress);
-
     this.personalityService.registerCartByAddressAndPayment(
-      this.selectedPayment['id'], this.selectedAddress['id'], ).subscribe(res => {
+      this.selectedPayment['id'], this.selectedAddress['id']).subscribe(res => {
       console.log('completed');
       this.messageService.add("با موفقیت ثبت شد.");
     }, err => {

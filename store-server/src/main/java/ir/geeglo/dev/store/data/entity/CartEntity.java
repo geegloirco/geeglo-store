@@ -1,5 +1,6 @@
 package ir.geeglo.dev.store.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.geeglo.dev.store.data.converter.MapConverter;
 
 import javax.persistence.*;
@@ -16,19 +17,21 @@ public class CartEntity {
     private int id;
     private UserEntity userEntity;
     private Timestamp creationTime;
-    private Map items;
+    private String referenceId;
+    private Map history;
     private Timestamp registerTime;
+    private Timestamp deliveryTime;
     private boolean paid;
-    private boolean recieved;
+    private boolean received;
 
     public CartEntity() {
     }
 
-    public CartEntity(OpenCartEntity openCartEntity) {
-        this.setItems(openCartEntity.getItems());
-        this.setCreationTime(openCartEntity.getCreationTime());
-        this.setRegisterTime(new Timestamp(System.currentTimeMillis()));
-    }
+//    public CartEntity(OpenCartEntity openCartEntity) {
+//        this.setItems(openCartEntity.getItems());
+//        this.setCreationTime(openCartEntity.getCreationTime());
+//        this.setRegisterTime(new Timestamp(System.currentTimeMillis()));
+//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,14 +54,25 @@ public class CartEntity {
         this.creationTime = creationTime;
     }
 
-    @Convert(converter = MapConverter.class)
-    @Column(name = "items", nullable = false, length = 128)
-    public Map getItems() {
-        return items;
+    @Basic
+    @Column(name = "reference_id", nullable = true, length = 128)
+    public String getReferenceId() {
+        return referenceId;
     }
 
-    public void setItems(Map items) {
-        this.items = items;
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
+
+
+    @Convert(converter = MapConverter.class)
+    @Column(name = "history", nullable = false, length = 1024)
+    public Map getHistory() {
+        return history;
+    }
+
+    public void setHistory(Map history) {
+        this.history = history;
     }
 
     @Basic
@@ -72,6 +86,16 @@ public class CartEntity {
     }
 
     @Basic
+    @Column(name = "delivery_time", nullable = false)
+    public Timestamp getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(Timestamp deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    @Basic
     @Column(name = "is_paid")
     public boolean isPaid() {
         return paid;
@@ -82,13 +106,13 @@ public class CartEntity {
     }
 
     @Basic
-    @Column(name = "is_recieved")
-    public boolean isRecieved() {
+    @Column(name = "is_received")
+    public boolean isReceived() {
         return paid;
     }
 
-    public void setRecieved(boolean recieved) {
-        this.recieved = recieved;
+    public void setReceived(boolean received) {
+        this.received = received;
     }
 
     @Override
@@ -98,14 +122,15 @@ public class CartEntity {
         CartEntity that = (CartEntity) o;
         return id == that.id &&
                 Objects.equals(creationTime, that.creationTime) &&
-                Objects.equals(items, that.items);
+                Objects.equals(history, that.history);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creationTime, items);
+        return Objects.hash(id, creationTime, history);
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UserEntity getUserEntity() {

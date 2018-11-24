@@ -8,14 +8,14 @@
 }
 
 .menu-image {
-  border: 1px solid #88f15d;
-  background-color: #88f15d;
-  padding: 14px;
+  border: 1px solid #b1dfbb;
+  background-color: #b1dfbb;
+  padding: 11px;
   margin-left: 8px;
 }
 
 .list-group-item:hover {
-  background-color: #d8ff00c2;
+  background-color: #d8f6cf;
 }
 
 .list-group-item:hover .menu-image {
@@ -23,7 +23,7 @@
 }
 
 .list-group-item.selected-group {
-  background: #96ff6b;
+  background: #e0f6e4;
 }
 
 .list-group-item.selected-group .menu-image {

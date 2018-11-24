@@ -58,6 +58,10 @@ public class GeegloSpringServiceProvider {
         return applicationContext.getBean(OpenCartService.class);
     }
 
+    public static PaymentTypeService getPaymentTypeService() {
+        return applicationContext.getBean(PaymentTypeService.class);
+    }
+
     public static KavenegarBusiness getKavenegarBusiness() {
         return applicationContext.getBean(KavenegarBusiness.class);
     }

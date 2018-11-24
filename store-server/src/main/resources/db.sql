@@ -93,6 +93,14 @@ ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 -- );
 -- ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+create table payment_type (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(128) NOT NULL,
+  image VARCHAR(128),
+  is_activate BOOLEAN DEFAULT TRUE
+);
+ALTER TABLE payment_type CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 create table item_group (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(128) NOT NULL,
@@ -116,11 +124,13 @@ ALTER TABLE item CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 create table cart (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
+  reference_id CHAR(10) NOT NULL,
   creation_time TIMESTAMP,
-  items TEXT,
+  history TEXT,
   register_time TIMESTAMP,
+  delivery_time TIMESTAMP,
   is_paid BOOLEAN DEFAULT FALSE,
-  is_recieved BOOLEAN DEFAULT FALSE,
+  is_received BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 ALTER TABLE cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -164,3 +174,8 @@ INSERT INTO item (item_group_id, title, price, unit, image) VALUES
 (3, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
 (3, 'کالای 5', 15000, 'جین', 'goods.png'),
 (3, 'کالای 4', 4000, 'نیم کیلو', 'goods.png');
+
+INSERT INTO payment_type (title, image, is_activate) VALUES
+('پرداخت اینترنتی', 'internet.png', false),
+('پرداخت نقدی', 'cash.png', true),
+('پرداخت با کارت خوان', 'pos.png', true);

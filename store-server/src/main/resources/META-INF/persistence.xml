@@ -14,6 +14,7 @@
         <class>ir.geeglo.dev.store.data.entity.UserEntity</class>
         <class>ir.geeglo.dev.store.data.entity.UserInfoEntity</class>
         <class>ir.geeglo.dev.store.data.entity.ItemEntity</class>
+        <class>ir.geeglo.dev.store.data.entity.PaymentTypeEntity</class>
         <class>ir.geeglo.dev.store.data.entity.CartEntity</class>
         <class>ir.geeglo.dev.store.data.entity.OpenCartEntity</class>
         <class>ir.geeglo.dev.store.data.converter.MapConverter</class>

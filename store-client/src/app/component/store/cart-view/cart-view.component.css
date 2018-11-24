@@ -1,5 +1,5 @@
 .cart-link {
-  background-color: #8cb14d;
+  background-color: #b1dfbb;
   height: 50px;
   text-align: center !important;
   cursor: pointer;
@@ -8,7 +8,7 @@
 }
 
 .cart-link:hover {
-  background-color: darkolivegreen;
+  background-color: #d9fee1;
   height: 50px;
   text-align: center !important;
   cursor: pointer;

@@ -17,6 +17,7 @@ import { UserHistoryViewComponent } from "./user-history-view/user-history-view.
 import { UserAddressViewComponent } from "./user-address-view/user-address-view.component";
 import { UserInfoViewComponent } from "./user-info-view/user-info-view.component";
 import { PersonViewComponent } from "./person-view/person-view.component";
+import {AngularOpenlayersModule} from "ngx-openlayers";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { PersonViewComponent } from "./person-view/person-view.component";
     FormsModule,
     RouterModule,
     NgbModule,
+    AngularOpenlayersModule,
     LeafletModule,
   ],
   declarations: [

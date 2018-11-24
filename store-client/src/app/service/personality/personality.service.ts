@@ -356,6 +356,28 @@ export class PersonalityService implements CanActivate {
     return items;
   }
 
+  getHistory(): Observable<object[]> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey);
+
+    // Todo: send the message _after_ fetching the Third Parties
+    let ob = new Observable<object[]>(observer => {
+      this.http.get<object[]>(this.serverInfo.getServerBaseUrl() + 'store/cart/history',
+        {headers: headers}
+      ).subscribe(res => {
+        if(res['status'] === 0) {
+          let entity = res['entity'];
+          observer.next(entity);
+        } else {
+          observer.error(res['entity']);
+        }
+      }, err => {
+        observer.error(err);
+      });
+    });
+    return ob;
+  }
+
   changeToCart(item, count): Observable<object[]> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.sessionKey)
@@ -410,7 +432,7 @@ export class PersonalityService implements CanActivate {
     return ob;
   }
 
-  registerCartByAddressAndPayment(paymentId, addressId): Observable<object> {
+  registerCartByAddressAndPayment(paymentTypeId, addressId): Observable<object> {
     let headers = new HttpHeaders();
     headers = headers.append("Authorization", "Bearer " + this.sessionKey)
       .append('Content-Type', 'application/json; charset=utf-8');
@@ -418,7 +440,7 @@ export class PersonalityService implements CanActivate {
     // Todo: send the message _after_ fetching the Third Parties
     let ob = new Observable<object>(observer => {
       this.http.get<object>(this.serverInfo.getServerBaseUrl() + 'store/cart/register-cart',
-        { params: {paymentId: paymentId, addressId: addressId},
+        { params: {paymentTypeId: paymentTypeId, addressId: addressId},
           headers: headers
         }
       ).subscribe(res => {

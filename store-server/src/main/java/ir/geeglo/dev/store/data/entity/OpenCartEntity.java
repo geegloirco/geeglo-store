@@ -5,6 +5,7 @@ import org.eclipse.persistence.annotations.Mutable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ public class OpenCartEntity {
     private int id;
     private int userId;
     private Timestamp creationTime;
-    private Map items;
+    private Map items = new LinkedHashMap();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,10 +2,7 @@ package ir.geeglo.dev.store.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.geeglo.dev.store.GeegloSpringServiceProvider;
-import ir.geeglo.dev.store.data.entity.CartEntity;
-import ir.geeglo.dev.store.data.entity.ItemEntity;
-import ir.geeglo.dev.store.data.entity.ItemGroupEntity;
-import ir.geeglo.dev.store.data.entity.UserEntity;
+import ir.geeglo.dev.store.data.entity.*;
 import ir.geeglo.dev.store.model.ItemModel;
 import ir.geeglo.dev.store.model.ResponseModel;
 import ir.piana.dev.core.annotation.*;
@@ -63,10 +60,9 @@ public class ItemHandler {
     public static PianaResponse changeCart(@SessionParam Session session,
                                           @QueryParam("id") int id,
                                           @QueryParam("count") int count) {
-        CartEntity cartEntity = (CartEntity) session.getObject("cart");
+        OpenCartEntity cartEntity = (OpenCartEntity) session.getObject("cart");
         cartEntity.getItems().put(String.valueOf(id), count);
-        if(cartEntity.getUserEntity() != null)
-            getCartService().update(cartEntity);
+        getCartService().update(cartEntity);
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, count));
     }

@@ -18,16 +18,20 @@
 }
 
 .nav-link {
-  border-radius: 4px;
-  padding: 13px;
+  background-color: #b1dfbb;
+  height: 50px !important;
+  text-align: center !important;
+  cursor: pointer;
   margin: 2px;
+  border-radius: 4px;
 }
 
 .nav-link.active {
-  background-color: #8cb14d;
+  background-color: #eef8f1;
 }
 
-.nav-link.active:hover {
-  background-color: darkolivegreen;
-  padding: 14px!important;
+.nav-link:hover {
+  background-color: #d9fee1;
+  height: 50px;
+  padding: 10px!important;
 }

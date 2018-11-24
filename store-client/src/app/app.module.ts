@@ -19,6 +19,8 @@ import {UserService} from "./service/user/user.service";
 import {AddressService} from "./service/address/address.service";
 import {GroupService} from "./service/group/group.service";
 import {WindowRefService} from "./service/window-ref/window-ref.service";
+import {PaymentTypeService} from "./service/payment-type/payment-type.service";
+import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 export function startupServiceFactory(personalityService: PersonalityService, mapService: MapService): Function {
   return () => {
@@ -39,6 +41,7 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
     AppRoutingModule,
     RootModule,
     StoreModule,
+    AngularOpenlayersModule,
     LeafletModule.forRoot()
   ],
   providers: [
@@ -48,6 +51,7 @@ export function startupServiceFactory(personalityService: PersonalityService, ma
     UserService,
     AddressService,
     GroupService,
+    PaymentTypeService,
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
