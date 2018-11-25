@@ -23,6 +23,7 @@ export class LoadWaitService {
   }
 
   release() {
+    console.log(this.waitNumber);
     if(this.waitNumber == 1) {
       this.waitNumber--;
       this.loadWaitSubject.next(false);
