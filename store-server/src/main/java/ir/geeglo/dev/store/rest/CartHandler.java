@@ -72,6 +72,7 @@ public class CartHandler {
             if(o instanceof ItemModel) {
                 int count = ((ItemModel)o).getCount();
                 int price = ((ItemModel)o).getPrice();
+                totalPrice[0] += count * price;
             } else {
                 int count = (Integer) ((LinkedHashMap)o).get("count");
                 int price = (Integer) ((LinkedHashMap)o).get("price");

@@ -12,11 +12,11 @@ import { ItemsViewComponent } from "./items-view/items-view.component";
 import { MapViewComponent } from "./map-view/map-view.component";
 import { LeafletModule } from "@asymmetrik/ngx-leaflet";
 import { GroupViewComponent } from "./group-view/group-view.component";
-import { OrderViewComponent } from "./order-view/order-view.component";
 import { UserHistoryViewComponent } from "./user-history-view/user-history-view.component";
 import { UserAddressViewComponent } from "./user-address-view/user-address-view.component";
 import { UserInfoViewComponent } from "./user-info-view/user-info-view.component";
 import { PersonViewComponent } from "./person-view/person-view.component";
+import {PurchaseViewComponent} from "./purchase-view/purchase-view.component";
 
 
 @NgModule({
@@ -32,7 +32,6 @@ import { PersonViewComponent } from "./person-view/person-view.component";
     ItemsViewComponent,
     ItemViewComponent,
     CartViewComponent,
-    OrderViewComponent,
     StoreViewComponent,
     MapViewComponent,
     GroupViewComponent,
@@ -40,6 +39,7 @@ import { PersonViewComponent } from "./person-view/person-view.component";
     UserAddressViewComponent,
     UserHistoryViewComponent,
     UserInfoViewComponent,
+    PurchaseViewComponent,
   ],
   providers: [
   ],
@@ -47,7 +47,6 @@ import { PersonViewComponent } from "./person-view/person-view.component";
     ItemViewComponent,
     ItemsViewComponent,
     CartViewComponent,
-    OrderViewComponent,
     StoreViewComponent,
     MapViewComponent,
     GroupViewComponent,
@@ -55,6 +54,7 @@ import { PersonViewComponent } from "./person-view/person-view.component";
     UserAddressViewComponent,
     UserHistoryViewComponent,
     UserInfoViewComponent,
+    PurchaseViewComponent,
   ],
   entryComponents: [
   ]

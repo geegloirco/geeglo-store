@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadWaitService.changeState().subscribe(res => {
-      console.log(res)
+      // console.log(res)
       this.loadWaited = res;
     });
     this.loadWaitService.wait();

@@ -3,18 +3,27 @@
     <div class="col-md-12 col-sm-12">
       <ng-template ngIf="addresses.length > 0">
         <ng-template ngFor let-address [ngForOf]="addresses">
-          <button type="button" class="btn m-2"
+          <button type="button" class="btn m-2" *ngIf="!isSmall"
                   [class.btn-success]="addressSelectedMap[address['id']]"
                   [class.btn-outline-danger]="!addressSelectedMap[address['id']]"
-                  (click)="toggleAddressCollapseMap(address)">
-            {{address['title']}}
-          </button>
+                  (click)="toggleAddressCollapseMap(address)">{{address['title']}}</button>
+          <a class="badge" style="margin: 2px;"
+                (click)="toggleAddressCollapseMap(address)"
+                [class.badge-success]="addressSelectedMap[address['id']]"
+                [class.badge-danger]="!addressSelectedMap[address['id']]"
+                *ngIf="isSmall">{{address['title']}}</a>
         </ng-template>
       </ng-template>
       <button type="button" class="btn btn-outline-success m-2"
+              *ngIf="!isSmall"
               [class.btn-success]="addressSelectedMap[0]"
               [class.btn-outline-danger]="!addressSelectedMap[0]"
               (click)="createNewAddress()">آدرس جدید</button>
+      <a class="badge" style="margin: 2px;"
+         (click)="createNewAddress()"
+         [class.badge-success]="addressSelectedMap[0]"
+         [class.badge-danger]="!addressSelectedMap[0]"
+         *ngIf="isSmall">آدرس جدید</a>
     </div>
   </div>
 
@@ -61,7 +70,7 @@
   </div>
 
   <div class="row" *ngIf="selected" style="padding: 20px 0px; margin: 0px 1px;">
-    <div class="col-md-12">
+    <div class="col-md-12" *ngIf="!isSmall">
       <button class="btn btn-outline-success m-2"
               (click)="addressChangeOk()">
         <span *ngIf="!addressSelectedMap[0]">ثبت تغییرات</span>
@@ -80,6 +89,26 @@
               (click)="addressChangeCancel()">
         <span>انصراف</span>
       </button>
+    </div>
+    <div class="col-md-12" *ngIf="isSmall">
+      <a class="badge badge-success m-2"
+              (click)="addressChangeOk()">
+        <span *ngIf="!addressSelectedMap[0]">ثبت</span>
+        <span *ngIf="addressSelectedMap[0]">ذخیره</span>
+      </a>
+      <a class="badge badge-danger m-2"
+              *ngIf="!addressSelectedMap[0]"
+              (click)="removeAddress()">حذف</a>
+      <a class="badge badge-warning m-2"
+              *ngIf="!addressSelectedMap[0]"
+              (click)="addressRevert()">
+        <span >انصراف</span>
+      </a>
+      <a class="badge badge-warning m-2"
+              *ngIf="addressSelectedMap[0]"
+              (click)="addressChangeCancel()">
+        <span>انصراف</span>
+      </a>
     </div>
   </div>
 </div>

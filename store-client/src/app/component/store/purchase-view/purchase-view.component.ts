@@ -4,13 +4,16 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PersonalityService} from "../../../service/personality/personality.service";
 import {MessageService} from "../../../service/message/message.service";
 import {PaymentTypeService} from "../../../service/payment-type/payment-type.service";
+import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
 
 @Component({
-  selector: 'order-view',
-  templateUrl: './order-view.component.html',
-  styleUrls: ['./order-view.component.css']
+  selector: 'app-purchase',
+  templateUrl: './purchase-view.component.html',
+  styleUrls: ['./purchase-view.component.css']
 })
-export class OrderViewComponent implements OnInit {
+export class PurchaseViewComponent implements OnInit {
+  purchaseCompleted = false;
+
   verifyList = false;
 
   verifyAddress = false;
@@ -32,6 +35,7 @@ export class OrderViewComponent implements OnInit {
 
   constructor(
     public personalityService: PersonalityService,
+    public loadWaitService: LoadWaitService,
     public paymentTypeService: PaymentTypeService,
     public serverInfo: ServerInfoService,
     private modalService: NgbModal,
@@ -55,28 +59,50 @@ export class OrderViewComponent implements OnInit {
     });
   }
 
-  addressSelected(event) {
-    console.log(event);
-    this.selectedAddress = event;
-    this.verifyAddress = event != null;
-  }
-
-  paymentSelected(payment) {
-    if(payment.enabled) {
-      this.selectedPayment = payment;
+  verify() {
+    if(!this.verifyList) {
+      this.verifyList = true;
+    } else if(!this.verifyAddress) {
+      if(this.selectedAddress)
+        this.verifyAddress = true;
+    } else if(!this.verifyPayment) {
       if(this.selectedPayment && this.selectedPayment.id > 0)
         this.verifyPayment = true;
       else
         this.verifyPayment = false;
     }
+  }
 
+  reverse() {
+    if(this.verifyList && !this.verifyAddress) {
+      this.verifyList = false;
+    } else if(this.verifyAddress && !this.verifyPayment) {
+        this.verifyAddress = null;
+        this.verifyAddress = false;
+    } else if(this.verifyPayment) {
+      this.selectedPayment = null;
+      this.verifyPayment = false;
+    }
+  }
+
+  addressSelected(event) {
+    console.log(event);
+    this.selectedAddress = event;
+  }
+
+  paymentSelected(payment) {
+    if(payment.enabled) {
+      this.selectedPayment = payment;
+    }
   }
 
   finalVerify() {
+    this.loadWaitService.wait();
     this.personalityService.registerCartByAddressAndPayment(
       this.selectedPayment['id'], this.selectedAddress['id']).subscribe(res => {
-      console.log('completed');
       this.messageService.add("با موفقیت ثبت شد.");
+      this.loadWaitService.release();
+      this.purchaseCompleted = true;
     }, err => {
 
     });
@@ -102,5 +128,13 @@ export class OrderViewComponent implements OnInit {
         // console.log(`with: ${reason}`);
       }
     });
+  }
+
+  createArray(size) {
+    let arr: number[] = [];
+    for (let i = 0; i < size; i++) {
+      arr[i] = i;
+    }
+    return arr;
   }
 }

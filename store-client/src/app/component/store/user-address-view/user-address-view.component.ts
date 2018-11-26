@@ -5,6 +5,7 @@ import {MapService} from "../../../service/map-service/map.service";
 import {LatLng, latLng} from "leaflet";
 import {AddressService} from "../../../service/address/address.service";
 import {LoadWaitService} from "../../../service/load-wait/load-wait.service";
+import {RootContainerService} from "../../root/root-container/root-container.component";
 
 @Component({
   selector: 'user-address-view',
@@ -16,6 +17,7 @@ export class UserAddressViewComponent implements OnInit {
   addressSelectedMap = {};
   selectedOriginal = null;
   selectedLocation = {};
+  isSmall = false;
 
   @Input() name: string = "default";
   @Output() addressSelected = new EventEmitter<object>();
@@ -31,6 +33,7 @@ export class UserAddressViewComponent implements OnInit {
 
   constructor(
     public personalityService: PersonalityService,
+    public resizeService: RootContainerService,
     private loadWaitService: LoadWaitService,
     public addressService: AddressService,
     public mapService: MapService,
@@ -38,6 +41,10 @@ export class UserAddressViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resizeService.afterResize().subscribe(res => {
+      this.isSmall = res['isSmall'];
+    });
+
     this.loadWaitService.wait();
     this.personalityService.afterLoggedIn().subscribe(res => {
       if(res === LoginStatus.login)

@@ -1,0 +1,144 @@
+<div class="container-fluid" *ngIf="!purchaseCompleted">
+  <div class="row" style="border-bottom: 1px solid gray; margin-bottom: 24px; padding-bottom: 12px;">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8" style="text-align: center">
+      <span class="fa fa-circle p-1"
+            [style.color]="verifyList ? 'green' : 'orange'"></span>
+      <span class="fa fa-circle p-1"
+            [style.color]="verifyList ? verifyAddress ? 'green' : 'orange' : null"></span>
+      <span class="fa fa-circle p-1"
+            [style.color]="verifyList && verifyAddress ? verifyPayment ? 'green' : 'orange' : null"></span>
+      <span class="fa fa-circle p-1"
+            [style.color]="verifyList && verifyAddress && verifyPayment ? 'orange' : null"></span>
+    </div>
+  </div>
+  <div class="row" *ngIf="!verifyList">
+    <div class="col-md-2">&nbsp;</div>
+      <!--<div class="d-flex justify-content-center align-items-center mb-5" style="height: 100%;">-->
+        <!--<button class="btn"-->
+                <!--[class.btn-success]="verifyList"-->
+                <!--[class.btn-outline-danger]="!verifyList"-->
+                <!--(click)="verifyList = !verifyList">تایید لیست خرید-->
+          <!--<span class="fa"-->
+                <!--[class.fa-times]="!verifyList"-->
+                <!--[class.fa-check]="verifyList" ></span> </button>-->
+      <!--</div>-->
+  <!--</div>-->
+    <div class="col-md-8 pb-5">
+      <table class="table table-condensed table-hover">
+        <thead>
+        <tr class="table-secondary">
+          <th>نام</th>
+          <th>تعداد</th>
+          <th>قیمت(تومان)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
+          <tr >
+            <td >{{item['title']}}</td>
+            <td >{{item['count']}}</td>
+            <td >{{item['price'] * item['count']}}</td>
+          </tr>
+        </ng-template>
+        <ng-template [ngIf]="items.length < 5">
+          <tr *ngFor="let i of createArray(5 - items.length)">
+            <td colspan="8">&nbsp;</td>
+          </tr>
+        </ng-template>
+        <tr class="bg-success">
+          <td>
+            <span style="margin-right: 10px;">مبلغ کل</span>
+          </td>
+          <td>&nbsp;</td>
+          <td>
+            <span style="margin-right: 10px;">{{totalPrice}}</span>
+            <span style="margin-right: 10px;">تومان</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="mr-auto p-2">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="verifyList && !verifyAddress">
+    <div class="col-md-2">
+      &nbsp;
+    </div>
+    <div class="col-md-8">
+      <user-address-view [name]="'ali'" (addressSelected)="addressSelected($event)"></user-address-view>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="verifyList && verifyAddress && !verifyPayment">
+    <div class="col-md-4">&nbsp;</div>
+    <div class="col-md-8 pb-5">
+      <div class="row pt-5 pb-2" >
+        <div class="col-md-12">
+          <img *ngFor="let paymentType of paymentTypes"
+               class="img-thumbnail payment-image payment-disable"
+               (click)="paymentSelected(paymentType)"
+               [class.payment-enable]="paymentType.enabled"
+               [class.payment-disable]="!paymentType.enabled"
+               [class.payment-selected]="selectedPayment && selectedPayment.enabled && selectedPayment.id == paymentType.id"
+               [src]="serverInfo.getServerBaseUrl() + 'assets/image/general/' + paymentType.image" />
+        </div>
+      </div>
+    </div>
+  </div >
+
+  <div class="row" *ngIf="verifyList && verifyAddress && verifyPayment">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8">
+      <p class="pb-5 pt-5 mb-5 mt-5">سفارش شما تکمیل میباشد. برای ثبت نهایی اقدام نمایید.</p>
+    </div>
+  </div>
+
+  <div class="row" style="border-top: 1px solid gray; margin-top: 12px; padding-top: 24px;">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8">
+      <button class="btn btn-outline-danger"
+              style="margin: 0px 4px"
+              *ngIf="verifyList"
+              (click)="reverse()">
+        <span class="fa fa-arrow-right"></span>
+        بازگشت</button>
+      <button type="button" class="btn btn-outline-success"
+              ngbPopover="آدرس خود را انتخاب یا ثبت نمایید."
+              *ngIf="verifyList && !selectedAddress" >تایید و ادامه
+        <span class="fa fa-arrow-left"></span>
+      </button>
+      <button type="button" class="btn btn-outline-success"
+              ngbPopover="نوع پرداخت خود را انتخاب نمایید."
+              *ngIf="verifyList && verifyAddress && !selectedPayment" >تایید و ادامه
+        <span class="fa fa-arrow-left"></span>
+      </button>
+      <button class="btn btn-outline-success"
+              *ngIf="!verifyList || (verifyList && !verifyAddress && selectedAddress) || (verifyList && verifyAddress && !verifyPayment && selectedPayment)"
+              (click)="verify()">تایید و ادامه
+        <span class="fa fa-arrow-left"></span>
+      </button>
+      <button class="btn btn-outline-success"
+              *ngIf="verifyList && verifyAddress && verifyPayment"
+              (click)="finalVerify()">ثبت نهایی
+        <span class="fa fa-arrow-left"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="purchaseCompleted">
+  <div class="row">
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8">
+      <p class="m-5 p-5">
+        سفارش شما با شماره پیگیری در سیستم ثبت شد.
+        از خرید شما سپاسگذاریم.
+      </p>
+    </div>
+  </div>
+</div>
