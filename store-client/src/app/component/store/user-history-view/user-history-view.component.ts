@@ -42,10 +42,14 @@ export class UserHistoryViewComponent implements OnInit {
 
   open(content, cartDetail) {
     console.log(cartDetail);
-    this.modalService.open(content, {}).result.then((result) => {
+    this.personalityService.findCartHistory(cartDetail['id']).subscribe(res => {
+      console.log(res);
+    });
+
+    this.modalService.open(content, { size: 'lg' }).result.then((result) => {
       // console.log('register cart');
       // console.log(result);
-      if(result === 1) {
+      if (result === 1) {
         // this.personalityService.registerCart().subscribe(res => {
         //
         // }, err => {
@@ -61,4 +65,5 @@ export class UserHistoryViewComponent implements OnInit {
         // console.log(`with: ${reason}`);
       }
     });
+  }
 }

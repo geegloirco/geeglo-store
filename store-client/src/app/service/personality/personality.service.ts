@@ -457,6 +457,30 @@ export class PersonalityService implements CanActivate {
     });
     return ob;
   }
+
+  findCartHistory(cartId): Observable<object> {
+    let headers = new HttpHeaders();
+    headers = headers.append("Authorization", "Bearer " + this.sessionKey)
+      .append('Content-Type', 'application/json; charset=utf-8');
+
+    // Todo: send the message _after_ fetching the Third Parties
+    let ob = new Observable<object>(observer => {
+      this.http.get<object>(this.serverInfo.getServerBaseUrl() + 'store/cart/history/detail',
+        { params: {cartId: cartId},
+          headers: headers
+        }
+      ).subscribe(res => {
+        if(res['status'] === 0) {
+          observer.next(res['entity']);
+        } else {
+          observer.error(res['entity']);
+        }
+      }, err => {
+        observer.error(err);
+      });
+    });
+    return ob;
+  }
 }
 
 export enum ServiceInitStatus {
