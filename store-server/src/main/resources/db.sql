@@ -3,6 +3,7 @@ CREATE DATABASE geeglo_store;
 ALTER DATABASE geeglo_store CHARACTER SET utf8 COLLATE utf8_general_ci;
 use geeglo_store;
 
+DROP TABLE IF EXISTS country;
 create table country (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(128),
@@ -10,6 +11,7 @@ create table country (
 );
 ALTER TABLE country CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS province;
 create table province (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   country_id INT,
@@ -18,6 +20,7 @@ create table province (
 );
 ALTER TABLE province CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS city;
 create table city (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   country_id INT,
@@ -46,6 +49,7 @@ ALTER TABLE city CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 -- );
 -- ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS user;
 create table user (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(128),
@@ -59,6 +63,7 @@ create table user (
 );
 ALTER TABLE user CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS user_info;
 create table user_info (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL UNIQUE,
@@ -72,6 +77,7 @@ create table user_info (
 );
 ALTER TABLE user_info CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS address;
 create table address (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
@@ -93,6 +99,7 @@ ALTER TABLE address CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 -- );
 -- ALTER TABLE user_location CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS payment_type;
 create table payment_type (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(128) NOT NULL,
@@ -101,6 +108,7 @@ create table payment_type (
 );
 ALTER TABLE payment_type CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS item_group;
 create table item_group (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(128) NOT NULL,
@@ -121,20 +129,47 @@ create table item (
 );
 ALTER TABLE item CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS delivery_status;
+CREATE TABLE delivery_status (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(60),
+  image VARCHAR(128)
+);
+ALTER TABLE delivery_status CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS cart_detail;
+DROP TABLE IF EXISTS cart;
 create table cart (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
-  reference_id CHAR(10) NOT NULL,
+  delivery_status_id INT NOT NULL,
+  payment_type_id INT NOT NULL,
+  reference_no CHAR(10) NOT NULL,
   creation_time TIMESTAMP,
-  history TEXT,
   register_time TIMESTAMP,
   delivery_time TIMESTAMP,
+  total_price INT,
+  register_date CHAR(10),
+  delivery_date CHAR(10),
+  address_title VARCHAR(60),
+  payment_type_title VARCHAR(60),
   is_paid BOOLEAN DEFAULT FALSE,
   is_received BOOLEAN DEFAULT FALSE,
   CONSTRAINT fk_cart_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 ALTER TABLE cart CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS cart_detail;
+create table cart_detail (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cart_id INT NOT NULL,
+  reference_no CHAR(10) NOT NULL,
+  history TEXT,
+  CONSTRAINT fk_cart_detail_cart FOREIGN KEY (cart_id) REFERENCES cart (id)
+);
+ALTER TABLE cart_detail CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS open_cart;
 create table open_cart (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user_id INT NOT NULL,
@@ -179,3 +214,12 @@ INSERT INTO payment_type (title, image, is_activate) VALUES
 ('پرداخت اینترنتی', 'internet.png', false),
 ('پرداخت نقدی', 'cash.png', true),
 ('پرداخت با کارت خوان', 'pos.png', true);
+
+INSERT INTO delivery_status (title, image) VALUES
+('در حال بررسی', 'pending.png'),
+('تایید شده', 'confirm.png'),
+('در حال تامین', 'supplying.png'),
+('آماده ارسال', 'ready-to-send.png'),
+('در راه مقصد', 'on-way.png'),
+('تحویل شده', 'delivered.png'),
+('عدم حضور خریدار', 'absence.png');

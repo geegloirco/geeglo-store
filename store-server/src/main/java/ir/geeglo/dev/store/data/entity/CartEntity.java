@@ -2,9 +2,12 @@ package ir.geeglo.dev.store.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.geeglo.dev.store.data.converter.MapConverter;
+import org.eclipse.persistence.annotations.Mutable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,22 +19,23 @@ import java.util.Objects;
 public class CartEntity {
     private int id;
     private UserEntity userEntity;
+    private DeliveryStatusEntity deliveryStatusEntity;
+    private PaymentTypeEntity paymentTypeEntity;
+    private String referenceNo;
     private Timestamp creationTime;
-    private String referenceId;
-    private Map history;
     private Timestamp registerTime;
     private Timestamp deliveryTime;
+    private long totalPrice;
+    private String registerDate;
+    private String deliveryDate;
+    private String addressTitle;
+    private String paymentTypeTitle;
     private boolean paid;
     private boolean received;
+    private List<CartDetailEntity> cartDetailEntities;
 
     public CartEntity() {
     }
-
-//    public CartEntity(OpenCartEntity openCartEntity) {
-//        this.setItems(openCartEntity.getItems());
-//        this.setCreationTime(openCartEntity.getCreationTime());
-//        this.setRegisterTime(new Timestamp(System.currentTimeMillis()));
-//    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,24 +59,13 @@ public class CartEntity {
     }
 
     @Basic
-    @Column(name = "reference_id", nullable = true, length = 128)
-    public String getReferenceId() {
-        return referenceId;
+    @Column(name = "reference_no", nullable = true, length = 128)
+    public String getReferenceNo() {
+        return referenceNo;
     }
 
-    public void setReferenceId(String referenceId) {
-        this.referenceId = referenceId;
-    }
-
-
-    @Convert(converter = MapConverter.class)
-    @Column(name = "history", nullable = false, length = 1024)
-    public Map getHistory() {
-        return history;
-    }
-
-    public void setHistory(Map history) {
-        this.history = history;
+    public void setReferenceNo(String referenceNo) {
+        this.referenceNo = referenceNo;
     }
 
     @Basic
@@ -96,6 +89,56 @@ public class CartEntity {
     }
 
     @Basic
+    @Column(name = "total_price", nullable = true)
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Basic
+    @Column(name = "register_date", nullable = true, length = 10)
+    public String getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(String registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    @Basic
+    @Column(name = "delivery_date", nullable = true, length = 10)
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    @Basic
+    @Column(name = "payment_type_title", nullable = true, length = 60)
+    public String getPaymentTypeTitle() {
+        return paymentTypeTitle;
+    }
+
+    public void setPaymentTypeTitle(String paymentTypeTitle) {
+        this.paymentTypeTitle = paymentTypeTitle;
+    }
+
+    @Basic
+    @Column(name = "address_title", nullable = true, length = 60)
+    public String getAddressTitle() {
+        return addressTitle;
+    }
+
+    public void setAddressTitle(String addressTitle) {
+        this.addressTitle = addressTitle;
+    }
+
+    @Basic
     @Column(name = "is_paid")
     public boolean isPaid() {
         return paid;
@@ -108,7 +151,7 @@ public class CartEntity {
     @Basic
     @Column(name = "is_received")
     public boolean isReceived() {
-        return paid;
+        return received;
     }
 
     public void setReceived(boolean received) {
@@ -122,12 +165,13 @@ public class CartEntity {
         CartEntity that = (CartEntity) o;
         return id == that.id &&
                 Objects.equals(creationTime, that.creationTime) &&
-                Objects.equals(history, that.history);
+                Objects.equals(registerDate, that.registerDate);
+//                Objects.equals(history, that.history);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creationTime, history);
+        return Objects.hash(id, creationTime, registerDate);
     }
 
     @JsonIgnore
@@ -139,5 +183,50 @@ public class CartEntity {
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "payment_type_id", referencedColumnName = "id", nullable = false)
+    public PaymentTypeEntity getPaymentType() {
+        return paymentTypeEntity;
+    }
+
+    public void setPaymentType(PaymentTypeEntity paymentType) {
+        this.paymentTypeEntity = paymentType;
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "delivery_status_id", referencedColumnName = "id", nullable = false)
+    public DeliveryStatusEntity getDeliveryStatusEntity() {
+        return deliveryStatusEntity;
+    }
+
+    public void setDeliveryStatusEntity(DeliveryStatusEntity deliveryStatus) {
+        this.deliveryStatusEntity = deliveryStatus;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cartEntity", cascade = {CascadeType.ALL})
+    @Mutable
+    public List<CartDetailEntity> getCartDetailEntities() {
+        return cartDetailEntities;
+    }
+
+    public void setCartDetailEntities(List<CartDetailEntity> cartDetailEntities) {
+        this.cartDetailEntities = cartDetailEntities;
+    }
+
+    public void addCartDetailEntity(CartDetailEntity cartDetailEntity) {
+        cartDetailEntity.setCartEntity(this);
+        if(this.cartDetailEntities == null)
+            this.cartDetailEntities = new ArrayList<>();
+        this.cartDetailEntities.add(cartDetailEntity);
+    }
+
+    public void removeCartDetailEntity(CartDetailEntity cartDetailEntity) {
+        this.cartDetailEntities.remove(cartDetailEntity);
+//        addressEntity.setUserEntity(null);
     }
 }

@@ -1,3 +1,8 @@
+.btn-cart-info:hover {
+  color: beige !important;
+  padding: 8px !important;
+}
+
 th, td {
   text-align: center;
 }

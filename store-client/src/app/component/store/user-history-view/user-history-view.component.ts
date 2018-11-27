@@ -32,11 +32,33 @@ export class UserHistoryViewComponent implements OnInit {
   }
 
   createArray(size) {
-    console.log(size)
+    // console.log(size)
     let arr: number[] = [];
     for (let i = 0; i < size; i++) {
       arr[i] = i;
     }
     return arr;
   }
+
+  open(content, cartDetail) {
+    console.log(cartDetail);
+    this.modalService.open(content, {}).result.then((result) => {
+      // console.log('register cart');
+      // console.log(result);
+      if(result === 1) {
+        // this.personalityService.registerCart().subscribe(res => {
+        //
+        // }, err => {
+        //
+        // });
+      }
+    }, (reason) => {
+      if (reason === ModalDismissReasons.ESC) {
+        // console.log('by pressing ESC');
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        // console.log('by clicking on a backdrop');
+      } else {
+        // console.log(`with: ${reason}`);
+      }
+    });
 }

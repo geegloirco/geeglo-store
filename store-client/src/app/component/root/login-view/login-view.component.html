@@ -15,9 +15,11 @@
     <h4 class="modal-title"
         *ngIf="isLoggedIn"
         id="modal-basic-title2">مشخصات کاربر</h4>
-    <!--<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">-->
-      <!--<span aria-hidden="true">&times;</span>-->
-    <!--</button>-->
+    <button type="button" class="close"
+            style="outline: none;"
+            aria-label="Close" (click)="modal.close('Save click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body" *ngIf="!isLoggedIn">
     <div *ngIf="showVerify" class="container">
@@ -123,9 +125,9 @@
   <div class="modal-footer" *ngIf="isLoggedIn">
     <button class="btn btn-outline-danger"
             type="button" (click)="logout()">خروج</button>
-    <a class="btn btn-success"
+    <button class="btn btn-outline-success"
        [routerLink]="[{ outlets: { dashboardBody: ['person']} }]"
-       type="button" (click)="modal.close('user info')">صفحه کاربر</a>
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >بستن</button>
+       type="button" (click)="modal.close('user info')">صفحه کاربر</button>
+    <!--<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" >بستن</button>-->
   </div>
 </ng-template>

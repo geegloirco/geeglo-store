@@ -1,54 +1,69 @@
 <div class="container-fluid">
   <div class="row" style="padding: 20px 0px; margin: 0px 1px;">
     <div class="col-md-12 col-sm-12 pt-5 pb-5" style="border-bottom: 1px solid gray;">
-      <table class="table table-responsive table-sm table-condensed table-hover">
-        <thead>
-        <tr class="table-secondary" style="font-size: 10px !important;">
-          <th>شماره سفارش</th>
-          <th>تاریخ</th>
-          <th>مبلغ</th>
-          <th>آدرس</th>
-          <th>نوع پرداخت</th>
-          <th>پرداخت شد</th>
-          <th>تحویل شد</th>
-          <th>&nbsp;</th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
-          <tr >
-            <td >{{item['referenceId']}}</td>
-            <td >{{item['history']['register-date']}}</td>
-            <td >{{item['history']['total-price']}}</td>
-            <td >{{item['history']['address-title']}}</td>
-            <td >{{item['history']['payment-type-title']}}</td>
-            <td >
-              <span class="fa fa-times" style="color: red;" *ngIf="!item['paid']"></span>
-              <span class="fa fa-check" style="color: green;" *ngIf="item['paid']"></span>
-            </td>
-            <td >
-              <span class="fa fa-times" style="color: red;" *ngIf="!item['received']"></span>
-              <span class="fa fa-check" style="color: green;" *ngIf="item['received']"></span>
-            </td>
-            <td >
-              <button class="badge badge-danger" style="cursor: pointer; ">
-                <span class="fa fa-info"></span>
-              </button>
-            </td>
+      <div class="table-responsive">
+        <table class="table table-sm table-condensed table-hover">
+          <thead>
+          <tr class="table-secondary" style="font-size: 10px !important;">
+            <th>&nbsp;</th>
+            <th>شماره سفارش</th>
+            <th>تاریخ</th>
+            <th>مبلغ</th>
+            <th>آدرس</th>
+            <th>نوع پرداخت</th>
+            <th>پرداخت شد</th>
+            <th>تحویل شد</th>
           </tr>
-        </ng-template>
-        <ng-template [ngIf]="items.length < 5">
-          <tr *ngFor="let i of createArray(5 - items.length)">
-            <td colspan="8">&nbsp;</td>
-          </tr>
-        </ng-template>
-        </tbody>
-      </table>
-
-      <div class="mr-auto p-2">
-
+          </thead>
+          <tbody>
+          <ng-template ngFor let-item [ngForOf]="items" let-i="index" >
+            <tr >
+              <td >
+                <a class="badge badge-success btn-cart-info"
+                   (click)="open(content, item)"
+                   style="cursor: pointer;">
+                  <span class="fa fa-info"></span>
+                </a>
+              </td>
+              <td >{{item['referenceNo']}}</td>
+              <td >{{item['registerDate']}}</td>
+              <td >{{item['totalPrice']}}</td>
+              <td >{{item['addressTitle']}}</td>
+              <td >{{item['paymentTypeTitle']}}</td>
+              <td >
+                <span class="fa fa-times" style="color: red;" *ngIf="!item['paid']"></span>
+                <span class="fa fa-check" style="color: green;" *ngIf="item['paid']"></span>
+              </td>
+              <td >
+                <span class="fa fa-times" style="color: red;" *ngIf="!item['received']"></span>
+                <span class="fa fa-check" style="color: green;" *ngIf="item['received']"></span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template [ngIf]="items.length < 5">
+            <tr *ngFor="let i of createArray(5 - items.length)">
+              <td colspan="8">&nbsp;</td>
+            </tr>
+          </ng-template>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">جزییات خرید</h4>
+    <button type="button" class="close" [style.outline]="'none'" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+
+    </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
