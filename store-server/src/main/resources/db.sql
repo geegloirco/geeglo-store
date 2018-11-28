@@ -1,4 +1,4 @@
-DROP DATABASE geeglo_store;
+DROP DATABASE IF EXISTS geeglo_store;
 CREATE DATABASE geeglo_store;
 ALTER DATABASE geeglo_store CHARACTER SET utf8 COLLATE utf8_general_ci;
 use geeglo_store;
@@ -184,15 +184,12 @@ INSERT INTO province (country_id, title) VALUES (1, 'تهران');
 
 INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'تهران', '21');
 
-select * from item_group;
-
 INSERT INTO item_group (title, image) VALUES
 ('سبزیجات', 'vegetable.png'),
 ('مرکبات', 'lemon.png'),
 ('میوه', 'fruit.png'),
 ('صیفی جات', 'carrot.png'),
 ('استوایی', 'ananas.png');
-
 
 INSERT INTO item (item_group_id, title, price, unit, image) VALUES
 (1, 'کالای 1', 3000, 'کیلوگرم', 'goods.png'),
@@ -223,3 +220,46 @@ INSERT INTO delivery_status (title, image) VALUES
 ('در راه مقصد', 'on-way.png'),
 ('تحویل شده', 'delivered.png'),
 ('عدم حضور خریدار', 'absence.png');
+
+INSERT INTO country (title, phoneCode) VALUES ('iran', '+98');
+
+INSERT INTO province (country_id, title) VALUES (1, 'tehran');
+
+INSERT INTO city (country_id, province_id, title, phoneCode) VALUES (1, 1, 'tehran', '21');
+
+INSERT INTO item_group (title, image) VALUES
+('Vegetables', 'vegetable.png'),
+('Citrus', 'lemon.png'),
+('Fruit', 'fruit.png'),
+('Siffy', 'carrot.png'),
+('Tropical', 'ananas.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image) VALUES
+(1, 'goods 1', 3000, 'kg', 'goods.png'),
+(1, 'goods 2', 7000, 'lit', 'goods.png'),
+(1, 'goods 3', 3800, 'count', 'goods.png'),
+(1, 'goods 4', 4000, 'kg', 'goods.png'),
+(1, 'goods 5', 15000, 'jin', 'goods.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image) VALUES
+(2, 'goods 6', 3000, 'kg', 'goods.png'),
+(2, 'goods 7', 15000, 'jin', 'goods.png');
+
+INSERT INTO item (item_group_id, title, price, unit, image) VALUES
+(3, 'goods 8', 3000, 'kg', 'goods.png'),
+(3, 'goods 9', 15000, 'jin', 'goods.png'),
+(3, 'goods 10', 4000, 'lit', 'goods.png');
+
+INSERT INTO payment_type (title, image, is_activate) VALUES
+('internet', 'internet.png', false),
+('cash', 'cash.png', true),
+('pos', 'pos.png', true);
+
+INSERT INTO delivery_status (title, image) VALUES
+('pending', 'pending.png'),
+('confirm', 'confirm.png'),
+('supplying', 'supplying.png'),
+('ready', 'ready-to-send.png'),
+('onway', 'on-way.png'),
+('delivered', 'delivered.png'),
+('absence', 'absence.png');

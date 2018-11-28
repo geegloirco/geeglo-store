@@ -30,6 +30,9 @@ import java.util.Map;
 public class UserHandler {
     @MethodHandler(requiredRole = RoleType.USER)
     public static PianaResponse getUserInfo(@SessionParam Session session) {
+        System.out.println("in user");
+        System.out.println(session.getExistance());
+        System.out.println(session.getExistance() instanceof UserEntity);
         UserEntity userEntity = (UserEntity) session.getExistance();
         UserInfoModel userInfoModel = new UserInfoModel(userEntity);
         return new PianaResponse(Status.OK,

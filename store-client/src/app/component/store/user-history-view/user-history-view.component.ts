@@ -12,6 +12,7 @@ import {MessageService} from "../../../service/message/message.service";
 export class UserHistoryViewComponent implements OnInit {
   imagePrefix;
   items = [];
+  history = null;
   totalPrice: number = 0;
 
   constructor(
@@ -44,26 +45,26 @@ export class UserHistoryViewComponent implements OnInit {
     console.log(cartDetail);
     this.personalityService.findCartHistory(cartDetail['id']).subscribe(res => {
       console.log(res);
-    });
-
-    this.modalService.open(content, { size: 'lg' }).result.then((result) => {
-      // console.log('register cart');
-      // console.log(result);
-      if (result === 1) {
-        // this.personalityService.registerCart().subscribe(res => {
-        //
-        // }, err => {
-        //
-        // });
-      }
-    }, (reason) => {
-      if (reason === ModalDismissReasons.ESC) {
-        // console.log('by pressing ESC');
-      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-        // console.log('by clicking on a backdrop');
-      } else {
-        // console.log(`with: ${reason}`);
-      }
+      this.history = res;
+      this.modalService.open(content, { size: 'lg' }).result.then((result) => {
+        // console.log('register cart');
+        // console.log(result);
+        if (result === 1) {
+          // this.personalityService.registerCart().subscribe(res => {
+          //
+          // }, err => {
+          //
+          // });
+        }
+      }, (reason) => {
+        if (reason === ModalDismissReasons.ESC) {
+          // console.log('by pressing ESC');
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          // console.log('by clicking on a backdrop');
+        } else {
+          // console.log(`with: ${reason}`);
+        }
+      });
     });
   }
 }

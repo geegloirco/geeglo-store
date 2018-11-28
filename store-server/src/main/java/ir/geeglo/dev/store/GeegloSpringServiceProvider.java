@@ -77,4 +77,9 @@ public class GeegloSpringServiceProvider {
     public static SecurityBusiness getSecurityBusiness() {
         return applicationContext.getBean(SecurityBusiness.class);
     }
+
+
+    public static void main(String[] args) {
+
+    }
 }
