@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row" style="margin-top: 10px;">
+    <div class="col">
+      <label for="inp-mobile">نام کاربری</label>
+      <input type="text" class="form-control" id="inp-mobile" [(ngModel)]="username">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="inp-pass">رمز عبور</label>
+      <input type="password" class="form-control" id="inp-pass" [(ngModel)]="password">
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="col">
+      <button class="btn btn-outline-success"
+              type="button" (click)="login()">ورود</button>
+      <button type="button" class="btn btn-outline-dark"
+              (click)="clear()" >انصراف</button>
+    </div>
+  </div>
+</div>

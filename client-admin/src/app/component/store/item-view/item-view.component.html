@@ -1,0 +1,71 @@
+<div class="card" style="cursor: pointer" (click)="itemClick(item)">
+  <img class="card-img-top" [src]="imagePrefix + item['image']">
+  <div class="card-img-overlay">
+    <div class="row">
+      <div class="col-md-2">&nbsp;</div>
+      <div class="col-md-8">
+        <button (click)="open(content)"
+                [class]="'badge'"
+                [ngClass]="{'badge-danger': count == 0, 'badge-success': count > 0}"
+                [style.cursor]="'pointer'">
+          <span *ngIf="count == 0;">انتخاب</span>
+          <span *ngIf="count > 0;">{{count}}</span>
+          <span *ngIf="count > 0;">عدد انتخاب شده</span>
+        </button>
+        <!--<input class="form-control" type="number" [(ngModel)]="count" min="0">-->
+      </div>
+      <div class="col-md-2">&nbsp;</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <h4 class="card-title" style="text-align: center">{{item['title']}}</h4>
+    <p class="card-text" style="text-align: center">
+      <span [style.margin-left]="'5px'">هر</span>
+      <span [style.margin-left]="'5px'">{{item['unit']}}</span>
+      <span [style.margin-left]="'5px'">{{item['price']}}</span>
+      <span [style.margin-left]="'5px'">تومان</span>
+    </p>
+  </div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 class="card-title" style="text-align: center">{{item['title']}}</h4>
+          <p class="card-text" style="text-align: center">{{item['price']}} تومان</p>
+        </div>
+      </div>
+      <div class="row" [style.margin-top]="'20px'">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+                  [style.cursor]="'pointer'"
+                  (click)="incCount()">+</span>
+          </div>
+          <input class="form-control" type="number" [(ngModel)]="count" min="0">
+          <div class="input-group-append">
+            <span class="input-group-text"
+                  [style.cursor]="'pointer'"
+                  (click)="decCount()">-</span>
+          </div>
+        </div>
+      </div>
+      <div class="row" [style.margin-top]="'20px'">
+        <span class="card-title" style="text-align: center">قیمت مجموع : </span>
+        <span class="card-title" style="text-align: center"
+              [style.margin-right]="'10px'">{{item['price'] * count}}</span>
+        <span class="card-title" style="text-align: center"
+              [style.margin-right]="'10px'"> تومان </span>
+      </div>
+      <div class="row" [style.margin-top]="'30px'">
+        <button type="button" class="btn btn-outline-dark"
+                [style.margin-left]="'10px'"
+                (click)="modal.close(1)">انصراف</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close(2)">ذخیره</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

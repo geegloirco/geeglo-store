@@ -1,0 +1,35 @@
+.login-link {
+  background-color: #b1dfbb;
+  height: 50px !important;
+  text-align: center !important;
+  cursor: pointer;
+  margin: 2px;
+  border-radius: 4px;
+}
+
+.login-link:hover {
+  background-color: #d9fee1;
+  height: 50px !important;
+  padding: 10px;
+}
+
+.modal-body{
+  overflow-y: auto;
+}
+
+.selected-third-party {
+  background-color: #ebcccc;
+}
+
+.btn-third-party {
+  margin: 4px;
+}
+
+.selected-profile-badge {
+  margin: 4px;
+}
+
+.btn-user-info {
+}
+
+

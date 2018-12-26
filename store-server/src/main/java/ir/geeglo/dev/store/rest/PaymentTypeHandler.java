@@ -28,7 +28,8 @@ public class PaymentTypeHandler {
     static List entities = null;
 
     static {
-        entities = GeegloSpringServiceProvider.getPaymentTypeService().findEntities();
+        entities = GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getPaymentTypeService().findEntities();
     }
 
     @MethodHandler(requiredRole = RoleType.GUEST)

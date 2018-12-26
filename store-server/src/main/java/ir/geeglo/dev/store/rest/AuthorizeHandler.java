@@ -66,8 +66,8 @@ public class AuthorizeHandler {
     @Path("login")
     public static PianaResponse login(@BodyObjectParam UserLoginInfoModel model,
                                       @SessionParam Session session) throws Exception {
-        UserEntity userEntity = GeegloSpringServiceProvider.getUserService()
-                .selectByMobile(model.getUsername());
+        UserEntity userEntity = GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().selectByMobile(model.getUsername());
         if(userEntity != null && userEntity.getPassword() != null) {
             String hashPass = GeegloSpringServiceProvider.getSecurityBusiness()
                     .encryptDesEcbPkcs5paddingAsBase64(model.getPassword());
@@ -114,7 +114,8 @@ public class AuthorizeHandler {
         if(otp.equalsIgnoreCase(otp1)) {
             Object existance = session.getExistance();
             if(existance instanceof UserLoginInfoModel) {
-                UserService userService = GeegloSpringServiceProvider.getUserService();
+                UserService userService = GeegloSpringServiceProvider
+                        .getOrmServiceProvider().getUserService();
                 UserLoginInfoModel model = (UserLoginInfoModel)existance;
                 UserEntity userEntity = userService.selectByMobile(model.getUsername());
                 OpenCartEntity cartEntity = null;
@@ -132,13 +133,15 @@ public class AuthorizeHandler {
 
                     cartEntity = (OpenCartEntity) session.getObject("cart");
                     cartEntity.setUserId(userEntity.getId());
-                    GeegloSpringServiceProvider.getOpenCartService().save(cartEntity);
+                    GeegloSpringServiceProvider.getOrmServiceProvider()
+                            .getOpenCartService().save(cartEntity);
                 } else {
                     String hashPass = GeegloSpringServiceProvider.getSecurityBusiness()
                             .encryptDesEcbPkcs5paddingAsBase64(model.getPassword());
                     userEntity.setPassword(hashPass);
                     userService.update(userEntity);
-                    OpenCartEntity byUserId = GeegloSpringServiceProvider.getOpenCartService().findByUserId(userEntity.getId());
+                    OpenCartEntity byUserId = GeegloSpringServiceProvider.getOrmServiceProvider()
+                            .getOpenCartService().findByUserId(userEntity.getId());
                     cartEntity = setSessionCartAfterLogin(session, byUserId);
                 }
                 session.setExistance(userEntity);
@@ -192,7 +195,8 @@ public class AuthorizeHandler {
         userInfo.setFirstName(model.getFirstName());
         userInfo.setLastName(model.getLastName());
         userInfo.setNationalCode(model.getNationalCode());
-        GeegloSpringServiceProvider.getUserService().update(userEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().update(userEntity);
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, model));
     }
@@ -212,8 +216,10 @@ public class AuthorizeHandler {
         existance.addAddressEntity(addressEntity);
 //        addressEntity.setUserEntity(existance);
 //        GeegloSpringServiceProvider.getUserService().update(existance);
-        GeegloSpringServiceProvider.getAddressService().save(addressEntity);
-        GeegloSpringServiceProvider.getUserService().update(existance);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getAddressService().save(addressEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().update(existance);
 
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, addressEntity));
@@ -232,7 +238,8 @@ public class AuthorizeHandler {
                 addressEntity.setLongitude((Double) map.get("longitude"));
                 addressEntity.setPhoneNumber((String) map.get("phoneNumber"));
                 addressEntity.setPostCode((String) map.get("postCode"));
-                GeegloSpringServiceProvider.getAddressService().update(addressEntity);
+                GeegloSpringServiceProvider.getOrmServiceProvider()
+                        .getAddressService().update(addressEntity);
                 return new PianaResponse(Status.OK,
                         new ResponseModel(0, addressEntity));
             }
@@ -249,7 +256,8 @@ public class AuthorizeHandler {
         for(AddressEntity addressEntity : existance.getAddressEntities()) {
             if(addressEntity.getId() == Integer.parseInt(String.valueOf(map.get("id")))) {
                 existance.removeAddressEntity(addressEntity);
-                GeegloSpringServiceProvider.getUserService().update(existance);
+                GeegloSpringServiceProvider.getOrmServiceProvider()
+                        .getUserService().update(existance);
 //                existance.getAddressEntities().remove(addressEntity);
                 return new PianaResponse(Status.OK,
                         new ResponseModel(0, null));
@@ -271,18 +279,22 @@ public class AuthorizeHandler {
         return (OpenCartEntity)cart;
     }
 
-    public static OpenCartEntity setSessionCartAfterLogin(Session session, int userId) {
+    public static OpenCartEntity setSessionCartAfterLogin(
+            Session session, int userId) {
         OpenCartEntity cartEntity = GeegloSpringServiceProvider
+                .getOrmServiceProvider()
                 .getOpenCartService().findByUserId(userId);
         setSessionCartAfterLogin(session, cartEntity);
         return cartEntity;
     }
 
-    public static OpenCartEntity setSessionCartAfterLogin(Session session, OpenCartEntity cartEntity) {
+    public static OpenCartEntity setSessionCartAfterLogin(
+            Session session, OpenCartEntity cartEntity) {
         OpenCartEntity cart = (OpenCartEntity)session.getObject("cart");
         if(cart.getItems().size() > 0) {
             cartEntity.setItems(cart.getItems());
-            GeegloSpringServiceProvider.getCartService().update(cartEntity);
+            GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getCartService().update(cartEntity);
         }
         session.setObject("cart", cartEntity);
         return cartEntity;

@@ -10,9 +10,18 @@
     <modules>
         <module>store-server</module>
         <module>store-client</module>
+        <module>server-admin</module>
+        <module>client-admin</module>
+        <module>store-orm</module>
     </modules>
     <packaging>pom</packaging>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>ir.piana.dev</groupId>
+            <artifactId>piana-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

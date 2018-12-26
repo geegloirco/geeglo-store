@@ -1,0 +1,10 @@
+<div >
+  <div style="height: 300px;"
+       leaflet
+       [leafletOptions]="options"
+       [leafletLayers]="layers"
+       [(leafletCenter)]="mapCenter"
+       (leafletClick)="mapOnClick($event)"
+       (leafletMapReady)="onMapReady($event)">
+  </div>
+</div>

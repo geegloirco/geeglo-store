@@ -31,11 +31,14 @@ public class ItemHandler {
             @MapParam Map<String, List<String>> mapParam) {
         List<ItemEntity> itemEntities = null;
         if(mapParam.containsKey("group-id")) {
-            ItemGroupEntity byId = (ItemGroupEntity)getItemGroupService().findById(
+            ItemGroupEntity byId = (ItemGroupEntity)GeegloSpringServiceProvider
+                    .getOrmServiceProvider().getItemGroupService().findById(
                     Integer.valueOf(mapParam.get("group-id").get(0)));
-            itemEntities = getItemService().findByGroup(byId);
+            itemEntities = GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getItemService().findByGroup(byId);
         } else {
-            itemEntities = getItemService().findAll();
+            itemEntities = GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getItemService().findAll();
         }
 //        CartEntity cart = (CartEntity) session.getObject("cart");
 //        cart.getItems().keySet().forEach(key -> {
@@ -62,7 +65,8 @@ public class ItemHandler {
                                           @QueryParam("count") int count) {
         OpenCartEntity cartEntity = (OpenCartEntity) session.getObject("cart");
         cartEntity.getItems().put(String.valueOf(id), count);
-        getCartService().update(cartEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider().
+                getCartService().update(cartEntity);
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, count));
     }

@@ -1,0 +1,22 @@
+.modal-body{
+  height: 350px;
+  overflow-y: auto;
+}
+
+.selected-third-party {
+  background-color: #ebcccc;
+}
+
+.btn-third-party {
+  margin: 4px;
+}
+
+.selected-profile-badge {
+  margin: 4px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

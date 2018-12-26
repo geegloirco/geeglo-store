@@ -105,14 +105,16 @@ public class AddressModel {
 
 
     public static void main(String[] args) {
-        UserEntity userEntity = GeegloSpringServiceProvider.getUserService().selectByMobile("09391366128");
+        UserEntity userEntity = GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().selectByMobile("09391366128");
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setTitle("title");
         addressEntity.setDetail("detail");
         addressEntity.setLongitude(52d);
         addressEntity.setLatitude(35d);
         addressEntity.setUserEntity(userEntity);
-        GeegloSpringServiceProvider.getAddressService().save(addressEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getAddressService().save(addressEntity);
         System.out.println(addressEntity.getId());
     }
 }

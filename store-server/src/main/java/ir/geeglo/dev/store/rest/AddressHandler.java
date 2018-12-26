@@ -50,8 +50,10 @@ public class AddressHandler {
         existance.addAddressEntity(addressEntity);
 //        addressEntity.setUserEntity(existance);
 //        GeegloSpringServiceProvider.getUserService().update(existance);
-        GeegloSpringServiceProvider.getAddressService().save(addressEntity);
-        GeegloSpringServiceProvider.getUserService().update(existance);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getAddressService().save(addressEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().update(existance);
 
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, addressEntity));
@@ -69,7 +71,8 @@ public class AddressHandler {
                 addressEntity.setLongitude((Double) map.get("longitude"));
                 addressEntity.setPhoneNumber((String) map.get("phoneNumber"));
                 addressEntity.setPostCode((String) map.get("postCode"));
-                GeegloSpringServiceProvider.getAddressService().update(addressEntity);
+                GeegloSpringServiceProvider.getOrmServiceProvider()
+                        .getAddressService().update(addressEntity);
                 return new PianaResponse(Status.OK,
                         new ResponseModel(0, addressEntity));
             }
@@ -91,8 +94,10 @@ public class AddressHandler {
         }
         if(address != null) {
             existance.removeAddressEntity(address);
-            GeegloSpringServiceProvider.getAddressService().delete(address);
-            GeegloSpringServiceProvider.getUserService().update(existance);
+            GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getAddressService().delete(address);
+            GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getUserService().update(existance);
             return new PianaResponse(Status.OK,
                     new ResponseModel(0, null));
         }

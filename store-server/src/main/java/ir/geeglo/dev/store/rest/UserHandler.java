@@ -48,7 +48,8 @@ public class UserHandler {
         userInfo.setFirstName(model.getFirstName());
         userInfo.setLastName(model.getLastName());
         userInfo.setNationalCode(model.getNationalCode());
-        GeegloSpringServiceProvider.getUserService().update(userEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().update(userEntity);
         return new PianaResponse(Status.OK,
                 new ResponseModel(0, model));
     }

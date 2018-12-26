@@ -49,7 +49,8 @@ public class CartHandler {
             cartEntity.getItems().put(String.valueOf(itemModel.getId()), itemModel);
 //        cartEntity.setItems(cartEntity.getItems());
         if(cartEntity.getUserId() != 0) {
-            GeegloSpringServiceProvider.getOpenCartService().update(cartEntity);
+            GeegloSpringServiceProvider.getOrmServiceProvider()
+                    .getOpenCartService().update(cartEntity);
         }
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, itemModel));
@@ -87,14 +88,15 @@ public class CartHandler {
         history.put("items", items);
         history.put("total-price", totalPrice[0]);
 
-        AddressEntity address = (AddressEntity)GeegloSpringServiceProvider.getAddressService()
+        AddressEntity address = (AddressEntity)GeegloSpringServiceProvider
+                .getOrmServiceProvider().getAddressService()
                 .findById(Integer.parseInt(map.get("addressId").get(0)));
         history.put("address", address);
         history.put("address-title", address.getTitle());
         cartEntity.setAddressTitle(address.getTitle());
 
         PaymentTypeEntity paymentType = (PaymentTypeEntity) GeegloSpringServiceProvider
-                .getPaymentTypeService().findById(
+                .getOrmServiceProvider().getPaymentTypeService().findById(
                         Integer.parseInt(map.get("paymentTypeId").get(0)));
         cartEntity.setPaymentType(paymentType);
         cartEntity.setPaymentTypeTitle(paymentType.getTitle());
@@ -111,7 +113,7 @@ public class CartHandler {
         history.put("register-date", registerDate);
         history.put("delivery-date", "");
         DeliveryStatusEntity deliveryStatusEntity = (DeliveryStatusEntity)GeegloSpringServiceProvider
-                .getDeliveryStatusService().findById(1);
+                .getOrmServiceProvider().getDeliveryStatusService().findById(1);
         cartEntity.setDeliveryStatusEntity(deliveryStatusEntity);
 
         try {
@@ -127,12 +129,15 @@ public class CartHandler {
 
         existance.addCartEntity(cartEntity);
         cartEntity.addCartDetailEntity(cartDetailEntity);
-        GeegloSpringServiceProvider.getCartService().save(cartEntity);
-        GeegloSpringServiceProvider.getUserService().update(existance);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getCartService().save(cartEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getUserService().update(existance);
 
         openCartEntity.setItems(new LinkedHashMap());
         openCartEntity.setCreationTime(new Timestamp(System.currentTimeMillis()));
-        GeegloSpringServiceProvider.getOpenCartService().update(openCartEntity);
+        GeegloSpringServiceProvider.getOrmServiceProvider()
+                .getOpenCartService().update(openCartEntity);
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, openCartEntity));
     }
@@ -154,7 +159,8 @@ public class CartHandler {
     public static PianaResponse getCartDetail(@SessionParam Session session,
                                               @QueryParam("cartId") int cartId) {
         UserEntity userEntity = (UserEntity) session.getExistance();
-        CartEntity cartEntity = (CartEntity)GeegloSpringServiceProvider.getCartService().findById(cartId);
+        CartEntity cartEntity = (CartEntity)GeegloSpringServiceProvider
+                .getOrmServiceProvider().getCartService().findById(cartId);
         return new PianaResponse(Response.Status.OK,
                 new ResponseModel(0, cartEntity.getCartDetailEntities().get(0).getHistory()));
     }

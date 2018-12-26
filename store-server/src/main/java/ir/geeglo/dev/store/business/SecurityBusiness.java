@@ -67,21 +67,21 @@ public class SecurityBusiness {
                 secretKey, CryptoAttribute.DES_ECB_PKCS_5_PADDING), "UTF-8");
     }
 
-    public static void main(String[] args) throws Exception {
-        boolean encryptType = true;
-        String property = System.getProperties().getProperty("crypto-type");
-        if(property != null && property.equalsIgnoreCase("dec")) {
-            encryptType = false;
-        }
-
-        for(String arg : args) {
-            if(encryptType)
-                System.out.println(SecurityBusiness
-                        .encryptDesEcbPkcs5paddingAsBase64Internal(arg));
-            else {
-                System.out.println(SecurityBusiness
-                        .decryptDesEcbPkcs5paddingFromBase64Internal(arg));
-            }
-        }
-    }
+//    public static void main(String[] args) throws Exception {
+//        boolean encryptType = true;
+//        String property = System.getProperties().getProperty("crypto-type");
+//        if(property != null && property.equalsIgnoreCase("dec")) {
+//            encryptType = false;
+//        }
+//
+//        for(String arg : args) {
+//            if(encryptType)
+//                System.out.println(SecurityBusiness
+//                        .encryptDesEcbPkcs5paddingAsBase64Internal(arg));
+//            else {
+//                System.out.println(SecurityBusiness
+//                        .decryptDesEcbPkcs5paddingFromBase64Internal(arg));
+//            }
+//        }
+//    }
 }
